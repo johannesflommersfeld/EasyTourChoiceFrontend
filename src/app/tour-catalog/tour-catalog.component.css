@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 200px;
+  }
+  
+  .filters button {
+    width: 100px;
+  }
+  
+  .tours {
+    margin: 0 100px;
+    border-top: 2px solid #cecece;
+  }
+  
+  .tour-item {
+    border-bottom: 2px solid #cecece;
+  }
+  
+  /* tour Details */
+  .tour {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 25px;
+  }
+  
+  .tour .tour-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .tour img {
+    width: 125px;
+  }
+  
+  .tour .tour-info {
+    margin-left: 25px;
+  }
+  
+  .tour .name {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .tour .description {
+    margin-top: 3px;
+    font-size: 18px;
+  }
+  
+  .tour .activity {
+    margin-top: 20px;
+    color: #cecece;
+  }
+  
+  .tour .distance {
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 190px;
+    color: rgb(208, 208, 208);
+    border-left: 2px solid #cecece;
+    margin-left: 50px;
+  }
+  
+  .tour .distance button {
+    padding: 10px;
+    width: 100px;
+  }
