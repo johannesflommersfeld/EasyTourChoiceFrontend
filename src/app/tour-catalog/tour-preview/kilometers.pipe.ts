@@ -5,6 +5,6 @@ import { Pipe, PipeTransform} from '@angular/core';
 })
 export class KilometersPipe implements PipeTransform {
   transform(value: number): string {
-    return ` ${value} km`;
+    return `${value} km`;
   }
 }

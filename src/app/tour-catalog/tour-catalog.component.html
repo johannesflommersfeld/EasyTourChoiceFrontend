@@ -1,42 +1,23 @@
 <div class="container">
-    <div class="filters">
-      <!-- TODO: add all activities-->
-      <!-- TODO: can an we use ngFor here?-->
-      <a class="button"
-        (click)="updateFilter(Activity.SKITOURING)"
-        [ngClass]="{'selected': !isSelected(Activity.SKITOURING)}">Ski Touring</a>
-      <a class="button"
-        (click)="updateFilter(Activity.SPORTCLIMBING)"
-        [ngClass]="{'selected': !isSelected(Activity.SPORTCLIMBING)}">Sport Climbing</a>
-      <a class="button"
-        (click)="updateFilter(Activity.BOULDERING)"
-        [ngClass]="{'selected': !isSelected(Activity.BOULDERING)}">Bouldering</a>
-      <a class="button"
-        (click)="updateFilter(Activity.MOUNTAINBIKING)"
-        [ngClass]="{'selected': !isSelected(Activity.MOUNTAINBIKING)}">Mountain Biking</a>
-      <a class="button"
-        (click)="updateFilter(Activity.HIKING)"
-        [ngClass]="{'selected': !isSelected(Activity.HIKING)}">Hiking</a>
-      <button class="cta"
-        (click)="clearFilter()">clear</button>
-    </div>
-  
-    <ul class="tours">
-      <li class="tour-item">
-        <div class="tour" *ngFor="let tour of getFilteredTours()">
-          <div class="tour-details">
-            <img [src]="getImageUrl(tour)" [alt]="tour.getActivity()" />
-            <div class="tour-info">
-              <div class="name">{{ tour.name }}</div>
-              <div class="description">{{ tour.description }}</div>
-              <div class="activity">Activity type: {{ tour.getActivity() }}</div>
-            </div>
-          </div>
-          <div class="distance">
-            <div>{{ tour.distance | kilometers }}</div>
-            <button class="cta">Details</button>
-          </div>
-        </div>
-      </li>
-    </ul>
+  <div class="filters">
+    <!-- TODO: add all activities-->
+    <!-- TODO: use drop down menu?-->
+    <!-- TODO: can an we use ngFor here?-->
+    <a class="button" (click)="updateFilter(Activity.SKITOURING)"
+      [ngClass]="{'selected': !isSelected(Activity.SKITOURING)}">Ski Touring</a>
+    <a class="button" (click)="updateFilter(Activity.SPORTCLIMBING)"
+      [ngClass]="{'selected': !isSelected(Activity.SPORTCLIMBING)}">Sport Climbing</a>
+    <a class="button" (click)="updateFilter(Activity.BOULDERING)"
+      [ngClass]="{'selected': !isSelected(Activity.BOULDERING)}">Bouldering</a>
+    <a class="button" (click)="updateFilter(Activity.MOUNTAINBIKING)"
+      [ngClass]="{'selected': !isSelected(Activity.MOUNTAINBIKING)}">Mountain Biking</a>
+    <a class="button" (click)="updateFilter(Activity.HIKING)"
+      [ngClass]="{'selected': !isSelected(Activity.HIKING)}">Hiking</a>
+    <button class="cta" (click)="clearFilter()">clear</button>
   </div>
+  <ul class="tours">
+    <li class="tour-item" *ngFor="let tour of getFilteredTours()">
+      <etc-tour-preview [tour]="tour" (open)="showTourDetails(tour)"></etc-tour-preview>
+    </li>
+  </ul>
+</div>

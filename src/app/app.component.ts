@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { HomeComponent } from './home/home.component';
 import { TourCatalogComponent } from './tour-catalog/tour-catalog.component';
 import { SiteHeaderComponent } from './site-header/site-header.component';
 

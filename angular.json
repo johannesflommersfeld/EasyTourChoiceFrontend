@@ -67,7 +67,8 @@
               "buildTarget": "easy_tour_choice_frontend:build:production"
             },
             "development": {
-              "buildTarget": "easy_tour_choice_frontend:build:development"
+              "buildTarget": "easy_tour_choice_frontend:build:development",
+              "proxyConfig": "src/proxy.config.json"
             }
           },
           "defaultConfiguration": "development"
