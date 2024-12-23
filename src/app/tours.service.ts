@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Activity, ITour, Tour } from './tour-catalog/tour-preview/tour.model';
+import { Activity, ITour, Tour } from './tour-catalog/tour-preview/tour-data/tour.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -25,8 +25,6 @@ export class ToursService {
     if (this.tours.length === 0) {
       this.fetchAllTours().subscribe(tours => { this.tours = tours; });
     }
-    return filters.size === 0
-      ? this.tours
-      : this.tours.filter((tour) => !filters.has(tour.activityType));
+    return this.tours.filter((tour) => filters.has(tour.activityType));
   }
 }

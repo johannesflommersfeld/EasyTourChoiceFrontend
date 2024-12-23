@@ -1,9 +1,13 @@
+import { AvalancheBulletin } from "./avalanche-bulletin.model";
+import { TravelDetails } from "./travel-details.model";
+import { WeatherForecast } from "./weather-forecast.model";
+
 export interface ITour {
     //TODO: add documentation
     id: number;
-    travelDetails: any;
-    bulletin: any;
-    weatherForecast: any;
+    travelDetails: TravelDetails | null;
+    bulletin: AvalancheBulletin | null;
+    weatherForecast: WeatherForecast | null;
     name: string;
     activityType: Activity;
     startingLocationId: number;
@@ -13,18 +17,18 @@ export interface ITour {
     metersOfElevation: number;
     distance: number;
     shortDescription: string;
-    difficulty: number;
-    risk: number;
-    aspect: number;
+    difficulty: any; // TODO
+    risk: any; // TODO
+    aspect: any; // TODO
     areaId: number;
     avalancheRegionID: number;
 }
 
 export class Tour implements ITour {
     id: number;
-    travelDetails: any; //TODO: define type
-    bulletin: any; //TODO define type
-    weatherForecast: any; //TODO: define type
+    travelDetails: TravelDetails | null;
+    bulletin: AvalancheBulletin | null;
+    weatherForecast: WeatherForecast | null;
     name: string;
     activityType: Activity;
     startingLocationId: number;
@@ -43,6 +47,9 @@ export class Tour implements ITour {
 
     constructor(
         id: number,
+        travelDetails: TravelDetails | null,
+        bulletin: AvalancheBulletin | null,
+        weatherForecast: WeatherForecast | null,
         description: string,
         name: string,
         imageName: string,
@@ -60,6 +67,9 @@ export class Tour implements ITour {
         avalancheRegionID: number
     ) {
         this.id = id;
+        this.travelDetails = travelDetails;
+        this.bulletin = bulletin;
+        this.weatherForecast = weatherForecast;
         this.name = name;
         this.imageName = imageName;
         this.distance = distance;

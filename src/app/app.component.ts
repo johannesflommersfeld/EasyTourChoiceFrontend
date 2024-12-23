@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TourCatalogComponent } from './tour-catalog/tour-catalog.component';
 import { SiteHeaderComponent } from './site-header/site-header.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'etc-root',
-  imports: [TourCatalogComponent, SiteHeaderComponent],
+  imports: [SiteHeaderComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

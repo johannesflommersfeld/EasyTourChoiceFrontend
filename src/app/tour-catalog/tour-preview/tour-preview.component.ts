@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ITour } from './tour.model';
+import { ITour } from './tour-data/tour.model';
 import { KilometersPipe } from './kilometers.pipe';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'etc-tour-preview',
-  imports: [KilometersPipe],
+  imports: [KilometersPipe, RouterModule],
   templateUrl: './tour-preview.component.html',
   styleUrl: './tour-preview.component.css'
 })

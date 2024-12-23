@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'etc-site-header',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './site-header.component.html',
   styleUrl: './site-header.component.css'
 })

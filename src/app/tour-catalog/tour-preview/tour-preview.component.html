@@ -9,6 +9,6 @@
   </div>
   <div class="distance">
     <div>{{ tour.distance | kilometers }}</div>
-    <button class="cta" (click)="detailsButtonClicked(tour)">Details</button>
+    <button class="cta" [routerLink]="['/tour-details', tour.id]">Details</button>
   </div>
 </div>
