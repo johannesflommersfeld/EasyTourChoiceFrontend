@@ -1,0 +1,9 @@
+export enum AvalancheProblemType {
+  NONE,
+  NEW_SNOW,
+  WIND_SLAB,
+  PERSISTENT_WEAK_LAYERS,
+  WET_SNOW,
+  GLIDING_SNOW,
+  CORNICES,
+}

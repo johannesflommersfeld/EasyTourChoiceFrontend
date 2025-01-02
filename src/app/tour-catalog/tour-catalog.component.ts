@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { ITour, Activity } from './tour-preview/tour-data/tour.model';
 import { TourPreviewComponent } from "./tour-preview/tour-preview.component";
 import { ToursService } from '../tours.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Activity } from './tour-preview/tour-data/activity.model';
+import { ITour } from './tour-preview/tour-data/tour.model';
 
 @Component({
   selector: 'etc-tour-catalog',

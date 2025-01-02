@@ -1,27 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Activity, ITour, Tour } from './tour-catalog/tour-preview/tour-data/tour.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Tour } from './tour-catalog/tour-preview/tour-data/tour.model';
+import { Activity } from './tour-catalog/tour-preview/tour-data/activity.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToursService {
-  tours: ITour[];
+  tours: Tour[];
 
   constructor(private http: HttpClient) {
     this.tours = [];
   }
 
-  fetchAllTours(): Observable<ITour[]> {
-    return this.http.get<ITour[]>(("/api/tourData"));
+  fetchAllTours(): Observable<Tour[]> {
+    return this.http.get<Tour[]>(("/api/tourData"));
   }
 
-  fetchTourById(id: number): Observable<ITour> {
-    return this.http.get<ITour>((`/api/tourData/tours/${id}`));
+  fetchTourById(id: number): Observable<Tour> {
+    return this.http.get<Tour>((`/api/tourData/tours/${id}`));
   }
 
-  getFilteredTours(filters: Set<Activity>): ITour[] {
+  getFilteredTours(filters: Set<Activity>): Tour[] {
     if (this.tours.length === 0) {
       this.fetchAllTours().subscribe(tours => { this.tours = tours; });
     }

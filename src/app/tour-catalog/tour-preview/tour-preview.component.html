@@ -4,7 +4,7 @@
     <div class="tour-info">
       <div class="name">{{ tour.name }}</div>
       <div class="description">{{ tour.shortDescription }}</div>
-      <div class="activity">Activity type: {{ tour.activityType.toString() }}</div>
+      <div class="activity">Activity type: {{ tour.activityType | activity }}</div>
     </div>
   </div>
   <div class="distance">

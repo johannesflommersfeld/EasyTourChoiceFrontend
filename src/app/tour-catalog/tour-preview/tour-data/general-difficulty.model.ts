@@ -1,0 +1,7 @@
+export enum GeneralDifficulty {
+  UNKNOWN,
+  EASY,
+  MILDLY_CHALLENGING,
+  CHALLENGING,
+  VERY_CHALLENING
+}

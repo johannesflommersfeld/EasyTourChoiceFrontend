@@ -1,0 +1,22 @@
+export class ForecastUnits {
+  AirPressureAtSeaLevel: string = "";
+  AirTemperature: string = "";
+  AirTemperatureMax: string = "";
+  AirTemperatureMin: string = "";
+  CloudAreaFraction: string = "";
+  CloudAreaFractionHigh: string = "";
+  CloudAreaFractionLow: string = "";
+  CloudAreaFractionMedium: string = "";
+  DewPointTemperature: string = "";
+  FogAreaFraction: string = "";
+  PrecipitationAmount: string = "";
+  PrecipitationAmountMax: string = "";
+  PrecipitationAmountMin: string = "";
+  ProbabilityOfPrecipitation: string = "";
+  ProbabilityOfThunder: string = "";
+  RelativeHumidity: string = "";
+  UVIndexClearSkyMax: string = "";
+  WindFromDirection: string = "";
+  WindSpeed: string = "";
+  WindSpeedOfGusts: string = "";
+}
