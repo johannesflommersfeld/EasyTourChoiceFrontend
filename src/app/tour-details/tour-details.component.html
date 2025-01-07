@@ -1,0 +1,20 @@
+<div class="tour">
+  <div *ngIf="tour != null" class="tour-details">
+    <div class="tour-info">
+      <div class="name">{{ tour.name }}</div>
+      <div class="description">{{ tour.shortDescription }}</div>
+      <div class="activity">Activity type: {{ tour.activityType | activity }}</div>
+    </div>
+    <div *ngIf="tour.distance != null" class="travel-info">
+      <div class="distance">Distance: {{ tour.distance | kilometers }}</div>
+      <div class="duration">Duration: {{ tour.duration | duration }}</div>
+    </div>
+    <div *ngIf="tour.bulletin != null" class="avalanche-info">
+      <div class="risk">Avalanche risk: {{ tour.bulletin.dangerRatings }}</div>
+    </div>
+    <div *ngIf="tour.weatherForecast" class="weather-info">
+      <div class="temperature">Temperature: {{ tour.weatherForecast.timeseries[0].data.instant.airTemperature + " " +
+        tour.weatherForecast.meta.units.airTemperature }}</div>
+    </div>
+  </div>
+</div>

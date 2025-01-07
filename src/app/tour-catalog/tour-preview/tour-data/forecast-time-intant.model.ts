@@ -1,14 +1,14 @@
 export class ForecastTimeInstant {
-  AirPressureAtSeaLevel: number | null = null;
-  AirTemperature: number | null = null;
-  CloudAreaFraction: number | null = null;
-  CloudAreaFractionHigh: number | null = null;
-  CloudAreaFractionLow: number | null = null;
-  CloudAreaFractionMedium: number | null = null;
-  DewPointTemperature: number | null = null;
-  FogAreaFraction: number | null = null;
-  RelativeHumidity: number | null = null;
-  WindFromDirection: number | null = null;
-  WindSpeed: number | null = null;
-  WindSpeedOfGusts: number | null = null;
+  airPressureAtSeaLevel: number | null = null;
+  airTemperature: number | null = null;
+  cloudAreaFraction: number | null = null;
+  cloudAreaFractionHigh: number | null = null;
+  cloudAreaFractionLow: number | null = null;
+  cloudAreaFractionMedium: number | null = null;
+  dewPointTemperature: number | null = null;
+  fogAreaFraction: number | null = null;
+  relativeHumidity: number | null = null;
+  windFromDirection: number | null = null;
+  windSpeed: number | null = null;
+  windSpeedOfGusts: number | null = null;
 }

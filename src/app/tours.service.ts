@@ -9,9 +9,11 @@ import { Activity } from './tour-catalog/tour-preview/tour-data/activity.model';
 })
 export class ToursService {
   tours: Tour[];
+  detailedTour: Tour | null;
 
   constructor(private http: HttpClient) {
     this.tours = [];
+    this.detailedTour = null;
   }
 
   fetchAllTours(): Observable<Tour[]> {
@@ -27,5 +29,12 @@ export class ToursService {
       this.fetchAllTours().subscribe(tours => { this.tours = tours; });
     }
     return this.tours.filter((tour) => filters.has(tour.activityType));
+  }
+
+  getTourById(id: number): Tour | null {
+    this.fetchTourById(id).subscribe(tour => {
+      this.detailedTour = tour;
+    });
+    return this.detailedTour;
   }
 }

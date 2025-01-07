@@ -3,35 +3,35 @@
     justify-content: space-between;
     padding: 20px 25px;
   }
-  
-  .tour .tour-details {
+
+  .tour .tour-preview {
     display: flex;
     align-items: center;
   }
-  
+
   .tour img {
     width: 125px;
   }
-  
+
   .tour .tour-info {
     margin-left: 25px;
   }
-  
+
   .tour .name {
     font-size: 22px;
     font-weight: bold;
   }
-  
+
   .tour .description {
     margin-top: 3px;
     font-size: 18px;
   }
-  
+
   .tour .activity {
     margin-top: 20px;
     color: #cecece;
   }
-  
+
   .tour .distance {
     display: flex;
     flex-direction: column;
@@ -43,7 +43,7 @@
     border-left: 2px solid #cecece;
     margin-left: 50px;
   }
-  
+
   .tour .distance button {
     padding: 10px;
     width: 100px;

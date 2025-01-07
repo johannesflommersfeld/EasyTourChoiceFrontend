@@ -3,12 +3,12 @@ import { DangerRating } from "./danger-ratings.model";
 import { TendencyType } from "./tendency-type.model";
 
 export class AvalancheBulletin {
-  PublicationTime: any;
-  AvalancheProblems: Array<AvalancheProblem>;
-  DangerRatings: Array<DangerRating>;
-  ReportBody: Map<string, Array<string>>;
-  Tendency: TendencyType;
-  RegionName: string | null;
+  publicationTime: any;
+  avalancheProblems: Array<AvalancheProblem>;
+  dangerRatings: Array<DangerRating>;
+  reportBody: Map<string, Array<string>>;
+  tendency: TendencyType;
+  regionName: string | null;
 
   constructor(
     publicationTime: any,
@@ -18,11 +18,11 @@ export class AvalancheBulletin {
     tendency: TendencyType,
     regionName: string | null
   ) {
-    this.PublicationTime = publicationTime;
-    this.AvalancheProblems = avalancheProblems;
-    this.DangerRatings = dangerRatings;
-    this.ReportBody = reportBody;
-    this.Tendency = tendency;
-    this.RegionName = regionName;
+    this.publicationTime = publicationTime;
+    this.avalancheProblems = avalancheProblems;
+    this.dangerRatings = dangerRatings;
+    this.reportBody = reportBody;
+    this.tendency = tendency;
+    this.regionName = regionName;
   }
 }
