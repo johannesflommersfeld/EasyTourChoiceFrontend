@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ITour } from '../tour-catalog/tour-preview/tour-data/tour.model';
 import { ActivityPipe } from "../tour-catalog/tour-preview/activity.pipe";
 import { KilometersPipe } from "../tour-catalog/tour-preview/kilometers.pipe";
@@ -6,10 +6,11 @@ import { ToursService } from '../tours.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DurationPipe } from "./duration.pipe";
+import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.component";
 
 @Component({
   selector: 'etc-tour-details',
-  imports: [ActivityPipe, KilometersPipe, CommonModule, DurationPipe],
+  imports: [ActivityPipe, KilometersPipe, CommonModule, DurationPipe, WeatherForecastComponent],
   templateUrl: './tour-details.component.html',
   styleUrl: './tour-details.component.css'
 })

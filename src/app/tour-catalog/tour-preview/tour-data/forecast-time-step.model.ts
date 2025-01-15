@@ -1,9 +1,9 @@
 import { ForecastData } from "./forecast-data.model";
 
 export class ForecastTimeStep {
-  time: any;
+  time: string;
   data: ForecastData;
-  constructor(time: any, data: ForecastData) {
+  constructor(time: string, data: ForecastData) {
     this.time = time;
     this.data = data;
   }

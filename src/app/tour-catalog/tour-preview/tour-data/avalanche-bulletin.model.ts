@@ -3,7 +3,7 @@ import { DangerRating } from "./danger-ratings.model";
 import { TendencyType } from "./tendency-type.model";
 
 export class AvalancheBulletin {
-  publicationTime: any;
+  publicationTime: string;
   avalancheProblems: Array<AvalancheProblem>;
   dangerRatings: Array<DangerRating>;
   reportBody: Map<string, Array<string>>;
@@ -11,7 +11,7 @@ export class AvalancheBulletin {
   regionName: string | null;
 
   constructor(
-    publicationTime: any,
+    publicationTime: string,
     avalancheProblems: Array<AvalancheProblem>,
     dangerRatings: Array<DangerRating>,
     reportBody: Map<string, Array<string>>,

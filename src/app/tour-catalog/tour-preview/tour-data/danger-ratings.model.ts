@@ -2,10 +2,10 @@ import { AvalancheDangerRating } from "./avalanche-danger-rating.model";
 import { ValidTimePeriod } from "./valid-time-period.model";
 
 export class DangerRating {
-  MainValue: AvalancheDangerRating;
-  UpperBound: string | null;
-  LowerBound: string | null;
-  ValidTimePeriod: ValidTimePeriod;
+  mainValue: AvalancheDangerRating;
+  upperBound: string | null;
+  lowerBound: string | null;
+  validTimePeriod: ValidTimePeriod;
 
   constructor(
     mainValue: AvalancheDangerRating,
@@ -13,9 +13,9 @@ export class DangerRating {
     lowerBound: string | null,
     validTimePeriod: ValidTimePeriod,
   ) {
-    this.MainValue = mainValue;
-    this.UpperBound = upperBound;
-    this.LowerBound = lowerBound;
-    this.ValidTimePeriod = validTimePeriod;
+    this.mainValue = mainValue;
+    this.upperBound = upperBound;
+    this.lowerBound = lowerBound;
+    this.validTimePeriod = validTimePeriod;
   }
 }

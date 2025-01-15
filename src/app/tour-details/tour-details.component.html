@@ -12,9 +12,9 @@
     <div *ngIf="tour.bulletin != null" class="avalanche-info">
       <div class="risk">Avalanche risk: {{ tour.bulletin.dangerRatings }}</div>
     </div>
-    <div *ngIf="tour.weatherForecast" class="weather-info">
-      <div class="temperature">Temperature: {{ tour.weatherForecast.timeseries[0].data.instant.airTemperature + " " +
-        tour.weatherForecast.meta.units.airTemperature }}</div>
+    <div *ngIf="tour.weatherForecast">
+      <div class="weather-label">Weather</div>
+      <etc-weather-forecast [forecast]="tour.weatherForecast"></etc-weather-forecast>
     </div>
   </div>
 </div>
