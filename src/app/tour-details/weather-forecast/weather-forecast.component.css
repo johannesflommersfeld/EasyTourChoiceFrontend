@@ -71,3 +71,11 @@ td {
   text-align: center;
   font-size: small;
 }
+
+.credit {
+  float: right;
+  margin-left: 20px;
+  margin-top: -10px;
+  font-size: xx-small;
+  color: rgb(208, 208, 208);
+}
