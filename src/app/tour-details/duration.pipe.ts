@@ -8,6 +8,8 @@ export class DurationPipe implements PipeTransform {
     if (value === null) {
       return '--'
     }
-    return `${value} h`;
+    let hours: number = Math.floor(value);
+    let minutes: string = `${Math.round((value - hours) * 60)}`.padStart(2, '0');
+    return `${hours}h ${minutes}min`;
   }
 }

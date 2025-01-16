@@ -8,6 +8,7 @@ export class KilometersPipe implements PipeTransform {
     if (value === null) {
       return '--'
     }
-    return `${value} km`;
+    let rounded: number = Math.round(value);
+    return `${rounded} km`;
   }
 }

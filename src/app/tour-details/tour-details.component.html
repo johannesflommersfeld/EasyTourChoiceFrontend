@@ -1,13 +1,13 @@
 <div class="tour">
-  <div *ngIf="tour != null" class="tour-details">
+  <div *ngIf="tour | async as tour" class="tour-details">
     <div class="tour-info">
       <div class="name">{{ tour.name }}</div>
       <div class="description">{{ tour.shortDescription }}</div>
       <div class="activity">Activity type: {{ tour.activityType | activity }}</div>
     </div>
-    <div *ngIf="tour.distance != null" class="travel-info">
-      <div class="distance">Distance: {{ tour.distance | kilometers }}</div>
-      <div class="duration">Duration: {{ tour.duration | duration }}</div>
+    <div *ngIf="tour.travelDetails" class="travel-info">
+      <div class="distance">Distance: {{ tour.travelDetails.travelDistance| kilometers }}</div>
+      <div class="duration">Duration: {{ tour.travelDetails.travelTime | duration }}</div>
     </div>
     <div *ngIf="tour.bulletin != null" class="avalanche-info">
       <div class="risk">Avalanche risk: {{ tour.bulletin.dangerRatings }}</div>

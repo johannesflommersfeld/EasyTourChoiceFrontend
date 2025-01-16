@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tour } from './tour-catalog/tour-preview/tour-data/tour.model';
 import { Activity } from './tour-catalog/tour-preview/tour-data/activity.model';
+import { GPSLocation } from './tour-catalog/tour-preview/tour-data/gps-location.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,14 @@ export class ToursService {
     return this.http.get<Tour[]>(("/api/tourData"));
   }
 
-  fetchTourById(id: number): Observable<Tour> {
-    return this.http.get<Tour>((`/api/tourData/tours/${id}`));
+  fetchTourById(id: number, location: GPSLocation): Observable<Tour> {
+    if (location == null) {
+      return this.http.get<Tour>((`/api/tourData/tours/${id}`));
+    }
+    let params = new HttpParams();
+    params = params.append('userLatitude', location.latitude);
+    params = params.append('userLongitude', location.longitude);
+    return this.http.get<Tour>((`/api/tourData/tours/${id}`), { params });
   }
 
   getFilteredTours(filters: Set<Activity>): Tour[] {
@@ -29,12 +36,5 @@ export class ToursService {
       this.fetchAllTours().subscribe(tours => { this.tours = tours; });
     }
     return this.tours.filter((tour) => filters.has(tour.activityType));
-  }
-
-  getTourById(id: number): Tour | null {
-    this.fetchTourById(id).subscribe(tour => {
-      this.detailedTour = tour;
-    });
-    return this.detailedTour;
   }
 }
