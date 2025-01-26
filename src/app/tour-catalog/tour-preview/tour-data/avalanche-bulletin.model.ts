@@ -6,7 +6,7 @@ export class AvalancheBulletin {
   publicationTime: string;
   avalancheProblems: Array<AvalancheProblem>;
   dangerRatings: Array<DangerRating>;
-  reportBody: Map<string, Array<string>>;
+  reportBody: { [id: string]: string[] };
   tendency: TendencyType;
   regionName: string | null;
 
@@ -14,7 +14,7 @@ export class AvalancheBulletin {
     publicationTime: string,
     avalancheProblems: Array<AvalancheProblem>,
     dangerRatings: Array<DangerRating>,
-    reportBody: Map<string, Array<string>>,
+    reportBody: { [id: string]: string[] },
     tendency: TendencyType,
     regionName: string | null
   ) {

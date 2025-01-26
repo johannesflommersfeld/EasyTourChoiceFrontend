@@ -1,20 +1,22 @@
 <div class="tour">
-  <div *ngIf="tour | async as tour" class="tour-details">
+  <div *ngIf="tour" class="tour-details">
     <div class="tour-info">
-      <div class="name">{{ tour.name }}</div>
+      <div class="label">{{ tour.name }}</div>
       <div class="description">{{ tour.shortDescription }}</div>
       <div class="activity">Activity type: {{ tour.activityType | activity }}</div>
     </div>
+    <div *ngIf="tour.weatherForecast">
+      <div class="label">Weather</div>
+      <etc-weather-forecast [forecast]="tour.weatherForecast"></etc-weather-forecast>
+    </div>
+    <div *ngIf="tour.bulletin">
+      <div class="label">Avalanche Report</div>
+      <etc-avalanche-report [bulletin]="tour.bulletin"></etc-avalanche-report>
+    </div>
     <div *ngIf="tour.travelDetails" class="travel-info">
+      <div class="label">Travel Details</div>
       <div class="distance">Distance: {{ tour.travelDetails.travelDistance| kilometers }}</div>
       <div class="duration">Duration: {{ tour.travelDetails.travelTime | duration }}</div>
-    </div>
-    <div *ngIf="tour.bulletin != null" class="avalanche-info">
-      <div class="risk">Avalanche risk: {{ tour.bulletin.dangerRatings }}</div>
-    </div>
-    <div *ngIf="tour.weatherForecast">
-      <div class="weather-label">Weather</div>
-      <etc-weather-forecast [forecast]="tour.weatherForecast"></etc-weather-forecast>
     </div>
   </div>
 </div>
