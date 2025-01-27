@@ -24,7 +24,7 @@
       <etc-weather-forecast [forecast]="tour.weatherForecast"></etc-weather-forecast>
     </div>
     <div *ngIf="tour.bulletin">
-      <h2 class="label">Avalanche Report</h2>
+      <h2 class="label">Avalanche Report - {{ tour.bulletin.publicationTime | time }}</h2>
       <etc-avalanche-report [bulletin]="tour.bulletin"></etc-avalanche-report>
     </div>
     <div *ngIf="tour.travelDetails" class="travel-info">

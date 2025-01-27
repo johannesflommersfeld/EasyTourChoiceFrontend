@@ -14,10 +14,11 @@ import { Observable, of } from 'rxjs';
 import { MetersPipe } from "./meters.pipe";
 import { DifficultyPipe } from "./difficulty.pipe";
 import { RsikPipe } from "./risk.pipe";
+import { TimePipe } from "./time.pipe";
 
 @Component({
   selector: 'etc-tour-details',
-  imports: [ActivityPipe, KilometersPipe, CommonModule, DurationPipe, WeatherForecastComponent, AvalancheReportComponent, MetersPipe, DifficultyPipe, RsikPipe],
+  imports: [ActivityPipe, KilometersPipe, CommonModule, DurationPipe, WeatherForecastComponent, AvalancheReportComponent, MetersPipe, DifficultyPipe, RsikPipe, TimePipe],
   templateUrl: './tour-details.component.html',
   styleUrl: './tour-details.component.css'
 })
