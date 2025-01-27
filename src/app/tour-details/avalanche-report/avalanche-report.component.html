@@ -1,8 +1,59 @@
 <ul class="avalanche-info" *ngIf="bulletin">
+  @if(changesThroughoutDay())
+  {
+  <li class="overview">
+    <h1> {{ getRegion() }} - earlier</h1>
+    <div class="report-header">
+      <img class="level-symbol" src=" {{ getEarlierLevelSymbolPath() }}" />
+      <etc-svg-aspect-indicator class="aspect-indicator"
+        [aspectMask]="getEarlierAspectMask()"></etc-svg-aspect-indicator>
+      <etc-svg-risk-indicator class="risk-indicator" [ratings]="getEarlierRatings()"></etc-svg-risk-indicator>
+      <div class="risk-boundary">{{ getEarlierRiskBoundary() | elevation}}</div>
+    </div>
+    <p clasee="headline">{{ getHeadline() }}</p>
+    <h1>Avalanche problems</h1>
+    <div *ngFor="let problem of getEarlierProblems()">
+      <div class="problem-header">
+        <div class="problem-type">{{ getProblemTypeText(problem) }}</div>
+        <img class="problem-symbol" src=" {{ getProblemSymbolPath(problem.problemType) }}" />
+        <etc-svg-aspect-indicator class="aspect-indicator-small"
+          [aspectMask]="problem.aspect"></etc-svg-aspect-indicator>
+      </div>
+      <div class="problem-summary">{{ getProblemSummary(problem)}}</div>
+    </div>
+    <h1>Tendency</h1>
+    <p> {{ getTendencyText(bulletin.tendency) }}</p>
+  </li>
+  <li class="overview">
+    <h1> {{ getRegion() }} - later</h1>
+    <div class="report-header">
+      <img class="level-symbol" src=" {{ getLaterLevelSymbolPath() }}" />
+      <etc-svg-aspect-indicator class="aspect-indicator" [aspectMask]="getLaterAspectMask()"></etc-svg-aspect-indicator>
+      <etc-svg-risk-indicator class="risk-indicator" [ratings]="getLaterRatings()"></etc-svg-risk-indicator>
+      <div class="risk-boundary">{{ getLaterRiskBoundary() | elevation}}</div>
+    </div>
+    <p clasee="headline">{{ getHeadline() }}
+    <p>
+    <h1>Avalanche problems</h1>
+    <div *ngFor="let problem of getLaterProblems()">
+      <div class="problem-header">
+        <div class="problem-type">{{ getProblemTypeText(problem) }}</div>
+        <img class="problem-symbol" src=" {{ getProblemSymbolPath(problem.problemType) }}" />
+        <etc-svg-aspect-indicator class="aspect-indicator-small"
+          [aspectMask]="problem.aspect"></etc-svg-aspect-indicator>
+      </div>
+      <div class="problem-summary">{{ getProblemSummary(problem)}}</div>
+    </div>
+    <h1>Tendency</h1>
+    <p> {{ getTendencyText(bulletin.tendency) }}</p>
+  </li>
+  }
+  @else
+  {
   <li class="overview">
     <h1> {{ getRegion() }}</h1>
     <div class="report-header">
-      <img class="level-symbol" src=" {{ getLevelSymbolPath(bulletin.dangerRatings) }}" />
+      <img class="level-symbol" src=" {{ getLevelSymbolPath() }}" />
       <etc-svg-aspect-indicator class="aspect-indicator" [aspectMask]="getAspectMask()"></etc-svg-aspect-indicator>
       <etc-svg-risk-indicator class="risk-indicator" [ratings]="bulletin.dangerRatings"></etc-svg-risk-indicator>
       <div class="risk-boundary">{{ getRiskBoundary() | elevation}}</div>
@@ -22,6 +73,7 @@
     <h1>Tendency</h1>
     <p> {{ getTendencyText(bulletin.tendency) }}</p>
   </li>
+  }
   <li class="overview">
     <h1>Avalanche activity</h1>
     <div *ngFor='let text of bulletin.reportBody["Avalanche activity"].slice(1)'>
