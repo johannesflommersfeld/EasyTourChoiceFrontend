@@ -77,19 +77,19 @@
   <li class="overview">
     <h1>Avalanche activity</h1>
     <div *ngFor='let text of bulletin.reportBody["Avalanche activity"].slice(1)'>
-      <p>{{ text }}</p>
+      <p [innerHTML]="text"></p>
     </div>
   </li>
   <li class="overview">
     <h1>Snowpack structure</h1>
     <div *ngFor='let text of bulletin.reportBody["Snowpack structure"]'>
-      <p>{{ text }}</p>
+      <p [innerHTML]="text"></p>
     </div>
   </li>
   <li class="overview">
     <h1>Tendency</h1>
     <div *ngFor='let text of bulletin.reportBody["TendencyText"]'>
-      <p>{{ text }}</p>
+      <p [innerHTML]="text"></p>
     </div>
   </li>
 </ul>

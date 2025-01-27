@@ -13,7 +13,7 @@
           <b>Meters of elevation:</b> {{ tour.metersOfElevation | meters }}
         </div>
         <div *ngIf="tour.difficulty" class="description"> <b>Difficulty:</b> {{ tour.difficulty | difficulty }}</div>
-        <div *ngIf="tour.distance" class="description"> <b>Distance:</b> {{ tour.distance | kilometers }}</div>
+        <div *ngIf="tour.risk" class="description"> <b>Risk level:</b> {{ tour.risk | risk }}</div>
         <div *ngIf="tour.approachDuration" class="description">
           <b>Approach:</b> {{ tour.approachDuration | duration }}
         </div>
