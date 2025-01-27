@@ -11,6 +11,7 @@ import { DangerRating } from '../../tour-catalog/tour-preview/tour-data/danger-r
 import { ElevationPipe } from "./elevation.pipe";
 import { SvgAspectIndicatorComponent } from "./svg-aspect-indicator/svg-aspect-indicator.component";
 import { Aspect } from '../../tour-catalog/tour-preview/tour-data/aspect.model';
+import { ValidTimePeriod } from '../../tour-catalog/tour-preview/tour-data/valid-time-period.model';
 
 @Component({
   selector: 'etc-avalanche-report',
@@ -21,29 +22,12 @@ import { Aspect } from '../../tour-catalog/tour-preview/tour-data/aspect.model';
 export class AvalancheReportComponent {
   @Input() bulletin: AvalancheBulletin | undefined;
 
+  changesThroughoutDay(): boolean {
+    return this.bulletin?.dangerRatings.some(rating => rating.validTimePeriod != ValidTimePeriod.ALL_DAY) ?? false;
+  }
+
   getRegion(): string {
     return this.bulletin?.regionName ?? "";
-  }
-
-  getAspectMask(): number {
-    let aspectMask: Aspect = Aspect.UNKNOWN;
-    this.bulletin?.avalancheProblems.forEach(problem => {
-      aspectMask |= problem.aspect;
-    });
-    return aspectMask;
-  }
-
-  getRiskBoundary(): string {
-    if (this.bulletin?.dangerRatings.length != 2) {
-      return "";
-    }
-
-    if (this.bulletin.dangerRatings[0].upperBound == this.bulletin.dangerRatings[1].lowerBound) {
-      return this.bulletin.dangerRatings[0].upperBound!;
-    }
-    else {
-      return this.bulletin.dangerRatings[0].lowerBound!;
-    }
   }
 
   getProblemSummary(problem: AvalancheProblem): string {
@@ -89,15 +73,6 @@ export class AvalancheReportComponent {
     return 'unknown';
   }
 
-  getLevelSymbolPath(ratings: DangerRating[]): string {
-    const maxRating: number = Math.max(...ratings.map(rating => rating.mainValue.valueOf()));
-    return `/avalanche-reports/levels/${maxRating}.png`
-  }
-
-  getProblemSymbolPath(problemType: AvalancheProblemType): string {
-    return `/avalanche-reports/problems/${problemType}.png`
-  }
-
   getProblemTypeText(problem: AvalancheProblem): string {
     const problemNames: Map<AvalancheProblemType, string> = new Map([
       [AvalancheProblemType.NEW_SNOW, 'New snow'],
@@ -117,5 +92,97 @@ export class AvalancheReportComponent {
       return activityText[0];
     }
     return "";
+  }
+
+
+  getRiskBoundary(): string {
+    return this.getFilteredRiskBoundary(ValidTimePeriod.ALL_DAY);
+  }
+
+  getEarlierRiskBoundary(): string {
+    return this.getFilteredRiskBoundary(ValidTimePeriod.EARLIER);
+  }
+
+  getLaterRiskBoundary(): string {
+    return this.getFilteredRiskBoundary(ValidTimePeriod.LATER);
+  }
+
+  getProblemSymbolPath(problemType: AvalancheProblemType): string {
+    return `/avalanche-reports/problems/${problemType}.png`
+  }
+
+  getLevelSymbolPath(): string {
+    return this.getFilteredLevelSymbolPath(ValidTimePeriod.ALL_DAY)
+  }
+
+  getEarlierLevelSymbolPath(): string {
+    return this.getFilteredLevelSymbolPath(ValidTimePeriod.EARLIER)
+  }
+
+  getLaterLevelSymbolPath(): string {
+    return this.getFilteredLevelSymbolPath(ValidTimePeriod.LATER)
+  }
+
+  getAspectMask(): number {
+    return this.getFilteredAspectMask(ValidTimePeriod.ALL_DAY)
+  }
+
+  getEarlierAspectMask(): number {
+    return this.getFilteredAspectMask(ValidTimePeriod.EARLIER)
+  }
+
+  getLaterAspectMask(): number {
+    return this.getFilteredAspectMask(ValidTimePeriod.LATER)
+  }
+
+  getEarlierRatings(): DangerRating[] {
+    return this.getFilteredRatings(ValidTimePeriod.EARLIER)
+  }
+
+  getLaterRatings(): DangerRating[] {
+    return this.getFilteredRatings(ValidTimePeriod.LATER)
+  }
+
+  getEarlierProblems(): AvalancheProblem[] {
+    return this.getFilteredProblems(ValidTimePeriod.EARLIER)
+  }
+
+  getLaterProblems(): AvalancheProblem[] {
+    return this.getFilteredProblems(ValidTimePeriod.LATER)
+  }
+
+  private getFilteredRiskBoundary(validTime: ValidTimePeriod): string {
+    const ratings: DangerRating[] = this.getFilteredRatings(validTime)
+    if (ratings.length != 2) {
+      return "";
+    }
+
+    if (ratings[0].upperBound == ratings[1].lowerBound) {
+      return ratings[0].upperBound!;
+    }
+    else {
+      return ratings[0].lowerBound!;
+    }
+  }
+
+  private getFilteredLevelSymbolPath(validTime: ValidTimePeriod): string {
+    const maxRating: number = Math.max(...this.getFilteredRatings(validTime).map(rating => rating.mainValue.valueOf()));
+    return `/avalanche-reports/levels/${maxRating}.png`
+  }
+
+  private getFilteredRatings(validTime: ValidTimePeriod): DangerRating[] {
+    return this.bulletin?.dangerRatings.filter(rating => rating.validTimePeriod == validTime || rating.validTimePeriod == ValidTimePeriod.ALL_DAY) ?? [];
+  }
+
+  private getFilteredAspectMask(validTime: ValidTimePeriod): number {
+    let aspectMask: Aspect = Aspect.UNKNOWN;
+    this.getFilteredProblems(validTime).forEach(problem => {
+      aspectMask |= problem.aspect;
+    });
+    return aspectMask;
+  }
+
+  private getFilteredProblems(validTime: ValidTimePeriod): AvalancheProblem[] {
+    return this.bulletin?.avalancheProblems.filter(problem => problem.validTimePeriod == validTime || problem.validTimePeriod == ValidTimePeriod.ALL_DAY) ?? [];
   }
 }

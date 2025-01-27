@@ -32,8 +32,8 @@
 
 .level-symbol {
   display: inline-block;
-  width: 60px;
-  height: auto;
+  height: 50px;
+  width: auto;
   margin-top: 0px;
   vertical-align: auto;
 }
@@ -82,12 +82,13 @@
 }
 
 .problem-type {
-  font-size: large;
+  font-size: medium;
   font-weight: bold;
 }
 
 .problem-summary {
   margin-left: 25px;
+  margin-bottom: 15px;
 }
 
 h1 {
