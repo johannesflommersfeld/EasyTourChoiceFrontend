@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ITour } from '../tour-catalog/tour-preview/tour-data/tour.model';
 import { ActivityPipe } from "../tour-catalog/tour-preview/activity.pipe";
 import { KilometersPipe } from "../tour-catalog/tour-preview/kilometers.pipe";
 import { ToursService } from '../tours.service';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { DurationPipe } from "./duration.pipe";
 import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.component";
 import { AvalancheReportComponent } from './avalanche-report/avalanche-report.component';
 import { LocationService } from '../location.service';
 import { GPSLocation } from '../tour-catalog/tour-preview/tour-data/gps-location.model';
-import { Observable, ObservableInputTuple, of, switchMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { MetersPipe } from "./meters.pipe";
+import { DifficultyPipe } from "./difficulty.pipe";
 
 @Component({
   selector: 'etc-tour-details',
-  imports: [ActivityPipe, KilometersPipe, CommonModule, DurationPipe, WeatherForecastComponent, AvalancheReportComponent],
+  imports: [ActivityPipe, KilometersPipe, CommonModule, DurationPipe, WeatherForecastComponent, AvalancheReportComponent, MetersPipe, DifficultyPipe],
   templateUrl: './tour-details.component.html',
   styleUrl: './tour-details.component.css'
 })

@@ -2,6 +2,7 @@ import { Activity } from "./activity.model";
 import { Aspect } from "./aspect.model";
 import { AvalancheBulletin } from "./avalanche-bulletin.model";
 import { GeneralDifficulty } from "./general-difficulty.model";
+import { GPSLocation } from "./gps-location.model";
 import { RiskLevel } from "./risk-level.model";
 import { TravelDetails } from "./travel-details.model";
 import { WeatherForecast } from "./weather-forecast.model";
@@ -26,6 +27,8 @@ export interface ITour {
   aspect: Aspect | null;
   areaId: number;
   avalancheRegionID: number | null;
+  startingLocation: GPSLocation | null;
+  activityLocation: GPSLocation | null;
 }
 
 
@@ -49,6 +52,8 @@ export class Tour implements ITour {
   areaId: number;
   avalancheRegionID: number | null;
   imageName: string;
+  startingLocation: GPSLocation | null;
+  activityLocation: GPSLocation | null;
 
   constructor(
     id: number,
@@ -69,7 +74,9 @@ export class Tour implements ITour {
     risk: RiskLevel | null,
     aspect: Aspect | null,
     areaId: number,
-    avalancheRegionID: number | null
+    avalancheRegionID: number | null,
+    startingLocation: GPSLocation | null,
+    activityLocation: GPSLocation | null
   ) {
     this.id = id;
     this.travelDetails = travelDetails;
@@ -90,6 +97,8 @@ export class Tour implements ITour {
     this.aspect = aspect;
     this.areaId = areaId;
     this.avalancheRegionID = avalancheRegionID;
+    this.startingLocation = startingLocation;
+    this.activityLocation = activityLocation;
   }
 
   getActivity(): string {

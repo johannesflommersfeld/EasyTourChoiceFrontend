@@ -1,21 +1,35 @@
 <div class="tour">
   <div *ngIf="tour" class="tour-details">
     <div class="tour-info">
-      <div class="label">{{ tour.name }}</div>
-      <div class="description">{{ tour.shortDescription }}</div>
-      <div class="activity">Activity type: {{ tour.activityType | activity }}</div>
+      <h1>{{ tour.name }}</h1>
+      <h3>{{ tour.activityType | activity }}</h3>
+      <div class="details">
+        <h2 *ngIf="tour.shortDescription">Description</h2>
+        <div *ngIf="tour.shortDescription" class="description"> {{ tour.shortDescription }}</div>
+        <h2>Details</h2>
+        <div *ngIf="tour.distance" class="description"> <b>Distance:</b> {{ tour.distance | kilometers}}</div>
+        <div *ngIf="tour.duration" class="description"> <b>Duration:</b> {{ tour.duration | duration}}</div>
+        <div *ngIf="tour.metersOfElevation" class="description">
+          <b>Meters of elevation:</b> {{ tour.metersOfElevation | meters }}
+        </div>
+        <div *ngIf="tour.difficulty" class="description"> <b>Difficulty:</b> {{ tour.difficulty | difficulty }}</div>
+        <div *ngIf="tour.distance" class="description"> <b>Distance:</b> {{ tour.distance | kilometers }}</div>
+        <div *ngIf="tour.approachDuration" class="description">
+          <b>Approach:</b> {{ tour.approachDuration | duration }}
+        </div>
+      </div>
     </div>
     <div *ngIf="tour.weatherForecast">
-      <div class="label">Weather</div>
+      <h2>Weather</h2>
       <etc-weather-forecast [forecast]="tour.weatherForecast"></etc-weather-forecast>
     </div>
     <div *ngIf="tour.bulletin">
-      <div class="label">Avalanche Report</div>
+      <h2 class="label">Avalanche Report</h2>
       <etc-avalanche-report [bulletin]="tour.bulletin"></etc-avalanche-report>
     </div>
     <div *ngIf="tour.travelDetails" class="travel-info">
-      <div class="label">Travel Details</div>
-      <div class="distance">Distance: {{ tour.travelDetails.travelDistance| kilometers }}</div>
+      <h2>Travel Details</h2>
+      <div class="distance">Distance: {{ tour.travelDetails.travelDistance | kilometers }}</div>
       <div class="duration">Duration: {{ tour.travelDetails.travelTime | duration }}</div>
     </div>
   </div>
