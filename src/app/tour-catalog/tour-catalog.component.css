@@ -1,23 +1,23 @@
 .container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .filters {
-    display: flex;
-    justify-content: space-between;
-    padding: 25px 200px;
-  }
-  
-  .filters button {
-    width: 100px;
-  }
-  
-  .tours {
-    margin: 0 100px;
-    border-top: 2px solid #cecece;
-  }
-  
-  .tour-item {
-    border-bottom: 2px solid #cecece;
-  }
+  display: flex;
+  flex-direction: column;
+}
+
+.filters {
+  display: flex;
+  padding: 25px 200px;
+  gap: 15px;
+}
+
+.filters button {
+  width: 100px;
+}
+
+.tours {
+  margin: 0 100px;
+  border-top: 2px solid #cecece;
+}
+
+.tour-item {
+  border-bottom: 2px solid #cecece;
+}

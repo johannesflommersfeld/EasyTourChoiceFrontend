@@ -11,6 +11,6 @@ export class TimePipe implements PipeTransform {
     const hour: number = date.getHours();
     const day: number = date.getDay();
     const month: string = this.months[date.getMonth()];
-    return `${month} ${day}, ${hour}h`;
+    return `${month} ${day}: ${hour}h`;
   }
 }

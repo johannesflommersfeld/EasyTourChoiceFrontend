@@ -1,12 +1,12 @@
 <div class="tour">
   <div *ngIf="tour" class="tour-details">
+    <h1>{{ tour.name }}</h1>
+    <h3>{{ tour.activityType | activity }}</h3>
     <div class="tour-info">
-      <h1>{{ tour.name }}</h1>
-      <h3>{{ tour.activityType | activity }}</h3>
       <div class="details">
         <h2 *ngIf="tour.shortDescription">Description</h2>
         <div *ngIf="tour.shortDescription" class="description"> {{ tour.shortDescription }}</div>
-        <h2>Details</h2>
+        <h2>Tour Details</h2>
         <div *ngIf="tour.distance" class="description"> <b>Distance:</b> {{ tour.distance | kilometers}}</div>
         <div *ngIf="tour.duration" class="description"> <b>Duration:</b> {{ tour.duration | duration}}</div>
         <div *ngIf="tour.metersOfElevation" class="description">
@@ -17,6 +17,13 @@
         <div *ngIf="tour.approachDuration" class="description">
           <b>Approach:</b> {{ tour.approachDuration | duration }}
         </div>
+        <h2 *ngIf="tour.travelDetails">Travel Details</h2>
+        <div *ngIf="tour.travelDetails" class="description"><b>Distance:</b> {{ tour.travelDetails.travelDistance |
+          kilometers }}</div>
+        <div *ngIf="tour.travelDetails" class="description"><b>Duration:</b> {{ tour.travelDetails.travelTime | duration
+          }}</div>
+      </div>
+      <div class="map" leaflet [leafletOptions]="options" (leafletMapReady)="onMapReady($event)">
       </div>
     </div>
     <div *ngIf="tour.weatherForecast">
@@ -26,11 +33,6 @@
     <div *ngIf="tour.bulletin">
       <h2 class="label">Avalanche Report - {{ tour.bulletin.publicationTime | time }}</h2>
       <etc-avalanche-report [bulletin]="tour.bulletin"></etc-avalanche-report>
-    </div>
-    <div *ngIf="tour.travelDetails" class="travel-info">
-      <h2>Travel Details</h2>
-      <div class="distance">Distance: {{ tour.travelDetails.travelDistance | kilometers }}</div>
-      <div class="duration">Duration: {{ tour.travelDetails.travelTime | duration }}</div>
     </div>
   </div>
 </div>

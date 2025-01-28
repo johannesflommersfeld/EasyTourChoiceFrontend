@@ -5,4 +5,5 @@ export class TravelDetails {
   startingLocation: GPSLocation | null = null;
   travelTime: number | null = null; // traveling time with the car in hours
   travelDistance: number | null = null; // traveling time with the car in hours
+  route: GPSLocation[] | null = null
 }
