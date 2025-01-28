@@ -33,5 +33,7 @@ h3 {
 }
 
 .map {
+  margin-left: 20px;
   height: 400px;
+  width: 400px;
 }
