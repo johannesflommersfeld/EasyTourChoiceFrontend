@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Tour } from './tour-catalog/tour-preview/tour-data/tour.model';
-import { Activity } from './tour-catalog/tour-preview/tour-data/activity.model';
-import { GPSLocation } from './tour-catalog/tour-preview/tour-data/gps-location.model';
-import { AvalancheBulletin } from './tour-catalog/tour-preview/tour-data/avalanche-bulletin.model';
-import { WeatherForecast } from './tour-catalog/tour-preview/tour-data/weather-forecast.model';
-import { TravelDetails } from './tour-catalog/tour-preview/tour-data/travel-details.model';
+import { Tour } from './models/tour-data/tour.model';
+import { Activity } from './models/tour-data/activity.model';
+import { GPSLocation } from './models/tour-data/gps-location.model';
+import { AvalancheBulletin } from './models/tour-data/avalanche-bulletin.model';
+import { WeatherForecast } from './models/tour-data/weather-forecast.model';
+import { TravelDetails } from './models/tour-data/travel-details.model';
 
 @Injectable({
   providedIn: 'root'

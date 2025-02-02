@@ -1,17 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AvalancheBulletin } from '../../tour-catalog/tour-preview/tour-data/avalanche-bulletin.model';
+import { AvalancheBulletin } from '../../models/tour-data/avalanche-bulletin.model';
 import { SvgRiskIndicatorComponent } from "./svg-risk-indicator/svg-risk-indicator.component";
-import { AvalancheProblem } from '../../tour-catalog/tour-preview/tour-data/avalanche-problem.model';
-import { AvalancheProblemType } from '../../tour-catalog/tour-preview/tour-data/avalanche-problem-type.model';
-import { AvalancheFrequency } from '../../tour-catalog/tour-preview/tour-data/avalanche-frequency.model';
-import { AvalancheSize } from '../../tour-catalog/tour-preview/tour-data/avalanche-size.model';
-import { TendencyType } from '../../tour-catalog/tour-preview/tour-data/tendency-type.model';
-import { DangerRating } from '../../tour-catalog/tour-preview/tour-data/danger-ratings.model';
+import { AvalancheProblem } from '../../models/tour-data/avalanche-problem.model';
+import { AvalancheProblemType } from '../../models/tour-data/avalanche-problem-type.model';
+import { AvalancheFrequency } from '../../models/tour-data/avalanche-frequency.model';
+import { AvalancheSize } from '../../models/tour-data/avalanche-size.model';
+import { TendencyType } from '../../models/tour-data/tendency-type.model';
+import { DangerRating } from '../../models/tour-data/danger-ratings.model';
 import { ElevationPipe } from "./elevation.pipe";
 import { SvgAspectIndicatorComponent } from "./svg-aspect-indicator/svg-aspect-indicator.component";
-import { Aspect } from '../../tour-catalog/tour-preview/tour-data/aspect.model';
-import { ValidTimePeriod } from '../../tour-catalog/tour-preview/tour-data/valid-time-period.model';
+import { Aspect } from '../../models/tour-data/aspect.model';
+import { ValidTimePeriod } from '../../models/tour-data/valid-time-period.model';
 
 @Component({
   selector: 'etc-avalanche-report',

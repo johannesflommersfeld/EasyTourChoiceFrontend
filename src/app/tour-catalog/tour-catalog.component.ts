@@ -3,8 +3,8 @@ import { NgFor } from '@angular/common';
 import { TourPreviewComponent } from "./tour-preview/tour-preview.component";
 import { ToursService } from '../tours.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Activity } from './tour-preview/tour-data/activity.model';
-import { ITour } from './tour-preview/tour-data/tour.model';
+import { Activity } from '../models/tour-data/activity.model';
+import { ITour } from '../models/tour-data/tour.model';
 
 @Component({
   selector: 'etc-tour-catalog',

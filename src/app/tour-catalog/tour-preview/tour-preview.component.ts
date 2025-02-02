@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { KilometersPipe } from './kilometers.pipe';
 import { RouterModule } from '@angular/router';
-import { ITour } from './tour-data/tour.model';
+import { ITour } from '../../models/tour-data/tour.model';
 import { ActivityPipe } from "./activity.pipe";
 
 

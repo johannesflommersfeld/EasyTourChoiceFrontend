@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { GeneralDifficulty } from '../tour-catalog/tour-preview/tour-data/general-difficulty.model';
+import { GeneralDifficulty } from '../models/tour-data/general-difficulty.model';
 
 @Pipe({
   name: 'difficulty',

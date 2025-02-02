@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DangerRating } from '../../../tour-catalog/tour-preview/tour-data/danger-ratings.model';
-import { AvalancheDangerRating } from '../../../tour-catalog/tour-preview/tour-data/avalanche-danger-rating.model';
+import { DangerRating } from '../../../models/tour-data/danger-ratings.model';
+import { AvalancheDangerRating } from '../../../models/tour-data/avalanche-danger-rating.model';
 
 @Component({
   selector: 'etc-svg-risk-indicator',

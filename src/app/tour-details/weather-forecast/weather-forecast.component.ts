@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeatherForecast } from '../../tour-catalog/tour-preview/tour-data/weather-forecast.model';
-import { ForecastTimeStep } from '../../tour-catalog/tour-preview/tour-data/forecast-time-step.model';
-import { WeatherSymbol } from '../../tour-catalog/tour-preview/tour-data/weather-symbol.model';
+import { WeatherForecast } from '../../models/tour-data/weather-forecast.model';
+import { ForecastTimeStep } from '../../models/tour-data/forecast-time-step.model';
+import { WeatherSymbol } from '../../models/tour-data/weather-symbol.model';
 import { HourPipe } from "./hour.pipe";
 
 @Component({

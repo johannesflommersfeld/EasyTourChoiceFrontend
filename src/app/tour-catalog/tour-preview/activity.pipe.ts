@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Activity } from './tour-data/activity.model';
+import { Activity } from '../../models/tour-data/activity.model';
 
 @Pipe({
   name: 'activity',

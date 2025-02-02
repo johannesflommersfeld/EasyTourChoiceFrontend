@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Aspect } from '../../../tour-catalog/tour-preview/tour-data/aspect.model';
+import { Aspect } from '../../../models/tour-data/aspect.model';
 
 @Component({
   selector: 'etc-svg-aspect-indicator',

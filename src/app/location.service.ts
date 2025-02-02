@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GPSLocation } from './tour-catalog/tour-preview/tour-data/gps-location.model';
+import { GPSLocation } from './models/tour-data/gps-location.model';
 
 @Injectable({
   providedIn: 'root'
