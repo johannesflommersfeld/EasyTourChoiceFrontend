@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { RiskLevel } from '../tour-catalog/tour-preview/tour-data/risk-level.model';
+import { RiskLevel } from '../models/tour-data/risk-level.model';
 
 @Pipe({
   name: 'risk',

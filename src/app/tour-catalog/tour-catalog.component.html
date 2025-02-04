@@ -17,8 +17,8 @@
       [routerLinkActiveOptions]="{ exact: true}">clear</button>
   </div>
   <ul class="tours">
-    <li class="tour-item" *ngFor="let tour of getFilteredTours()">
-      <etc-tour-preview [tour]="tour" (open)="showTourDetails(tour)"></etc-tour-preview>
+    <li class="tour-item" *ngFor="let tour of getFilteredTours(); index as idx">
+      <etc-tour-preview [tour]="tour" [index]="idx" (open)="showTourDetails(tour)"></etc-tour-preview>
     </li>
   </ul>
 </div>
