@@ -1,19 +1,37 @@
 .container {
   display: flex;
   flex-direction: column;
+  height: 80vh;
+  overflow: hidden;
 }
 
 .filters {
   display: flex;
   padding: 25px 200px;
   gap: 15px;
+  flex-shrink: 0;
 }
 
 .filters button {
   width: 100px;
 }
 
+.preview {
+  flex-grow: 1;
+  display: flex;
+  overflow: hidden;
+}
+
 .tours {
-  margin: 0 100px;
-  border-top: 2px solid #cecece;
+  margin: 0 50px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.map {
+  margin: 0 50px;
+  height: 700px;
+  width: 900px;
+  flex-shrink: 0;
 }

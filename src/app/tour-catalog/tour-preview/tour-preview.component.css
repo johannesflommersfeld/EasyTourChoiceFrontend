@@ -33,6 +33,7 @@
   .activity {
     color: rgb(208, 208, 208);
     font-weight: lighter;
+    line-height: 20px;
   }
 
   .tour-flag {
@@ -45,6 +46,7 @@
     vertical-align: middle;
     font-weight: bold;
     float: right;
+    line-height: 20px;
   }
 
   .tour-name {
