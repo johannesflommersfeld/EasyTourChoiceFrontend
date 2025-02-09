@@ -6,9 +6,10 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Activity } from '../models/tour-data/activity.model';
 import { ITour } from '../models/tour-data/tour.model';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
-import L, { icon, Icon, latLng, Layer, marker, tileLayer, Map as LeafletMap, MarkerOptions } from 'leaflet';
+import L, { icon, Icon, latLng, Layer, marker, tileLayer, Map as LeafletMap, MarkerOptions, divIcon } from 'leaflet';
 import { GPSLocation } from '../models/tour-data/gps-location.model';
 import { LocationService } from '../location.service';
+import { GeneralDifficulty } from '../models/tour-data/general-difficulty.model';
 
 @Component({
   selector: 'etc-tour-catalog',
@@ -124,15 +125,34 @@ export class TourCatalogComponent {
     if (!this.map || !this.tours)
       return;
 
-    const targetMarker = marker([location.latitude, location.longitude], {
-      icon: icon({
-        ...Icon.Default.prototype.options,
-        iconUrl: 'assets/marker-icon.png',
-        iconRetinaUrl: 'assets/marker-icon-2x.png',
-        shadowUrl: 'assets/marker-shadow.png'
-      })
-    });
-    targetMarker.addTo(this.map).on('click', (e) => this.markerOnClick(index));
+    if (index === -1) {
+      const targetMarker = marker([location.latitude, location.longitude], {
+        icon: icon({
+          ...Icon.Default.prototype.options,
+          iconUrl: 'assets/marker-icon.png',
+          iconRetinaUrl: 'assets/marker-icon-2x.png',
+          shadowUrl: 'assets/marker-shadow.png'
+        })
+      });
+      targetMarker.addTo(this.map).on('click', (e) => this.markerOnClick(index));
+    }
+    else {
+      const color: string = this.tours[index].difficulty != null ? TourPreviewComponent.getDifficultyColor(this.tours[index].difficulty) : ' #4e4e4e';
+
+      const icon: L.DivIcon = divIcon({
+        className: 'custom-marker',
+        html: `<div class="marker-circle" style="background-color:${color}">
+             <span class="marker-text">${index + 1}</span>
+           </div>`,
+        iconSize: [30, 30], // Adjust size as needed
+        iconAnchor: [15, 15], // Ensure the marker is centered correctly
+      });
+
+      const targetMarker = marker([location.latitude, location.longitude], {
+        icon: icon,
+      });
+      targetMarker.addTo(this.map).on('click', (e) => this.markerOnClick(index));
+    }
   }
 
   private markerOnClick(index: number): void {

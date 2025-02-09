@@ -22,6 +22,7 @@ export class TourPreviewComponent {
   @Input() index!: number;
   @Output() open = new EventEmitter();
 
+
   getImageUrl(tour: ITour): string {
     // TODO: generate image with map preview
     return '/activities/hiking.png';
@@ -32,7 +33,9 @@ export class TourPreviewComponent {
     console.log(`Details of tour ${tour.name}.`)
   }
 
-  getDifficultyColor(difficulty: GeneralDifficulty): string {
+  getDifficultyColor = TourPreviewComponent.getDifficultyColor;
+
+  static getDifficultyColor(difficulty: GeneralDifficulty): string {
     if (difficulty === GeneralDifficulty.EASY) {
       return ' #008a00 ';
     }
@@ -47,7 +50,9 @@ export class TourPreviewComponent {
     }
   }
 
-  getRiskColor(difficulty: RiskLevel): string {
+  getRiskColor = TourPreviewComponent.getRiskColor;
+
+  static getRiskColor(difficulty: RiskLevel): string {
     if (difficulty === RiskLevel.VERY_SAFE) {
       return ' #008a00';
     }
