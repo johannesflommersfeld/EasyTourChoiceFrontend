@@ -10,13 +10,16 @@ import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.co
 import { AvalancheReportComponent } from './avalanche-report/avalanche-report.component';
 import { LocationService } from '../location.service';
 import { GPSLocation } from '../models/tour-data/gps-location.model';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { MetersPipe } from "./meters.pipe";
 import { DifficultyPipe } from "./difficulty.pipe";
 import { RsikPipe } from "./risk.pipe";
 import { TimePipe } from "./time.pipe";
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import { icon, Icon, latLng, Layer, marker, Map, tileLayer, polyline, LatLng } from 'leaflet';
+import { WeatherForecast } from '../models/tour-data/weather-forecast.model';
+import { AvalancheBulletin } from '../models/tour-data/avalanche-bulletin.model';
+import { TravelDetails } from '../models/tour-data/travel-details.model';
 
 @Component({
   selector: 'etc-tour-details',
@@ -63,34 +66,45 @@ export class TourDetailsComponent implements OnInit {
 
       if (tourId) {
         this.toursSvc.fetchTourById(+tourId).subscribe(tour => {
-          this.toursSvc.fetchWeatherForecastById(+tourId).subscribe(travelInfo => {
-            tour.weatherForecast = travelInfo;
-          });
+          const requests: Partial<{
+            weatherForecast: Observable<WeatherForecast>;
+            avalancheReport: Observable<AvalancheBulletin>;
+            travelInfo?: Observable<TravelDetails>;
+          }> = {
+            weatherForecast: this.toursSvc.fetchWeatherForecastById(+tourId),
+            avalancheReport: this.toursSvc.fetchAvalancheReportById(+tourId),
+          };
 
-          this.toursSvc.fetchAvalancheReportById(+tourId).subscribe(bulletin => {
-            tour.bulletin = bulletin;
-          });
-
+          // Add travelInfo conditionally
           if (this.location) {
-            this.toursSvc.fetchTravelInfoById(+tourId, this.location).subscribe(travelDetails => {
-              tour.travelDetails = travelDetails;
-              this.renderTrackPolyline();
-            });
+            requests.travelInfo = this.toursSvc.fetchTravelInfoById(+tourId, this.location);
           }
-          this.tour = tour;
 
-          if (this.tour.activityLocation) {
-            const targetMarker = marker([this.tour.activityLocation.latitude, this.tour.activityLocation.longitude], {
-              icon: icon({
-                ...Icon.Default.prototype.options,
-                iconUrl: 'assets/marker-icon.png',
-                iconRetinaUrl: 'assets/marker-icon-2x.png',
-                shadowUrl: 'assets/marker-shadow.png'
-              })
-            });
-            this.options.layers.push(targetMarker);
-            this.options.center = latLng(this.tour.activityLocation.latitude, this.tour.activityLocation.longitude);
-          }
+          // Run all requests in parallel
+          forkJoin(requests).subscribe(results => {
+            tour.weatherForecast = results.weatherForecast!;
+            tour.bulletin = results.avalancheReport!;
+
+            if (results.travelInfo) {
+              tour.travelDetails = results.travelInfo;
+              this.renderTrackPolyline();
+            }
+
+            this.tour = tour;
+
+            if (this.tour.activityLocation) {
+              const targetMarker = marker([this.tour.activityLocation.latitude, this.tour.activityLocation.longitude], {
+                icon: icon({
+                  ...Icon.Default.prototype.options,
+                  iconUrl: 'assets/marker-icon.png',
+                  iconRetinaUrl: 'assets/marker-icon-2x.png',
+                  shadowUrl: 'assets/marker-shadow.png'
+                })
+              });
+              this.options.layers.push(targetMarker);
+              this.options.center = latLng(this.tour.activityLocation.latitude, this.tour.activityLocation.longitude);
+            }
+          });
         });
       }
     });
