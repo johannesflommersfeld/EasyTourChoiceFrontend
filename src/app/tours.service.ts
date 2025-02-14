@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Tour } from './models/tour-data/tour.model';
+import { ITour, Tour } from './models/tour-data/tour.model';
 import { Activity } from './models/tour-data/activity.model';
 import { GPSLocation } from './models/tour-data/gps-location.model';
 import { AvalancheBulletin } from './models/tour-data/avalanche-bulletin.model';
@@ -46,5 +46,11 @@ export class ToursService {
       this.fetchAllTours().subscribe(tours => { this.tours = tours; });
     }
     return this.tours.filter((tour) => filters.has(tour.activityType));
+  }
+
+  putTour(tour: Partial<ITour>): Observable<ITour> {
+    // TODO: ensure all fields are filled
+    // let newTour: ITour = { ...tour, id: 0, travelDetails: null, bulletin: null, weatherForecast: null }
+    return this.http.post<ITour>(`/api/tourData/`, tour);
   }
 }

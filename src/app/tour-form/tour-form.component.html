@@ -1,0 +1,48 @@
+<div class="content">
+  <h1>Add your next adventure</h1>
+  <form [formGroup]="tourForm" (ngSubmit)="saveTour()">
+    <section>
+      <nav>tour description</nav>
+      <div>
+        <!-- TODO: allow selecting between different icons -->
+        <input formControlName="activity" placeholder="activity">
+        <input formControlName="tourName" placeholder="tour name">
+        <input formControlName="shortDescription" placeholder="short description">
+        <input formControlName="detailedDescription" placeholder="detailed description">
+      </div>
+    </section>
+    <section>
+      <nav>tour details</nav>
+      <div>
+        <input formControlName="distance" placeholder="Distance">
+        <input formControlName="duration" placeholder="Duration">
+        <input formControlName="approachDuration" placeholder="Approach duration">
+        <input formControlName="elevationGain" placeholder="Elevation gain">
+        <div>
+          <span>Risk</span>
+          <input type="range" placeholder="Risk">
+          <span>value</span>
+        </div>
+        <div>
+          <span>Difficulty</span>
+          <input type="range" placeholder="Difficulty">
+          <span>value</span>
+        </div>
+        <!-- TODO: should be selectable by clicking on wind rose -->
+        <input type="text" placeholder="Aspects">
+      </div>
+    </section>
+    <section>
+      <nav>gps information</nav>
+      <!-- TODO: Add functionality to select on map -->
+      <input type="text" placeholder="Starting location">
+      <input type="text" placeholder="Activity location">
+      <!-- TODO: Add upload functionality -->
+      <input type="text" placeholder="GPS track">
+    </section>
+    <div class="buttons">
+      <button class="secondary">Cancel</button>
+      <button type="submit" class="primary">Save</button>
+    </div>
+  </form>
+</div>

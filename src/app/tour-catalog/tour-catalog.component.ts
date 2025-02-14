@@ -137,7 +137,7 @@ export class TourCatalogComponent {
       targetMarker.addTo(this.map).on('click', (e) => this.markerOnClick(index));
     }
     else {
-      const color: string = this.tours[index].difficulty != null ? TourPreviewComponent.getDifficultyColor(this.tours[index].difficulty) : ' #4e4e4e';
+      const color: string = this.tours[index].risk != null ? TourPreviewComponent.getRiskColor(this.tours[index].risk) : ' #4e4e4e';
 
       const icon: L.DivIcon = divIcon({
         className: 'custom-marker',
