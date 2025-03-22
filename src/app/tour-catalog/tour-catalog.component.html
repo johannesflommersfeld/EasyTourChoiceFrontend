@@ -16,7 +16,15 @@
     <button class="cta" routerLink="/tour-catalog" routerLinkActive="selected"
       [routerLinkActiveOptions]="{ exact: true}">clear</button>
   </div>
-  <div class="preview" *ngIf="tours && tours.length > 0">
+
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading tours...</div>
+  </div>
+
+  <!-- Tour preview section -->
+  <div class="preview" *ngIf="!isLoading && tours && tours.length > 0">
     <div class="map" leaflet [leafletOptions]="options" (leafletMapReady)="onMapReady($event)">
     </div>
     <ul class="tours">
@@ -24,5 +32,10 @@
         <etc-tour-preview [tour]="tour" [index]="idx" (open)="showTourDetails(tour)"></etc-tour-preview>
       </li>
     </ul>
+  </div>
+
+  <!-- No results message -->
+  <div *ngIf="!isLoading && (!tours || tours.length === 0)" class="no-results">
+    <p>No tours found that match your filter criteria.</p>
   </div>
 </div>

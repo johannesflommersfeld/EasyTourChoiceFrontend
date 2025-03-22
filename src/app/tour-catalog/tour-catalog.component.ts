@@ -4,7 +4,7 @@ import { TourPreviewComponent } from "./tour-preview/tour-preview.component";
 import { ToursService } from '../tours.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Activity } from '../models/tour-data/activity.model';
-import { ITour } from '../models/tour-data/tour.model';
+import { ITour, Tour } from '../models/tour-data/tour.model';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import L, { icon, Icon, latLng, Layer, marker, tileLayer, Map as LeafletMap, MarkerOptions, divIcon } from 'leaflet';
 import { GPSLocation } from '../models/tour-data/gps-location.model';
@@ -19,9 +19,11 @@ import { GeneralDifficulty } from '../models/tour-data/general-difficulty.model'
 })
 export class TourCatalogComponent {
   filters: Set<Activity> = new Set();
-  tours: ITour[] | null = null;
+  tours: Tour[] | null = null;
+  allTours: Tour[] | null = null; // Store all tours for filtering
   Activity = Activity;
   map: LeafletMap | null = null;
+  isLoading: boolean = true;
   options = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href = "https://www.openstreetmap.org/copyright" > OpenStreetMap </a> contributors' }),
@@ -55,19 +57,44 @@ export class TourCatalogComponent {
   ) { }
 
   async ngOnInit() {
-    if (!this.location) {
-      this.location = await this.locationService.getLocation();
-    }
+    this.isLoading = true;
 
-    this.route.queryParams.subscribe((params) => {
-      this.filters = new Set<Activity>();
-      let activity: Activity | undefined = this.parameterToActivity.get(params['filter']);
-      if (activity != undefined) {
-        this.filters.add(activity);
-        this.setFilteredTours();
-        this.addMarkers();
+    try {
+      if (!this.location) {
+        this.location = await this.locationService.getLocation();
       }
-    })
+
+      this.toursSvc.fetchAllTours().subscribe((tours) => {
+        this.allTours = tours;
+
+        this.applyFilters();
+
+        this.isLoading = false;
+      });
+
+      this.route.queryParams.subscribe((params) => {
+        this.filters = new Set<Activity>();
+        let activity: Activity | undefined = this.parameterToActivity.get(params['filter']);
+        if (activity != undefined) {
+          this.filters.add(activity);
+        }
+
+        this.applyFilters();
+      });
+    } catch (error) {
+      console.error('Error initializing tour catalog:', error);
+      this.isLoading = false;
+    }
+  }
+
+  private applyFilters(): void {
+    if (!this.allTours) return;
+
+    this.tours = this.toursSvc.getFilteredTours(this.filters, this.allTours);
+
+    if (this.map) {
+      this.addMarkers();
+    }
   }
 
   isSelected(activity: Activity): boolean {
@@ -76,6 +103,7 @@ export class TourCatalogComponent {
 
   clearFilter(): void {
     this.filters.clear();
+    this.applyFilters();
   }
 
   showTourDetails(tour: ITour): void {
@@ -83,19 +111,25 @@ export class TourCatalogComponent {
     console.log(`Details of tour ${tour.name} passed on.`)
   }
 
-  private setFilteredTours(): void {
-    this.tours = this.toursSvc.getFilteredTours(this.filters);
-  }
-
   onMapReady(map: LeafletMap) {
     this.map = map;
-    this.addMarkers();
+    if (this.tours) {
+      this.addMarkers();
+    }
   }
 
   private addMarkers(): void {
     if (!this.tours || !this.map) {
       return;
     }
+
+    // Clear existing markers first
+    this.map.eachLayer(layer => {
+      if (layer instanceof L.Marker) {
+        this.map?.removeLayer(layer);
+      }
+    });
+
     const bounds = new L.LatLngBounds([]);
 
     if (this.location) {
@@ -113,10 +147,9 @@ export class TourCatalogComponent {
       const markerLocation = latLng(location.latitude, location.longitude);
       bounds.extend(markerLocation);
       this.addMarkerToMap(location, idx);
-      if (!bounds.isValid()) {
-        return;
-      }
+    }
 
+    if (bounds.isValid()) {
       this.map.fitBounds(bounds, { padding: [20, 20] });
     }
   }

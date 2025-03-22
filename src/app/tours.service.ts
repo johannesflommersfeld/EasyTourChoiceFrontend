@@ -41,11 +41,21 @@ export class ToursService {
     return this.http.get<TravelDetails>((`/api/tourData/tours/${id}/travelInfo`), { params });
   }
 
-  getFilteredTours(filters: Set<Activity>): Tour[] {
-    if (this.tours.length === 0) {
-      this.fetchAllTours().subscribe(tours => { this.tours = tours; });
+  getFilteredTours(filters: Set<Activity>, allTours?: Tour[]): Tour[] {
+    if (!allTours) {
+      if (this.tours.length === 0) {
+        this.fetchAllTours().subscribe(tours => { this.tours = tours; });
+      }
+      allTours = this.tours;
     }
-    return this.tours.filter((tour) => filters.has(tour.activityType));
+
+    // If no filters set, return all tours
+    if (filters.size === 0) {
+      return allTours;
+    }
+
+    // Filter tours by activity type
+    return allTours.filter((tour) => filters.has(tour.activityType));
   }
 
   putTour(tour: Partial<ITour>): Observable<ITour> {

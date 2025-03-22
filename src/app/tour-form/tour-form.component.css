@@ -1,7 +1,6 @@
 .content {
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
 }
 
 h1 {
@@ -9,12 +8,12 @@ h1 {
   color: var(--font-color-dark-bg);
   font-size: 28px;
   padding: 5px 10px;
-  border-bottom: 1px solid #fff;
   margin: 0;
 }
 
 section {
   display: flex;
+  padding-bottom: 40px;
 }
 
 section nav {
@@ -22,16 +21,44 @@ section nav {
   background-color: var(--color-primary);
   color: var(--font-color-dark-bg);
   flex: 0 0 200px;
-  border-bottom: 2px solid white;
   display: flex;
   align-items: center;
   justify-content: right;
+  font-size: x-large;
 }
 
-section:last-child nav {
-  border-bottom: none;
+.tour-description {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 30px 10px 0;
 }
 
+.short-description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 400px;
+  padding: 0px 10px;
+}
+
+section textarea {
+  width: 500px;
+  height: auto;
+  font-size: x-large;
+
+  resize: vertical;
+  /* Allow vertical resizing */
+  overflow-y: auto;
+  /* Enable vertical scrolling if needed */
+  white-space: pre-wrap;
+  /* Preserve formatting and allow text wrapping */
+
+  padding-top: 5px;
+  /* Move text closer to the top */
+}
+
+
+/* 
 section>div {
   display: flex;
   flex-direction: column;
@@ -123,4 +150,4 @@ section div em {
 
 .buttons * {
   flex: 1 1 auto;
-}
+} */

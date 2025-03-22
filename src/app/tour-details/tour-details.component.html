@@ -1,5 +1,12 @@
 <div class="tour">
-  <div *ngIf="tour" class="tour-details">
+  <!-- Loading screen that shows while data is loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading tour details...</div>
+  </div>
+
+  <!-- Tour details that show after data is loaded -->
+  <div *ngIf="!isLoading && tour" class="tour-details">
     <h1>{{ tour.name }}</h1>
     <h3>{{ tour.activityType | activity }}</h3>
     <div class="tour-info">

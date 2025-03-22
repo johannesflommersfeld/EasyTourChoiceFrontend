@@ -10,7 +10,7 @@ import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.co
 import { AvalancheReportComponent } from './avalanche-report/avalanche-report.component';
 import { LocationService } from '../location.service';
 import { GPSLocation } from '../models/tour-data/gps-location.model';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, finalize } from 'rxjs';
 import { MetersPipe } from "./meters.pipe";
 import { DifficultyPipe } from "./difficulty.pipe";
 import { RsikPipe } from "./risk.pipe";
@@ -31,6 +31,7 @@ export class TourDetailsComponent implements OnInit {
   tour: ITour | null = null;
   avalancheActivityText$: Observable<string[]> = of([]);
   map: Map | null = null;
+  isLoading: boolean = true;
   options = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href = "https://www.openstreetmap.org/copyright" > OpenStreetMap </a> contributors' }),
@@ -47,67 +48,82 @@ export class TourDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    if (!this.location) {
-      this.location = await this.locationService.getLocation();
-    }
-    const userMarker = marker([this.location.latitude, this.location.longitude], {
-      icon: icon({
-        ...Icon.Default.prototype.options,
-        iconUrl: 'assets/marker-icon.png',
-        iconRetinaUrl: 'assets/marker-icon-2x.png',
-        shadowUrl: 'assets/marker-shadow.png'
-      })
-    });
-    this.options.layers.push(userMarker);
-    this.options.center = latLng(this.location.latitude, this.location.longitude);
+    this.isLoading = true;
 
-    this.route.paramMap.subscribe(paramMap => {
-      const tourId: string | null = paramMap.get('tourId');
-
-      if (tourId) {
-        this.toursSvc.fetchTourById(+tourId).subscribe(tour => {
-          const requests: Partial<{
-            weatherForecast: Observable<WeatherForecast>;
-            avalancheReport: Observable<AvalancheBulletin>;
-            travelInfo?: Observable<TravelDetails>;
-          }> = {
-            weatherForecast: this.toursSvc.fetchWeatherForecastById(+tourId),
-            avalancheReport: this.toursSvc.fetchAvalancheReportById(+tourId),
-          };
-
-          // Add travelInfo conditionally
-          if (this.location) {
-            requests.travelInfo = this.toursSvc.fetchTravelInfoById(+tourId, this.location);
-          }
-
-          // Run all requests in parallel
-          forkJoin(requests).subscribe(results => {
-            tour.weatherForecast = results.weatherForecast!;
-            tour.bulletin = results.avalancheReport!;
-
-            if (results.travelInfo) {
-              tour.travelDetails = results.travelInfo;
-              this.renderTrackPolyline();
-            }
-
-            this.tour = tour;
-
-            if (this.tour.activityLocation) {
-              const targetMarker = marker([this.tour.activityLocation.latitude, this.tour.activityLocation.longitude], {
-                icon: icon({
-                  ...Icon.Default.prototype.options,
-                  iconUrl: 'assets/marker-icon.png',
-                  iconRetinaUrl: 'assets/marker-icon-2x.png',
-                  shadowUrl: 'assets/marker-shadow.png'
-                })
-              });
-              this.options.layers.push(targetMarker);
-              this.options.center = latLng(this.tour.activityLocation.latitude, this.tour.activityLocation.longitude);
-            }
-          });
-        });
+    try {
+      if (!this.location) {
+        this.location = await this.locationService.getLocation();
       }
-    });
+
+      const userMarker = marker([this.location.latitude, this.location.longitude], {
+        icon: icon({
+          ...Icon.Default.prototype.options,
+          iconUrl: 'assets/marker-icon.png',
+          iconRetinaUrl: 'assets/marker-icon-2x.png',
+          shadowUrl: 'assets/marker-shadow.png'
+        })
+      });
+      this.options.layers.push(userMarker);
+      this.options.center = latLng(this.location.latitude, this.location.longitude);
+
+      this.route.paramMap.subscribe(paramMap => {
+        const tourId: string | null = paramMap.get('tourId');
+
+        if (tourId) {
+          this.toursSvc.fetchTourById(+tourId).subscribe(tour => {
+            const requests: Partial<{
+              weatherForecast: Observable<WeatherForecast>;
+              avalancheReport: Observable<AvalancheBulletin>;
+              travelInfo?: Observable<TravelDetails>;
+            }> = {
+              weatherForecast: this.toursSvc.fetchWeatherForecastById(+tourId),
+              avalancheReport: this.toursSvc.fetchAvalancheReportById(+tourId),
+            };
+
+            if (this.location) {
+              requests.travelInfo = this.toursSvc.fetchTravelInfoById(+tourId, this.location);
+            }
+
+            // Run all requests in parallel
+            forkJoin(requests)
+              .pipe(
+                finalize(() => {
+                  this.isLoading = false;
+                })
+              )
+              .subscribe(results => {
+                tour.weatherForecast = results.weatherForecast!;
+                tour.bulletin = results.avalancheReport!;
+
+                if (results.travelInfo) {
+                  tour.travelDetails = results.travelInfo;
+                  this.renderTrackPolyline();
+                }
+
+                this.tour = tour;
+
+                if (this.tour.activityLocation) {
+                  const targetMarker = marker([this.tour.activityLocation.latitude, this.tour.activityLocation.longitude], {
+                    icon: icon({
+                      ...Icon.Default.prototype.options,
+                      iconUrl: 'assets/marker-icon.png',
+                      iconRetinaUrl: 'assets/marker-icon-2x.png',
+                      shadowUrl: 'assets/marker-shadow.png'
+                    })
+                  });
+                  this.options.layers.push(targetMarker);
+                  this.options.center = latLng(this.tour.activityLocation.latitude, this.tour.activityLocation.longitude);
+                }
+              });
+          });
+        } else {
+          this.isLoading = false;
+        }
+      });
+    } catch (error) {
+      console.error('Error initializing tour details:', error);
+      this.isLoading = false;
+    }
   }
 
   onMapReady(map: Map) {

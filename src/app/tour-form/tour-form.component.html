@@ -1,14 +1,17 @@
 <div class="content">
-  <h1>Add your next adventure</h1>
+  <h1>Add your next adventure!</h1>
   <form [formGroup]="tourForm" (ngSubmit)="saveTour()">
     <section>
       <nav>tour description</nav>
-      <div>
-        <!-- TODO: allow selecting between different icons -->
-        <input formControlName="activity" placeholder="activity">
-        <input formControlName="tourName" placeholder="tour name">
-        <input formControlName="shortDescription" placeholder="short description">
-        <input formControlName="detailedDescription" placeholder="detailed description">
+      <div class="tour-description">
+        <div class="short-description">
+          <!-- TODO: allow selecting between different icons -->
+          <input formControlName="activity" placeholder="activity">
+          <input formControlName="tourName" placeholder="tour name">
+          <input formControlName="shortDescription" placeholder="short description">
+        </div>
+        <textarea formControlName="detailedDescription" placeholder="detailed description"
+          spellcheck="false"></textarea>
       </div>
     </section>
     <section>
