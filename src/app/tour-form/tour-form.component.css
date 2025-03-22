@@ -11,143 +11,253 @@ h1 {
   margin: 0;
 }
 
-section {
+.section-container {
   display: flex;
-  padding-bottom: 40px;
+  flex-direction: column;
+  margin-bottom: 40px;
+  padding-left: 30px;
 }
 
-section nav {
-  padding: 10px 30px 10px 0;
+.section-title {
   background-color: var(--color-primary);
   color: var(--font-color-dark-bg);
-  flex: 0 0 200px;
+  font-size: 20px;
+  padding: 8px 15px;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+/* Input styling - dark backgrounds */
+input,
+textarea,
+select {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #555;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Remove spinners from number inputs */
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Specific input styles */
+input[type="range"] {
+  width: 250px;
+  margin: 0 15px;
+  background: #444;
+}
+
+/* Slider container */
+.slider-container {
   display: flex;
   align-items: center;
-  justify-content: right;
-  font-size: x-large;
+  margin: 15px 0;
+  width: 100%;
+}
+
+.slider-container span {
+  min-width: 120px;
+  margin-right: 10px;
+  color: #f0f0f0;
+}
+
+.slider-container .value-text {
+  margin-left: 15px;
+  min-width: 150px;
+  font-weight: bold;
+  color: var(--color-primary);
 }
 
 .tour-description {
   display: flex;
   flex-direction: row;
-  padding: 10px 30px 10px 0;
+  padding: 20px;
+  gap: 20px;
+  max-width: 920px;
+  /* Match the total width with tour details + textarea */
 }
 
 .short-description {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 400px;
-  padding: 0px 10px;
+  width: 300px;
+  /* Match the width of input-column */
+  flex-shrink: 0;
+}
+
+.short-description input,
+.short-description select {
+  width: 100%;
+  height: 38px;
+  box-sizing: border-box;
 }
 
 section textarea {
   width: 500px;
-  height: auto;
-  font-size: x-large;
-
+  font-size: large;
   resize: vertical;
-  /* Allow vertical resizing */
   overflow-y: auto;
-  /* Enable vertical scrolling if needed */
   white-space: pre-wrap;
-  /* Preserve formatting and allow text wrapping */
-
-  padding-top: 5px;
-  /* Move text closer to the top */
+  padding: 10px;
+  flex-shrink: 0;
 }
 
+/* Make textarea height match the combined height of the inputs */
+.tour-description textarea {
+  width: 300px;
+  /* Match the width of input-column */
+  /* Three inputs of 38px height + two 10px gaps = 134px total */
+  height: 134px;
+  font-size: large;
+  resize: vertical;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  padding: 10px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
 
-/* 
-section>div {
+/* Tour details section */
+.tour-details {
   display: flex;
   flex-direction: column;
-  padding: 10px 20px;
-  flex-grow: 1;
-  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  max-width: 620px;
+  /* Make explicit to match tour description */
 }
 
-section div.flex-column {
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: center;
-}
-
-section div input {
-  max-width: 500px;
-}
-
-section div select {
-  margin: 5px 0;
-  max-width: 520px;
-}
-
-section div.radio {
-  display: block;
-  font-size: 20px;
-}
-
-section div * {
-  margin: 5px 10px 5px 0;
-}
-
-section div.radio *:not(:first-child) {
-  margin-left: 10px;
-}
-
-section div.radio input[type="radio"] {
-  margin-right: 0;
-}
-
-section div {
+.input-row {
   display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 620px;
+  /* Keep the same */
 }
 
-.address {
+.input-column {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+  width: 300px;
+  /* Fixed width instead of percentage */
+  flex: 0 0 300px;
+  /* Don't grow or shrink, stay at 300px */
 }
 
-.address:not(:first-child) {
-  margin-top: 20px;
-}
-
-.add {
-  cursor: pointer;
-  width: 45px;
-}
-
-.flex-group {
-  display: flex;
-  align-items: center
-}
-
-.flex-group input {
-  flex-grow: 1;
-}
-
-input.error,
-select.error,
-textarea.error,
-.error {
-  border: 1px solid var(--color-error);
-}
-
-section div em {
-  color: var(--color-error);
-  font-size: 18px;
+/* Specific styles for non-column inputs to maintain original dimensions */
+.tour-details input:not(.input-column input) {
+  width: 300px;
   margin-bottom: 10px;
-  margin-top: -5px;
-  font-style: normal;
-  display: block;
 }
 
+.tour-details input[type="range"] {
+  width: 250px;
+}
+
+/* Reset specific styles for inputs inside columns */
+.input-column input {
+  width: 100%;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  /* Include padding and border in the width calculation */
+}
+
+/* Restore original width for Aspects input */
+.tour-details input[formControlName="aspects"] {
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+.gps-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.gps-section input {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 10px;
+}
+
+/* Button styling */
 .buttons {
-  margin-top: 10px;
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  padding: 0 0 20px 30px;
+}
+
+.buttons button {
+  padding: 10px 30px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.buttons button.primary {
+  background-color: var(--color-primary);
+  color: var(--font-color-dark-bg);
+}
+
+.buttons button.secondary {
+  background-color: #555;
+  color: var(--font-color-dark-bg);
+}
+
+.buttons button:hover {
+  opacity: 0.85;
+}
+
+/* Location input styles */
+.location-input {
+  margin-bottom: 20px;
+}
+
+.location-input h3 {
+  color: #f0f0f0;
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.coord-inputs {
   display: flex;
   gap: 10px;
 }
 
-.buttons * {
-  flex: 1 1 auto;
-} */
+.coord-inputs input {
+  flex: 1;
+}
+
+.gps-track h3 {
+  color: #f0f0f0;
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: normal;
+}
