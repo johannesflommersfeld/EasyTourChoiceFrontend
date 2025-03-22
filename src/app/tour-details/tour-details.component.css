@@ -83,3 +83,7 @@ h3 {
     transform: rotate(360deg);
   }
 }
+
+.section {
+  margin-bottom: 30px;
+}

@@ -10,7 +10,7 @@ import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.co
 import { AvalancheReportComponent } from './avalanche-report/avalanche-report.component';
 import { LocationService } from '../location.service';
 import { GPSLocation } from '../models/tour-data/gps-location.model';
-import { forkJoin, Observable, of, finalize } from 'rxjs';
+import { forkJoin, Observable, of, finalize, catchError } from 'rxjs';
 import { MetersPipe } from "./meters.pipe";
 import { DifficultyPipe } from "./difficulty.pipe";
 import { RsikPipe } from "./risk.pipe";
@@ -71,17 +71,56 @@ export class TourDetailsComponent implements OnInit {
 
         if (tourId) {
           this.toursSvc.fetchTourById(+tourId).subscribe(tour => {
-            const requests: Partial<{
-              weatherForecast: Observable<WeatherForecast>;
-              avalancheReport: Observable<AvalancheBulletin>;
-              travelInfo?: Observable<TravelDetails>;
-            }> = {
-              weatherForecast: this.toursSvc.fetchWeatherForecastById(+tourId),
-              avalancheReport: this.toursSvc.fetchAvalancheReportById(+tourId),
+            // Initialize tour object first so we can display basic info regardless of API results
+            this.tour = tour;
+
+            // Set up markers if activity location exists
+            if (this.tour.activityLocation) {
+              const targetMarker = marker([this.tour.activityLocation.latitude, this.tour.activityLocation.longitude], {
+                icon: icon({
+                  ...Icon.Default.prototype.options,
+                  iconUrl: 'assets/marker-icon.png',
+                  iconRetinaUrl: 'assets/marker-icon-2x.png',
+                  shadowUrl: 'assets/marker-shadow.png'
+                })
+              });
+              this.options.layers.push(targetMarker);
+              this.options.center = latLng(this.tour.activityLocation.latitude, this.tour.activityLocation.longitude);
+            }
+
+            // Create observables for API calls with error handling
+            const weatherForecast$ = this.toursSvc.fetchWeatherForecastById(+tourId).pipe(
+              catchError(error => {
+                console.error('Error fetching weather forecast:', error);
+                return of(null);
+              })
+            );
+
+            const avalancheReport$ = this.toursSvc.fetchAvalancheReportById(+tourId).pipe(
+              catchError(error => {
+                console.error('Error fetching avalanche report:', error);
+                return of(null);
+              })
+            );
+
+            // Initialize the requests object with separate observables
+            const requests: {
+              weatherForecast: Observable<WeatherForecast | null>;
+              avalancheReport: Observable<AvalancheBulletin | null>;
+              travelInfo?: Observable<TravelDetails | null>;
+            } = {
+              weatherForecast: weatherForecast$,
+              avalancheReport: avalancheReport$,
             };
 
+            // Add travel info request if location is available
             if (this.location) {
-              requests.travelInfo = this.toursSvc.fetchTravelInfoById(+tourId, this.location);
+              requests.travelInfo = this.toursSvc.fetchTravelInfoById(+tourId, this.location).pipe(
+                catchError(error => {
+                  console.error('Error fetching travel details:', error);
+                  return of(null);
+                })
+              );
             }
 
             // Run all requests in parallel
@@ -92,27 +131,18 @@ export class TourDetailsComponent implements OnInit {
                 })
               )
               .subscribe(results => {
-                tour.weatherForecast = results.weatherForecast!;
-                tour.bulletin = results.avalancheReport!;
-
-                if (results.travelInfo) {
-                  tour.travelDetails = results.travelInfo;
-                  this.renderTrackPolyline();
+                // Only update properties that were successfully fetched
+                if (results.weatherForecast) {
+                  this.tour!.weatherForecast = results.weatherForecast;
                 }
 
-                this.tour = tour;
+                if (results.avalancheReport) {
+                  this.tour!.bulletin = results.avalancheReport;
+                }
 
-                if (this.tour.activityLocation) {
-                  const targetMarker = marker([this.tour.activityLocation.latitude, this.tour.activityLocation.longitude], {
-                    icon: icon({
-                      ...Icon.Default.prototype.options,
-                      iconUrl: 'assets/marker-icon.png',
-                      iconRetinaUrl: 'assets/marker-icon-2x.png',
-                      shadowUrl: 'assets/marker-shadow.png'
-                    })
-                  });
-                  this.options.layers.push(targetMarker);
-                  this.options.center = latLng(this.tour.activityLocation.latitude, this.tour.activityLocation.longitude);
+                if (results.travelInfo) {
+                  this.tour!.travelDetails = results.travelInfo;
+                  this.renderTrackPolyline();
                 }
               });
           });
