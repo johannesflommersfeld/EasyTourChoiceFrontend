@@ -65,30 +65,52 @@
 
     <div class="section-container">
       <h2 class="section-title">GPS Information</h2>
-      <div class="gps-section">
-        <!-- Starting location inputs -->
-        <div class="location-input">
-          <h3>Starting Location</h3>
-          <div class="coord-inputs">
-            <input formControlName="startingLocationLat" placeholder="Latitude" type="number" step="0.000001">
-            <input formControlName="startingLocationLng" placeholder="Longitude" type="number" step="0.000001">
+      <div class="map-container">
+        <!-- GPS track upload - moved above the map -->
+        <div class="file-upload-container">
+          <input type="file" id="gpsTrackFile" accept=".gpx" (change)="handleGpxFileUpload($event)" #fileInput
+            style="display: none">
+          <button type="button" class="upload-button" (click)="fileInput.click()">Choose GPX File</button>
+          <span class="file-name">{{ gpxFileName || 'No file selected' }}</span>
+        </div>
+
+        <p class="map-instruction">Right-click on the map to place a location marker</p>
+        <div class="location-map-wrapper">
+          <div class="location-map" leaflet [leafletOptions]="mapOptions" (leafletMapReady)="onMapReady($event)">
+          </div>
+          <!-- Context Menu (moved outside of the leaflet div) -->
+          <div class="context-menu" *ngIf="contextMenuVisible" [style.left.px]="contextMenuPosition.x"
+            [style.top.px]="contextMenuPosition.y">
+            <div class="context-menu-item" (click)="setLocationFromContextMenu('starting')">
+              Set as Starting Location
+            </div>
+            <div class="context-menu-item" (click)="setLocationFromContextMenu('activity')">
+              Set as Activity Location
+            </div>
           </div>
         </div>
 
-        <!-- Activity location inputs -->
-        <div class="location-input">
-          <h3>Activity Location</h3>
-          <div class="coord-inputs">
-            <input formControlName="activityLocationLat" placeholder="Latitude" type="number" step="0.000001">
-            <input formControlName="activityLocationLng" placeholder="Longitude" type="number" step="0.000001">
-          </div>
-        </div>
+        <div class="gps-section">
+          <!-- Two-column layout for locations -->
+          <div class="location-inputs-row">
+            <!-- Starting location inputs -->
+            <div class="location-input">
+              <h3>Starting Location</h3>
+              <div class="coord-inputs">
+                <input formControlName="startingLocationLat" placeholder="Latitude" type="number" step="0.000001">
+                <input formControlName="startingLocationLng" placeholder="Longitude" type="number" step="0.000001">
+              </div>
+            </div>
 
-        <!-- GPS track upload -->
-        <div class="gps-track">
-          <h3>GPS Track</h3>
-          <!-- TODO: Replace with actual file upload input -->
-          <input formControlName="gpsTrack" placeholder="GPS track">
+            <!-- Activity location inputs -->
+            <div class="location-input">
+              <h3>Activity Location</h3>
+              <div class="coord-inputs">
+                <input formControlName="activityLocationLat" placeholder="Latitude" type="number" step="0.000001">
+                <input formControlName="activityLocationLng" placeholder="Longitude" type="number" step="0.000001">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
