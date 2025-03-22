@@ -9,11 +9,12 @@ import { GeneralDifficulty } from '../../models/tour-data/general-difficulty.mod
 import { RiskLevel } from '../../models/tour-data/risk-level.model';
 import { DurationPipe } from "../../tour-details/duration.pipe";
 import { MetersPipe } from "../../tour-details/meters.pipe";
+import { DifficultyPipe } from "../../tour-details/difficulty.pipe";
 
 
 @Component({
   selector: 'etc-tour-preview',
-  imports: [KilometersPipe, RouterModule, ActivityPipe, RsikPipe, CommonModule, DurationPipe, MetersPipe],
+  imports: [KilometersPipe, RouterModule, ActivityPipe, RsikPipe, CommonModule, DurationPipe, MetersPipe, DifficultyPipe],
   templateUrl: './tour-preview.component.html',
   styleUrl: './tour-preview.component.css'
 })

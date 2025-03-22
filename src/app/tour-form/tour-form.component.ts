@@ -329,11 +329,12 @@ export class TourFormComponent implements OnInit {
       difficulty: formValues.difficulty || GeneralDifficulty.UNKNOWN,
       startingLocation: startingLocation,
       activityLocation: activityLocation,
+      aspect: 0,
       // These will be set on the server
       id: 0,
       startingLocationId: 0,
       activityLocationId: 0,
-      areaId: 0,
+      areaId: null,
       weatherForecast: null,
       bulletin: null,
       travelDetails: null

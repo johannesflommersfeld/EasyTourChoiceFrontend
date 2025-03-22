@@ -5,7 +5,7 @@
       <div class="activity">{{ tour.activityType | activity }}</div>
       <div class="tour-flag" *ngIf="tour.difficulty"
         [ngStyle]="{'background-color': getDifficultyColor(tour.difficulty)}">{{
-        tour.difficulty }}</div>
+        tour.difficulty | difficulty }}</div>
       <div class="tour-flag" *ngIf="tour.risk" [ngStyle]="{'background-color': getRiskColor(tour.risk)}">{{ tour.risk |
         risk }}</div>
     </div>

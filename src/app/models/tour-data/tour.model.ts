@@ -25,7 +25,7 @@ export interface ITour {
   difficulty: GeneralDifficulty | null;
   risk: RiskLevel | null;
   aspect: Aspect | null;
-  areaId: number;
+  areaId: number | null;
   avalancheRegionID: number | null;
   startingLocation: GPSLocation | null;
   activityLocation: GPSLocation | null;
