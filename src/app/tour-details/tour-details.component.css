@@ -45,6 +45,7 @@ h3 {
   height: 400px;
   width: 800px;
   float: right;
+  border-radius: 4px;
 }
 
 /* Loading spinner and screen styles */

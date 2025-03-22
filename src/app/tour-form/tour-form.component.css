@@ -271,12 +271,15 @@ section textarea {
   width: 800px;
   height: 600px;
   margin-left: 0;
+  overflow: hidden;
+  /* Ensure content doesn't overflow the wrapper */
 }
 
 .location-map {
   height: 100%;
   width: 100%;
   border-radius: 4px;
+  transform: translateZ(0);
 }
 
 /* Context Menu */
