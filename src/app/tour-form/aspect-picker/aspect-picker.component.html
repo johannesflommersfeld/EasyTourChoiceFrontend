@@ -1,0 +1,94 @@
+<svg width="100" height="100" fill="none" viewBox="0 0 100 100" version="1.1" id="aspect_picker"
+  (click)="onAspectPickerClick($event)" inkscape:version="1.4 (1:1.4+202410161351+e7c3feb100)"
+  xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+  xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg">
+  <path
+    style="fill:#333;stroke:#cccccc;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 50.000174,57.36009 60.660219,31.119979 50.000174,19.63993 39.340129,31.119979 Z" id="north-background"
+    sodipodi:nodetypes="ccccc" />
+  <path
+    style="fill:#333;stroke:#cccccc;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 50.537371,58.236673 76.629721,47.219905 77.209552,31.564494 61.554141,32.144325 Z" id="north-east-background"
+    sodipodi:nodetypes="ccccc" />
+  <path
+    style="fill:#333;stroke:#cccccc;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 51.63991,59.000097 77.880021,69.660142 89.36007,59.000097 77.880021,48.340052 Z" id="east-background"
+    sodipodi:nodetypes="ccccc" />
+  <path
+    style="fill:#333;stroke:#cccccc;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="m 50.537373,59.655955 11.016768,26.092351 15.655411,0.57983 -0.579831,-15.65541 z" id="south-east-background"
+    sodipodi:nodetypes="ccccc" />
+  <path
+    style="fill:#333;stroke:#cccccc;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 50.000174,60.639833 60.660219,86.879944 50.000174,98.359993 39.340129,86.879944 Z" id="south-background"
+    sodipodi:nodetypes="ccccc" />
+  <path
+    style="fill:#333;stroke:#cccccc;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 49.211631,59.655955 23.11928,70.672724 22.53945,86.328134 38.19486,85.748304 Z" id="south-west-background"
+    sodipodi:nodetypes="ccccc" />
+  <path
+    style="fill:#333;stroke:#cccccc;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 48.360093,59.000097 22.119979,69.660142 10.63993,59.000097 22.119979,48.340052 Z" id="west-background"
+    sodipodi:nodetypes="ccccc" />
+  <path
+    style="fill:#333;stroke:#cccccc;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 49.211631,58.236673 23.11928,47.219905 22.53945,31.564494 38.19486,32.144325 Z" id="north-west-background"
+    sodipodi:nodetypes="ccccc" />
+  @if(containsNorth()) {
+  <path
+    style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 50.000174,57.359993 60.660219,31.119882 50.000174,19.639833 39.340129,31.119882 Z" id="north-selected"
+    sodipodi:nodetypes="ccccc" />
+  }
+  @if(containsNorthEast()) {
+  <path
+    style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="m 50.53744,58.236605 26.09235,-11.01677 0.57983,-15.65541 -15.65541,0.57983 z" id="north-east-selected"
+    sodipodi:nodetypes="ccccc" />
+  }
+  @if(containsEast()) {
+  <path
+    style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 51.640005,59.000097 77.880116,69.660142 89.36017,59.000097 77.880116,48.340052 Z" id="east-selected"
+    sodipodi:nodetypes="ccccc" />
+  }
+  @if(containsSouthEast()) {
+  <path
+    style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="m 50.537441,59.656024 26.09235,11.01677 0.57983,15.65541 -15.65541,-0.57983 z" id="south-east-selected"
+    sodipodi:nodetypes="ccccc" />
+  }
+  @if(containsSouth()) {
+  <path
+    style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 50.000174,60.639929 39.340129,86.880042 50.000174,98.360091 60.660219,86.880042 Z" id="south-selected"
+    sodipodi:nodetypes="ccccc" />
+  }
+  @if(containsSouthWest()){
+  <path
+    style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="m 49.211562,59.656022 -26.09235,11.01677 -0.57983,15.655412 15.65541,-0.57983 z" id="south-west-selected"
+    sodipodi:nodetypes="ccccc" />
+  }
+  @if(containsWest()) {
+  <path
+    style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="M 48.359994,59.000097 22.119883,48.340052 10.639834,59.000097 22.119883,69.660142 Z" id="west-selected"
+    sodipodi:nodetypes="ccccc" />
+  }
+  @if(containsNorthWest()) {
+  <path
+    style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:3.28001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    d="m 49.211562,58.236605 -26.09235,-11.01677 -0.57983,-15.65541 15.65541,0.57983 z" id="north-west-selected"
+    sodipodi:nodetypes="ccccc" />
+  }
+  <text xml:space="preserve"
+    style="font-weight:bold;font-size:18.6667px;line-height:0.95;font-family:Tuffy;-inkscape-font-specification:'Tuffy Bold';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
+    x="39" y="13.270857" id="text2">
+    <tspan id="tspan2" x="39" y="13.270857"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:18.6667px;font-family:Tuffy;-inkscape-font-specification:'Tuffy Bold';fill:#cccccc;fill-opacity:1">
+      N</tspan>
+  </text>
+
+</svg>

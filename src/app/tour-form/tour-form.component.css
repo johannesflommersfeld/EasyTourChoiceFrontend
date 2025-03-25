@@ -87,6 +87,41 @@ input[type="range"] {
   color: var(--color-primary);
 }
 
+/* Windrose container */
+.windrose-container {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  width: 100%;
+}
+
+.windrose-container span {
+  min-width: 120px;
+  margin-right: 10px;
+  color: #f0f0f0;
+}
+
+.instruction {
+  min-width: 120px;
+  margin-right: 10px;
+  color: #ccc;
+  font-style: italic;
+  font-size: x-small;
+}
+
+.label-w-instruction {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.windrose-container .value-text {
+  margin-left: 15px;
+  min-width: 150px;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
 .tour-description {
   display: flex;
   flex-direction: row;
@@ -200,8 +235,7 @@ section textarea {
 
 .gps-section input {
   width: 300px;
-  margin-bottom: 10px;
-
+  margin-bottom: 0px;
 }
 
 /* New styles for two-column location inputs */
@@ -269,7 +303,7 @@ section textarea {
 .location-map-wrapper {
   position: relative;
   width: 800px;
-  height: 600px;
+  height: 450px;
   margin-left: 0;
   overflow: hidden;
   /* Ensure content doesn't overflow the wrapper */
@@ -333,6 +367,16 @@ section textarea {
   margin-top: 10px;
 }
 
+.infos-and-metrics {
+  display: flex;
+  flex-direction: column;
+}
+
+.all-tour-infos {
+  display: flex;
+  flex-direction: row;
+}
+
 .upload-button {
   background-color: #444;
   color: #f0f0f0;
@@ -356,9 +400,9 @@ section textarea {
 
 /* Button styling */
 .buttons {
-  margin-top: 20px;
+  margin-top: -20px;
   display: flex;
   gap: 20px;
   justify-content: flex-start;
-  padding: 0 0 20px 30px;
+  padding: 0 0px 20px 50px;
 }

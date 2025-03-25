@@ -10,11 +10,13 @@ import { CommonModule } from '@angular/common';
 import { GPSLocation } from '../models/tour-data/gps-location.model';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import L, { icon, Icon, latLng, Layer, marker, tileLayer, Map as LeafletMap, LatLng } from 'leaflet';
+import { Aspect } from '../models/tour-data/aspect.model';
+import { AspectPickerComponent } from "./aspect-picker/aspect-picker.component";
 
 @Component({
   selector: 'etc-tour-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, LeafletModule],
+  imports: [ReactiveFormsModule, CommonModule, LeafletModule, AspectPickerComponent],
   templateUrl: './tour-form.component.html',
   styleUrl: './tour-form.component.css'
 })
@@ -70,7 +72,7 @@ export class TourFormComponent implements OnInit {
     elevationGain: new FormControl<number | null>(null),
     risk: new FormControl<RiskLevel>(RiskLevel.UNKNOWN),
     difficulty: new FormControl<GeneralDifficulty>(GeneralDifficulty.UNKNOWN),
-    aspects: new FormControl<string>(''),
+    aspects: new FormControl<Aspect>(Aspect.UNKNOWN),
     // Using string to store location data temporarily
     startingLocationLat: new FormControl<number | null>(null),
     startingLocationLng: new FormControl<number | null>(null),
@@ -329,7 +331,7 @@ export class TourFormComponent implements OnInit {
       difficulty: formValues.difficulty || GeneralDifficulty.UNKNOWN,
       startingLocation: startingLocation,
       activityLocation: activityLocation,
-      aspect: 0,
+      aspect: formValues.aspects || Aspect.UNKNOWN,
       // These will be set on the server
       id: 0,
       startingLocationId: 0,
