@@ -3,7 +3,7 @@ import { ITour } from '../models/tour-data/tour.model';
 import { ActivityPipe } from "../tour-catalog/tour-preview/activity.pipe";
 import { KilometersPipe } from "../tour-catalog/tour-preview/kilometers.pipe";
 import { ToursService } from '../tours.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DurationPipe } from "./duration.pipe";
 import { WeatherForecastComponent } from "./weather-forecast/weather-forecast.component";
@@ -45,6 +45,7 @@ export class TourDetailsComponent implements OnInit {
     private toursSvc: ToursService,
     private locationService: LocationService,
     private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   async ngOnInit() {
@@ -175,6 +176,12 @@ export class TourDetailsComponent implements OnInit {
       });
       trackPolyline.addTo(this.map);
       this.map.fitBounds(trackPolyline.getBounds());
+    }
+  }
+
+  editTour() {
+    if (this.tour) {
+      this.router.navigate(['/edit-tour', this.tour.id]);
     }
   }
 }
