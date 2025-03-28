@@ -10,7 +10,7 @@ export class LocationService {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(resp => {
           resolve({
-            id: null,
+            locationId: null,
             longitude: resp.coords.longitude,
             latitude: resp.coords.latitude,
             altitude: resp.coords.altitude
