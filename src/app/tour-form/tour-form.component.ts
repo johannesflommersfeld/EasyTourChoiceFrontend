@@ -414,7 +414,15 @@ export class TourFormComponent implements OnInit {
     if (this.isEditMode && this.tourId) {
       this.router.navigate(['/tour-details', this.tourId]);
     } else {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home/tour-catalog']);
+    }
+  }
+
+  delete(): void {
+    if(this.tourId){
+      this.toursSvc.deleteTour(this.tourId).subscribe({
+        next: () => this.router.navigate(['/home/tour-catalog'])
+      });
     }
   }
 

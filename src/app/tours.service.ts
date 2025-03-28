@@ -73,4 +73,11 @@ export class ToursService {
     // Send the patch document to the API
     return this.http.patch<ITour>(`/api/tourData/${id}`, patchDocument);
   }
+
+  deleteTour(id: number)
+  {
+    console.log('Delete tour:', id);
+    return this.http.delete(`/api/tourData/${id}`);
+  }
+
 }
