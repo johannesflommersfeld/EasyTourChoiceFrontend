@@ -1,5 +1,4 @@
 <div class="tour">
-  <p>TODO: add edit and delete options</p>
   <!-- Loading screen that shows while data is loading -->
   <div *ngIf="isLoading" class="loading-container">
     <div class="spinner"></div>
@@ -8,9 +7,6 @@
 
   <!-- Tour details that show after data is loaded -->
   <div *ngIf="!isLoading && tour" class="tour-details">
-    <div class="actions-bar">
-      <button class="edit-button" (click)="editTour()">Edit Tour</button>
-    </div>
     <h1>{{ tour.name }}</h1>
     <h3>{{ tour.activityType | activity }}</h3>
     <div class="tour-info">
@@ -35,6 +31,7 @@
           <div class="description"><b>Duration:</b> {{ tour.travelDetails.travelTime | duration }}</div>
         </div>
       </div>
+      <button class="edit-button" (click)="editTour()">Edit Tour</button>
       <div class="map" leaflet [leafletOptions]="options" (leafletMapReady)="onMapReady($event)">
       </div>
     </div>
