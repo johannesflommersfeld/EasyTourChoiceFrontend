@@ -12,13 +12,16 @@ import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import L, { icon, Icon, latLng, Layer, marker, tileLayer, Map as LeafletMap, LatLng } from 'leaflet';
 import { Aspect } from '../models/tour-data/aspect.model';
 import { AspectPickerComponent } from "./aspect-picker/aspect-picker.component";
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'etc-tour-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, LeafletModule, AspectPickerComponent],
+  imports: [ReactiveFormsModule, CommonModule, LeafletModule, AspectPickerComponent, MatButtonModule],
   templateUrl: './tour-form.component.html',
-  styleUrl: './tour-form.component.css'
+  styleUrl: './tour-form.component.scss'
 })
 export class TourFormComponent implements OnInit {
   // Expose enums to the template
@@ -93,7 +96,8 @@ export class TourFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toursSvc: ToursService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -414,14 +418,28 @@ export class TourFormComponent implements OnInit {
     if (this.isEditMode && this.tourId) {
       this.router.navigate(['/tour-details', this.tourId]);
     } else {
-      this.router.navigate(['/home/tour-catalog']);
+      this.router.navigate(['/tour-catalog']);
     }
   }
 
+  openConfirmDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '320px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.delete();
+      }
+    });
+
+
+  }
+
   delete(): void {
-    if(this.tourId){
+    if (this.tourId) {
       this.toursSvc.deleteTour(this.tourId).subscribe({
-        next: () => this.router.navigate(['/home/tour-catalog'])
+        next: () => this.router.navigate(['/tour-catalog'])
       });
     }
   }

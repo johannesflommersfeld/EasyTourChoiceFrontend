@@ -1,137 +1,139 @@
-<div class="content">
-  <div class="tour-form-container">
-    <div class="form-title">
-      <h1>{{ formTitle }}</h1>
-    </div>
-    <form [formGroup]="tourForm" (ngSubmit)="saveTour()">
-      <div class="all-tour-infos">
-        <div class="infos-and-metrics">
-          <div class="section-container">
-            <h2 class="section-title">Tour Description</h2>
-            <div class="tour-description">
-              <div class="short-description">
-                <!-- Activity dropdown with enum values -->
-                <select formControlName="activity">
-                  <option [value]="Activity.UNDEFINED">Select an activity</option>
-                  <option [value]="Activity.HIKING">Hiking</option>
-                  <option [value]="Activity.TREKKING">Trekking</option>
-                  <option [value]="Activity.BOULDERING">Bouldering</option>
-                  <option [value]="Activity.SPORTCLIMBING">Sport Climbing</option>
-                  <option [value]="Activity.MULTIPITCHCLIMBING">Multi-pitch Climbing</option>
-                  <option [value]="Activity.VIA_VERRATA">Via Ferrata</option>
-                  <option [value]="Activity.MOUNTAINBIKING">Mountain Biking</option>
-                  <option [value]="Activity.ROADCYCLING">Road Cycling</option>
-                  <option [value]="Activity.GRAVEL">Gravel Biking</option>
-                  <option [value]="Activity.BIKEPACKING">Bikepacking</option>
-                  <option [value]="Activity.SKITOURING">Ski Touring</option>
-                </select>
-                <input formControlName="tourName" placeholder="Tour name">
-                <input formControlName="shortDescription" placeholder="Short description">
-              </div>
-              <textarea formControlName="detailedDescription" placeholder="Detailed description"
-                spellcheck="false"></textarea>
+<div class="tour-form-container">
+  <h1>{{ formTitle }}</h1>
+  <form [formGroup]="tourForm" (ngSubmit)="saveTour()">
+    <div class="all-tour-infos">
+      <div class="infos-and-metrics">
+        <section class="section-container">
+          <h2>Tour Description</h2>
+          <div class="tour-description">
+            <div class="short-description">
+              <!-- Activity dropdown with enum values -->
+              <select formControlName="activity">
+                <option [value]="Activity.UNDEFINED">Select an activity</option>
+                <option [value]="Activity.HIKING">Hiking</option>
+                <option [value]="Activity.TREKKING">Trekking</option>
+                <option [value]="Activity.BOULDERING">Bouldering</option>
+                <option [value]="Activity.SPORTCLIMBING">Sport Climbing</option>
+                <option [value]="Activity.MULTIPITCHCLIMBING">Multi-pitch Climbing</option>
+                <option [value]="Activity.VIA_VERRATA">Via Ferrata</option>
+                <option [value]="Activity.MOUNTAINBIKING">Mountain Biking</option>
+                <option [value]="Activity.ROADCYCLING">Road Cycling</option>
+                <option [value]="Activity.GRAVEL">Gravel Biking</option>
+                <option [value]="Activity.BIKEPACKING">Bikepacking</option>
+                <option [value]="Activity.SKITOURING">Ski Touring</option>
+              </select>
+              <input formControlName="tourName" placeholder="Tour name">
+              <input formControlName="shortDescription" placeholder="Short description">
             </div>
+            <textarea formControlName="detailedDescription" placeholder="Detailed description"
+              spellcheck="false"></textarea>
           </div>
+        </section>
 
-          <div class="section-container">
-            <h2 class="section-title">Tour Details</h2>
-            <div class="tour-details">
-              <div class="input-row">
-                <div class="input-column">
-                  <input formControlName="distance" placeholder="Distance (km)" type="number">
-                  <input formControlName="duration" placeholder="Duration (hours)" type="number">
-                </div>
-                <div class="input-column">
-                  <input formControlName="elevationGain" placeholder="Elevation gain (meters)" type="number">
-                  <input formControlName="approachDuration" placeholder="Approach duration (hours)" type="number">
-                </div>
+        <div class="section-container">
+          <h2>Tour Details</h2>
+          <div class="tour-details">
+            <div class="input-row">
+              <div class="input-column">
+                <input formControlName="distance" placeholder="Distance (km)" type="number">
+                <input formControlName="duration" placeholder="Duration (hours)" type="number">
               </div>
+              <div class="input-column">
+                <input formControlName="elevationGain" placeholder="Elevation gain (meters)" type="number">
+                <input formControlName="approachDuration" placeholder="Approach duration (hours)" type="number">
+              </div>
+            </div>
 
+            <div class="sliders">
               <!-- Risk slider with dynamic enum-based values -->
-              <div class="slider-container">
-                <span>Risk Level:</span>
+              <div class="slider-group">
+                <div class="slider-title">
+                  <h3>Risk Level:</h3>
+                  <span class="value-text">{{ riskLevelText }}</span>
+                </div>
                 <input type="range" formControlName="risk" [min]="riskLevelMin" [max]="riskLevelMax" step="1"
                   (input)="updateRiskText()">
-                <span class="value-text">{{ riskLevelText }}</span>
               </div>
-
               <!-- Difficulty slider with dynamic enum-based values -->
-              <div class="slider-container">
-                <span>Difficulty:</span>
+              <div class="slider-group">
+                <div class="slider-title">
+                  <h3>Difficulty:</h3>
+                  <span class="value-text">{{ difficultyLevelText }}</span>
+                </div>
                 <input type="range" formControlName="difficulty" [min]="difficultyMin" [max]="difficultyMax" step="1"
                   (input)="updateDifficultyText()">
-                <span class="value-text">{{ difficultyLevelText }}</span>
-              </div>
-              <div class="windrose-container">
-                <div class="label-w-instruction">
-                  <span>Aspects:</span>
-                  <span class="instruction">Click to select</span>
-                </div>
-                <etc-aspect-picker formControlName="aspects" />
               </div>
             </div>
-          </div>
-        </div>
-        <div class="section-container">
-          <h2 class="section-title">GPS Information</h2>
-          <div class="map-container">
-            <!-- GPS track upload - moved above the map -->
-            <!-- <div class="file-upload-container">
-              <input type="file" id="gpsTrackFile" accept=".gpx" (change)="handleGpxFileUpload($event)" #fileInput
-                style="display: none">
-              <button type="button" class="upload-button" (click)="fileInput.click()">Choose GPX File</button>
-              <span class="file-name">{{ gpxFileName || 'No file selected' }}</span>
-            </div> -->
-
-            <p class="map-instruction">Right-click on the map to place a location marker</p>
-            <div class="location-map-wrapper">
-              <div class="location-map" leaflet [leafletOptions]="mapOptions" (leafletMapReady)="onMapReady($event)">
+            <div class="windrose-container">
+              <div class="label-w-instruction">
+                <h3>Aspects:</h3>
+                <span class="instruction">Click to select</span>
               </div>
-              <!-- Context Menu (moved outside of the leaflet div) -->
-              <div class="context-menu" *ngIf="contextMenuVisible" [style.left.px]="contextMenuPosition.x"
-                [style.top.px]="contextMenuPosition.y">
-                <div class="context-menu-item" (click)="setLocationFromContextMenu('starting')">
-                  Set as Starting Location
-                </div>
-                <div class="context-menu-item" (click)="setLocationFromContextMenu('activity')">
-                  Set as Activity Location
-                </div>
-              </div>
-            </div>
-
-            <div class="gps-section">
-              <!-- Two-column layout for locations -->
-              <div class="location-inputs-row">
-                <!-- Starting location inputs -->
-                <div class="location-input">
-                  <h3>Starting Location</h3>
-                  <div class="coord-inputs">
-                    <input formControlName="startingLocationLat" placeholder="Latitude" type="number" step="0.000001">
-                    <input formControlName="startingLocationLng" placeholder="Longitude" type="number" step="0.000001">
-                  </div>
-                </div>
-
-                <!-- Activity location inputs -->
-                <div class="location-input">
-                  <h3>Activity Location</h3>
-                  <div class="coord-inputs">
-                    <input formControlName="activityLocationLat" placeholder="Latitude" type="number" step="0.000001">
-                    <input formControlName="activityLocationLng" placeholder="Longitude" type="number" step="0.000001">
-                  </div>
-                </div>
-              </div>
+              <etc-aspect-picker formControlName="aspects" />
             </div>
           </div>
         </div>
       </div>
-      <div class="buttons">
-        <button type="button" class="secondary" (click)="cancel()">Cancel</button>
-        <button type="submit" class="primary">Save</button>
-        @if(this.isEditMode)
-        {
-          <button type="button" class="delete" (click)="delete()">Delete</button>
-        }
+      <div class="section-container">
+        <h2>GPS Information</h2>
+        <div class="map-container">
+
+          <div class="location-map-wrapper">
+            <div class="location-map" leaflet [leafletOptions]="mapOptions" (leafletMapReady)="onMapReady($event)">
+            </div>
+            <!-- Context Menu (moved outside of the leaflet div) -->
+            <div class="context-menu" *ngIf="contextMenuVisible" [style.left.px]="contextMenuPosition.x"
+              [style.top.px]="contextMenuPosition.y">
+              <div class="context-menu-item" (click)="setLocationFromContextMenu('starting')">
+                Set as Starting Location
+              </div>
+              <div class="context-menu-item" (click)="setLocationFromContextMenu('activity')">
+                Set as Activity Location
+              </div>
+            </div>
+          </div>
+          <p class="map-instruction">Right-click on the map to place a location marker</p>
+
+          <div class="gps-section">
+            <!-- Two-column layout for locations -->
+            <div class="location-inputs-row">
+              <!-- Starting location inputs -->
+              <div class="location-input">
+                <h3>Starting Location</h3>
+                <div class="coord-inputs">
+                  <input formControlName="startingLocationLat" placeholder="Latitude" type="number" step="0.000001">
+                  <input formControlName="startingLocationLng" placeholder="Longitude" type="number" step="0.000001">
+                </div>
+              </div>
+
+              <!-- Activity location inputs -->
+              <div class="location-input">
+                <h3>Activity Location</h3>
+                <div class="coord-inputs">
+                  <input formControlName="activityLocationLat" placeholder="Latitude" type="number" step="0.000001">
+                  <input formControlName="activityLocationLng" placeholder="Longitude" type="number" step="0.000001">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GPS track upload - moved above the map -->
+          <div class="file-upload-container">
+            <input type="file" id="gpsTrackFile" accept=".gpx" (change)="handleGpxFileUpload($event)" #fileInput
+              style="display: none">
+            <button class="secondary" (click)="fileInput.click()">Choose GPX File</button>
+            <span class="file-name">{{ gpxFileName || 'No file selected' }}</span>
+          </div>
+        </div>
       </div>
-    </form>
-  </div>
+    </div>
+    <div class="buttons">
+      <button (click)="cancel()" class="secondary">Cancel</button>
+      @if(this.isEditMode)
+      {
+      <button type="button" class="warn" (click)="openConfirmDialog()">Delete</button>
+      }
+      <button type="submit" class="primary">Save</button>
+    </div>
+  </form>
 </div>

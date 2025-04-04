@@ -32,9 +32,15 @@
               }
             ],
             "styles": [
-              "src/styles.css",
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles.scss",
               "./node_modules/leaflet/dist/leaflet.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -97,9 +103,15 @@
               }
             ],
             "styles": [
-              "src/styles.css",
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles.scss",
               "./node_modules/leaflet/dist/leaflet.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            },
             "scripts": []
           }
         }

@@ -19,8 +19,13 @@ export class ToursService {
     this.tours = [];
   }
 
-  fetchAllTours(): Observable<Tour[]> {
-    return this.http.get<Tour[]>(("/api/tourData"));
+  fetchAllTours(location: GPSLocation | null): Observable<Tour[]> {
+    let params = new HttpParams();
+    if (location !== null) {
+      params = params.append('userLatitude', location.latitude);
+      params = params.append('userLongitude', location.longitude);
+    }
+    return this.http.get<Tour[]>(("/api/tourData"), { params });
   }
 
   fetchTourById(id: number): Observable<Tour> {
@@ -42,10 +47,10 @@ export class ToursService {
     return this.http.get<TravelDetails>((`/api/tourData/tours/${id}/travelInfo`), { params });
   }
 
-  getFilteredTours(filters: Set<Activity>, allTours?: Tour[]): Tour[] {
+  getFilteredTours(location: GPSLocation | null, filters: Set<Activity>, allTours?: Tour[]): Tour[] {
     if (!allTours) {
       if (this.tours.length === 0) {
-        this.fetchAllTours().subscribe(tours => { this.tours = tours; });
+        this.fetchAllTours(location).subscribe(tours => { this.tours = tours; });
       }
       allTours = this.tours;
     }
@@ -74,8 +79,7 @@ export class ToursService {
     return this.http.patch<ITour>(`/api/tourData/${id}`, patchDocument);
   }
 
-  deleteTour(id: number)
-  {
+  deleteTour(id: number) {
     console.log('Delete tour:', id);
     return this.http.delete(`/api/tourData/${id}`);
   }

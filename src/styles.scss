@@ -1,0 +1,236 @@
+@use '@angular/material' as mat;
+/* You can add global styles to this file, and also import other style files */
+@use "styles/utils" as ds;
+
+body {
+  background-color: ds.$background-color-dark-theme;
+  font-size: 16px;
+  color: ds.$primary-color-dark-theme;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// a {
+//   color: ds.$primary-color-dark-theme;
+//   text-decoration: none;
+// }
+
+// a.active {
+//   padding-bottom: 5px;
+//   border-bottom: 2px solid ds.$primary-color-dark-theme;
+// }
+
+// a.button.active {
+//   padding-bottom: 5px;
+//   border-bottom: 2px solid ds.$primary-color-dark-theme;
+// }
+
+// a:visited {
+//   color: ds.$primary-color-dark-theme;
+// }
+
+// a:hover {
+//   color: ds.$primary-color-dark-theme;
+// }
+
+// a.cta {
+//   color: ds.$primary-color-dark-theme;
+// }
+
+// a.cta:visited {
+//   color: ds.$primary-color-dark-theme;
+// }
+
+// a.cta:hover {
+//   color: #64c6ac;
+// }
+
+// .cta {
+//   color: ds.$primary-color-dark-theme;
+// }
+
+// a.cta {
+//   color: ds.$primary-color-dark-theme;
+// }
+
+// a.cta:visited {
+//   color: ds.$primary-color-dark-theme;
+// }
+
+// a.cta:hover {
+//   color: #64c6ac;
+// }
+
+// .cta {
+//   color: ds.$primary-color-dark-theme;
+// }
+
+// ul {
+//   list-style-type: none;
+//   padding: 0;
+// }
+
+// button {
+//   font-size: 15px;
+//   padding: 15px 25px;
+//   background-color: rgb(93, 93, 93);
+//   color: rgb(208, 208, 208);
+//   border: 0;
+//   box-shadow: none;
+//   border-radius: 5px;
+//   cursor: pointer;
+// }
+
+// a.button {
+//   font-size: 15px;
+//   padding: 15px 25px;
+//   background-color: rgb(51, 51, 51);
+//   color: rgb(208, 208, 208);
+//   border: 0;
+//   box-shadow: none;
+//   border-radius: 5px;
+//   cursor: pointer;
+// }
+
+// a.button:hover {
+//   color: white;
+// }
+
+// a.button:active {
+//   background-color: rgb(93, 93, 93);
+// }
+
+// a.button.selected {
+//   background-color: #5d5d5d;
+// }
+
+// button:disabled {
+//   background-color: #f590c4;
+// }
+
+// button:hover {
+//   color: white;
+// }
+
+// button.cta {
+//   font-family: Arial, Helvetica, sans-serif;
+//   background-color: ds.$primary-color-dark-theme;
+//   color: rgb(46, 46, 46);
+// }
+
+// button.cta:hover {
+//   background-color: #599e8c;
+//   color: rgb(230, 230, 230);
+// }
+
+// input {
+//   padding: 15px;
+//   font-size: 20px;
+// }
+
+// .button.cta:disabled {
+//   background-color: #f590c4;
+//   color: white;
+// }
+
+.custom-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.marker-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px #00000080;
+}
+
+.marker-text {
+  line-height: 1;
+}
+
+
+button {
+  display: inline-block;
+  padding: ds.$space-md ds.$space-xl;
+  border-radius: ds.$border-radius;
+  font-size: medium;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  color: ds.$background-color-dark-theme;
+  border: transparent;
+}
+
+.primary {
+  background-color: ds.$primary-color-dark-theme;
+}
+
+.primary:hover,
+.primary:active {
+  background-color: ds.$primar-color-contrast-dark-theme;
+}
+
+.secondary {
+  background-color: ds.$lines-color-dark-theme;
+}
+
+.secondary:hover,
+.secondary:active {
+  background-color: ds.$lines-color-contrast-dark-theme;
+}
+
+.warn {
+  background-color: ds.$error-color;
+}
+
+.warn:hover,
+.warn:active {
+  background-color: ds.$error-color-contrast;
+}
+
+:root {
+  @include mat.dialog-overrides((container-color: ds.$background-color-dark-theme,
+    ));
+}
+
+.mat-dialog-container {
+  padding-left: 24px;
+  /* Adjust this value to create space on the left */
+}
+
+mat-dialog-title {
+  margin-bottom: 16px;
+  /* Space between heading and content */
+  color: #FFFFFF;
+}
+
+mat-dialog-content p {
+  color: ds.$lines-color-dark-theme; // Content text color, or any other color
+}
+
+.buttons {
+  display: flex;
+  gap: ds.$space-md; // Space between the buttons
+}
+
+.mat-dialog-title {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+
+// html,
+// body {
+//   height: 100%;
+// }
