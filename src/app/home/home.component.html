@@ -1,4 +1,18 @@
-<h1>Choose your next adventure!</h1>
-<p>TODOS: cache travel info and send over distance and travel duration but not track. Add all kinds of filters (icons
-  for all activites, sliders for duration, meters of elevation, tour length, risk level, travel distance and travel
-  duration), and a map that indicates the current location and the search radius. Also add find tours button.</p>
+<div class="search-filter-container">
+  <h1>Choose your next adventure!</h1>
+
+  <div class="welcome-screen-container">
+    <form [formGroup]="filtersForm" (ngSubmit)="searchTours()">
+
+      <p>TODOS: Add all kinds of filters: sliders for duration, meters of elevation, tour length, risk level, travel
+        distance and
+        travel
+        duration </p>
+      <etc-activity-selector formControlName="activitiesFlag" />
+      <!-- TODO: create custom component to allow including the ngx-slider in the form control -->
+      <!-- <ngx-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ngx-slider> -->
+      <etc-aspect-picker formControlName="aspects" />
+      <button type="submit" class="primary">Find Adventures</button>
+    </form>
+  </div>
+</div>

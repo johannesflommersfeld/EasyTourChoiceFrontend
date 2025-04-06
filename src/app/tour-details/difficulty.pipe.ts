@@ -18,7 +18,7 @@ export class DifficultyPipe implements PipeTransform {
     else if (value == GeneralDifficulty.CHALLENGING) {
       return 'challenging'
     }
-    else if (value == GeneralDifficulty.VERY_CHALLENING) {
+    else if (value == GeneralDifficulty.VERY_CHALLENGING) {
       return 'very challenging'
     }
     return 'unknown'

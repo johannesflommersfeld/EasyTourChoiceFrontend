@@ -1,0 +1,20 @@
+@use "styles/utils" as ds;
+
+
+h1 {
+  color: ds.$primary-color-dark-theme;
+  font-size: xx-large;
+  padding: ds.$space-xl 0;
+  margin: 0;
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.welcome-screen-container {
+  width: 80%;
+  margin: 0 auto;
+}

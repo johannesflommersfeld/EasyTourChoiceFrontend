@@ -1,0 +1,27 @@
+@use "styles/utils" as ds;
+
+.activity-selector-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  gap: ds.$space-lg;
+  list-style-type: none;
+  flex-wrap: wrap;
+}
+
+li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  width: 80px;
+  cursor: pointer;
+}
