@@ -9,9 +9,21 @@
         travel
         duration </p>
       <etc-activity-selector formControlName="activitiesFlag" />
-      <!-- TODO: create custom component to allow including the ngx-slider in the form control -->
-      <!-- <ngx-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ngx-slider> -->
       <etc-aspect-picker formControlName="aspects" />
+      <etc-double-slider class="slider" formControlName="riskRange" [options]="riskLevelOptions"
+        [enumType]="riskLevelType" [translate]="riskLevelTranslator" />
+      <etc-double-slider class="slider" formControlName="difficultyRange" [options]="difficultyLevelOptions"
+        [enumType]="difficultyLevelType" [translate]="difficultyLevelTranslator" />
+      <etc-double-slider class="slider" formControlName="distanceRange" [options]="distanceOptions"
+        [translate]="distanceTranslator" />
+      <etc-double-slider class="slider" formControlName="durationRange" [options]="durationOptions"
+        [translate]="durationTranslator" />
+      <etc-double-slider class="slider" formControlName="metersOfElevationRange" [options]="metersOfElevationOptions"
+        [translate]="metersOfElevationTranslator" />
+      <etc-double-slider class="slider" formControlName="travelDistanceRange" [options]="travelDistanceOptions"
+        [translate]="travelDistanceTranslator" />
+      <etc-double-slider class="slider" formControlName="travelDurationRange" [options]="travelDurationOptions"
+        [translate]="travelDurationTranslator" />
       <button type="submit" class="primary">Find Adventures</button>
     </form>
   </div>

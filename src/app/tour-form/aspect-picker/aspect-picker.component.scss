@@ -1,0 +1,23 @@
+@use "styles/utils" as ds;
+
+.background {
+  fill: ds.$lines-color-dark-theme;
+  stroke: ds.$background-color-dark-theme;
+  stroke-width: 2 * ds.$line-width;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 1;
+  paint-order: stroke fill markers;
+  cursor: pointer;
+}
+
+.foreground {
+  fill: ds.$primary-color-dark-theme;
+  stroke: ds.$background-color-dark-theme;
+  stroke-width: 2 * ds.$line-width;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 1;
+  paint-order: stroke fill markers;
+  cursor: pointer;
+}

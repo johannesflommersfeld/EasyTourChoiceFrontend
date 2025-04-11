@@ -6,7 +6,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   selector: 'etc-aspect-picker',
   imports: [],
   templateUrl: './aspect-picker.component.html',
-  styleUrl: './aspect-picker.component.css',
+  styleUrl: './aspect-picker.component.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
