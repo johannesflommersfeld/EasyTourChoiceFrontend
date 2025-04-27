@@ -1,30 +1,56 @@
 <div class="search-filter-container">
-  <h1>Choose your next adventure!</h1>
-
+  <h1>Choose your next adventure:</h1>
   <div class="welcome-screen-container">
     <form [formGroup]="filtersForm" (ngSubmit)="searchTours()">
-
-      <p>TODOS: Add all kinds of filters: sliders for duration, meters of elevation, tour length, risk level, travel
-        distance and
-        travel
-        duration </p>
       <etc-activity-selector formControlName="activitiesFlag" />
-      <etc-aspect-picker formControlName="aspects" />
-      <etc-double-slider class="slider" formControlName="riskRange" [options]="riskLevelOptions"
-        [enumType]="riskLevelType" [translate]="riskLevelTranslator" />
-      <etc-double-slider class="slider" formControlName="difficultyRange" [options]="difficultyLevelOptions"
-        [enumType]="difficultyLevelType" [translate]="difficultyLevelTranslator" />
-      <etc-double-slider class="slider" formControlName="distanceRange" [options]="distanceOptions"
-        [translate]="distanceTranslator" />
-      <etc-double-slider class="slider" formControlName="durationRange" [options]="durationOptions"
-        [translate]="durationTranslator" />
-      <etc-double-slider class="slider" formControlName="metersOfElevationRange" [options]="metersOfElevationOptions"
-        [translate]="metersOfElevationTranslator" />
-      <etc-double-slider class="slider" formControlName="travelDistanceRange" [options]="travelDistanceOptions"
-        [translate]="travelDistanceTranslator" />
-      <etc-double-slider class="slider" formControlName="travelDurationRange" [options]="travelDurationOptions"
-        [translate]="travelDurationTranslator" />
-      <button type="submit" class="primary">Find Adventures</button>
+      <div class="control-pair">
+        <div class="slider-container">
+          <h3 class="slider-label">Distance (km)</h3>
+          <etc-double-slider class="slider" formControlName="distanceRange" [options]="distanceOptions"
+            [translate]="distanceTranslator" />
+        </div>
+        <div class="slider-container">
+          <h3 class="slider-label">Duration (h)</h3>
+          <etc-double-slider class="slider" formControlName="durationRange" [options]="durationOptions"
+            [translate]="durationTranslator" />
+        </div>
+      </div>
+      <div class="control-pair">
+        <div class="slider-container">
+          <h3 class="slider-label">Elevation (m)</h3>
+          <etc-double-slider class="slider" formControlName="metersOfElevationRange"
+            [options]="metersOfElevationOptions" [translate]="metersOfElevationTranslator" />
+        </div>
+        <div class="aspect-container">
+          <h3 class="slider-label">Aspects</h3>
+          <etc-aspect-picker formControlName="aspects" />
+        </div>
+      </div>
+      <div class="control-pair">
+        <div class="slider-container">
+          <h3 class="slider-label">Difficulty</h3>
+          <etc-double-slider class="slider" formControlName="difficultyRange" [options]="difficultyLevelOptions"
+            [enumType]="difficultyLevelType" [translate]="difficultyLevelTranslator" />
+        </div>
+        <div class="slider-container">
+          <h3 class="slider-label">Risk</h3>
+          <etc-double-slider class="slider" formControlName="riskRange" [options]="riskLevelOptions"
+            [enumType]="riskLevelType" [translate]="riskLevelTranslator" />
+        </div>
+      </div>
+      <div class="control-pair">
+        <div class="slider-container">
+          <h3 class="slider-label">Travel Distance (km)</h3>
+          <etc-double-slider class="slider" formControlName="travelDistanceRange" [options]="travelDistanceOptions"
+            [translate]="travelDistanceTranslator" />
+        </div>
+        <div class="slider-container">
+          <h3 class="slider-label">Travel Duration (h)</h3>
+          <etc-double-slider class="slider" formControlName="travelDurationRange" [options]="travelDurationOptions"
+            [translate]="travelDurationTranslator" />
+        </div>
+      </div>
+      <button type="submit" class="primary">Find your adventure!</button>
     </form>
   </div>
 </div>

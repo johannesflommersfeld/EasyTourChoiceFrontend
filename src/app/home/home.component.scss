@@ -1,5 +1,8 @@
 @use "styles/utils" as ds;
 
+$box-size: 320px;
+$slider-size: 200px;
+
 
 h1 {
   color: ds.$primary-color-dark-theme;
@@ -13,8 +16,50 @@ h1 {
   text-align: center;
 }
 
+h3 {
+  color: ds.$primary-color-dark-theme;
+  font-weight: bold;
+  font-size: large;
+  margin: 0;
+}
 
 .welcome-screen-container {
   width: 80%;
   margin: 0 auto;
+}
+
+.control-pair {
+  display: flex;
+  flex-direction: row;
+  gap: ds.$space-xl;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  margin-top: ds.$space-md;
+  margin-left: ds.$space-lg;
+}
+
+.slider-label {
+  margin-top: 20px;
+  width: 140px;
+}
+
+.aspect-container {
+  display: flex;
+  align-items: center;
+  margin-top: ds.$space-md;
+  margin-left: ds.$space-lg;
+}
+
+button {
+  margin-top: 40px;
+}
+
+button.primary {
+  display: block;
+  margin: 4*ds.$space-lg auto 0;
 }
