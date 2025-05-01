@@ -1,3 +1,5 @@
+@use "styles/utils" as ds;
+
 .container {
   display: flex;
   flex-direction: column;
@@ -5,15 +7,21 @@
   overflow: hidden;
 }
 
-.filters {
+.controls {
   display: flex;
-  padding: 25px 200px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 25px 50px;
   gap: 15px;
   flex-shrink: 0;
-}
+  height: 40px;
 
-.filters button {
-  width: 100px;
+  select,
+  button {
+    height: 40px;
+    padding: 0 ds.$space-md;
+    font-size: 1rem;
+  }
 }
 
 .preview {

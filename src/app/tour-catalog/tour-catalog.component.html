@@ -1,8 +1,24 @@
 <div class="container">
-  <div class="filters">
-    <!-- TODO: add all activities-->
+  <div class="controls">
+    <h3>Sort by:</h3>
+    <select>
+      <option value="distance">Distance</option>
+      <option value="duration">Duration</option>
+      <option value="elevation">Elevation</option>
+      <option value="difficulty">Difficulty</option>
+      <option value="risk">Rsik</option>
+      <option value="travel_distance">Travel distance</option>
+      <option value="travel_duration">Travel duration</option>
+    </select>
+    <button (click)="openFiltersDialog()">Filters</button> <!-- Open dialog -->
+  </div>
+
+  <!-- TODO: style nicely and properly pass filter parameters from home to this component and from this component to the dialog. -->
+
+  <!-- <div class="filters"
     <p>TODOS: Add all kinds of filters (drop down
-      for all activites, sliders for duration, meters of elevation, tour length, risk level, travel distance and travel
+      for all activites, sliders for duration, meters of elevation, tour length, risk level, travel distance and
+      travel
       duration). On the map, indicate the the search radius. Also add apply button.</p>
     <a class="button" routerLink="/tour-catalog" [queryParams]="{filter: Activity.SKITOURING}"
       routerLinkActive="selected">Ski Touring</a>
@@ -15,8 +31,8 @@
     <a class="button" routerLink="/tour-catalog" [queryParams]="{filter: Activity.HIKING}"
       routerLinkActive="selected">Hiking</a>
     <button class="cta" routerLink="/tour-catalog" routerLinkActive="selected"
-      [routerLinkActiveOptions]="{ exact: true}">clear</button>
-  </div>
+      [routerLinkActiveOptions]="{ exact: true}">clear</button> 
+</div>-->
 
   <!-- Loading indicator -->
   <div *ngIf="isLoading" class="loading-container">

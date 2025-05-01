@@ -1,23 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivitySelectorComponent } from "./activity-selector/activity-selector.component";
-import { Activity } from '../models/tour-data/activity.model';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { GeneralDifficulty } from '../models/tour-data/general-difficulty.model';
-import { RiskLevel } from '../models/tour-data/risk-level.model';
-import { Aspect } from '../models/tour-data/aspect.model';
-import { Router } from '@angular/router';
-import { AspectPickerComponent } from '../tour-form/aspect-picker/aspect-picker.component';
-import { DoubleSliderComponent, DoubleSliderValue } from "../double-slider/double-slider.component";
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { RiskLevel } from '../../models/tour-data/risk-level.model';
+import { GeneralDifficulty } from '../../models/tour-data/general-difficulty.model';
 import { Options } from '@angular-slider/ngx-slider';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Aspect } from '../../models/tour-data/aspect.model';
+import { DoubleSliderComponent, DoubleSliderValue } from '../../double-slider/double-slider.component';
+import { Activity } from '../../models/tour-data/activity.model';
+import { AspectPickerComponent } from '../../tour-form/aspect-picker/aspect-picker.component';
 
 @Component({
-  selector: 'etc-home',
-  imports: [ReactiveFormsModule, ActivitySelectorComponent, AspectPickerComponent, DoubleSliderComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  selector: 'app-filters-dialog',
+  templateUrl: './filters-dialog.component.html',
+  imports: [ReactiveFormsModule, DoubleSliderComponent, AspectPickerComponent, MatDialogContent, MatDialogActions, MatButtonModule],
+  styleUrls: ['./filters-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit {
-
+export class FiltersDialogComponent {
   riskLevelType = RiskLevel;
   riskLevelOptions: Options = { floor: RiskLevel.UNKNOWN, ceil: RiskLevel.DANGEROUS, step: 1, showTicks: false };
   riskLevelTranslator!: (value: number) => string;
@@ -63,9 +63,9 @@ export class HomeComponent implements OnInit {
     ),
   });
 
-
   constructor(
-    private router: Router
+    public dialogRef: MatDialogRef<FiltersDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
@@ -84,27 +84,7 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  searchTours(): void {
-    const formValues = this.filtersForm.value;
-    this.router.navigate(['/tour-catalog'], {
-      queryParams: {
-        activities: formValues.activitiesFlag || Activity.UNDEFINED,
-        minDistance: formValues.distanceRange?.lowValue || 0,
-        maxDistance: formValues.distanceRange?.highValue || Infinity,
-        minDuration: formValues.durationRange?.lowValue || 0,
-        maxDuration: formValues.durationRange?.highValue || Infinity,
-        minMetersOfElevation: formValues.metersOfElevationRange?.lowValue || 0,
-        maxMetersOfElevation: formValues.metersOfElevationRange?.highValue || Infinity,
-        minDifficulty: formValues.difficultyRange?.lowValue || GeneralDifficulty.EASY,
-        maxDifficulty: formValues.difficultyRange?.highValue || GeneralDifficulty.VERY_CHALLENGING,
-        minRisk: formValues.riskRange?.lowValue || RiskLevel.VERY_SAFE,
-        maxRisk: formValues.riskRange?.highValue || RiskLevel.DANGEROUS,
-        minTravelDistance: formValues.travelDistanceRange?.lowValue || 0,
-        maxTravelDistance: formValues.travelDistanceRange?.highValue || Infinity,
-        minTravelDuration: formValues.travelDurationRange?.lowValue || 0,
-        maxTravelDuration: formValues.travelDurationRange?.highValue || Infinity,
-        aspects: formValues.aspects || Aspect.UNKNOWN,
-      }, queryParamsHandling: 'merge'
-    });
+  onApply(): void {
+    this.dialogRef.close(false);
   }
 }

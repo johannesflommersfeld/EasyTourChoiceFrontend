@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SiteHeaderComponent } from './site-header/site-header.component';
 import { RouterOutlet } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'etc-root',
@@ -9,4 +10,13 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  @ViewChild(SiteHeaderComponent) header!: SiteHeaderComponent;
+
+  constructor(private dialog: MatDialog) { }
+
+  ngAfterViewInit() {
+    this.header.headerClicked.subscribe(() => {
+      this.dialog.closeAll();
+    });
+  }
 }

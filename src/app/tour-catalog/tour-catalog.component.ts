@@ -10,12 +10,14 @@ import L, { icon, Icon, latLng, Layer, marker, tileLayer, Map as LeafletMap, Mar
 import { GPSLocation } from '../models/tour-data/gps-location.model';
 import { LocationService } from '../location.service';
 import { GeneralDifficulty } from '../models/tour-data/general-difficulty.model';
+import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'etc-tour-catalog',
-  imports: [NgFor, TourPreviewComponent, RouterModule, LeafletModule, CommonModule],
+  imports: [NgFor, TourPreviewComponent, RouterModule, LeafletModule, CommonModule, FiltersDialogComponent],
   templateUrl: './tour-catalog.component.html',
-  styleUrl: './tour-catalog.component.css'
+  styleUrl: './tour-catalog.component.scss'
 })
 export class TourCatalogComponent {
   filters: Set<Activity> = new Set();
@@ -24,6 +26,7 @@ export class TourCatalogComponent {
   Activity = Activity;
   map: LeafletMap | null = null;
   isLoading: boolean = true;
+  showFilters: boolean = false;
   options = {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; <a href = "https://www.openstreetmap.org/copyright" > OpenStreetMap </a> contributors' }),
@@ -33,7 +36,6 @@ export class TourCatalogComponent {
   };
   @Output() openTour = new EventEmitter();
   @ViewChildren('tourItem') tourItems!: QueryList<ElementRef>;
-
 
   private location: GPSLocation | null = null;
   private parameterToActivity: Map<string, Activity> = new Map([
@@ -54,6 +56,7 @@ export class TourCatalogComponent {
     private toursSvc: ToursService,
     private route: ActivatedRoute,
     private locationService: LocationService,
+    private dialog: MatDialog // Reintroduce MatDialog
   ) { }
 
   async ngOnInit() {
@@ -87,14 +90,23 @@ export class TourCatalogComponent {
     }
   }
 
-  private applyFilters(): void {
-    if (!this.allTours) return;
+  openFiltersDialog(): void {
+    const dialogRef = this.dialog.open(FiltersDialogComponent, {
+      width: '600px',
+      data: { filters: this.filters },
+    });
 
-    this.tours = this.toursSvc.getFilteredTours(this.location, this.filters, this.allTours);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.filters = result;
+        this.applyFilters();
+      }
+    });
+  }
 
-    if (this.map) {
-      this.addMarkers();
-    }
+  onFiltersApplied(filters: any): void {
+    this.filters = filters;
+    this.applyFilters();
   }
 
   isSelected(activity: Activity): boolean {
@@ -114,6 +126,16 @@ export class TourCatalogComponent {
   onMapReady(map: LeafletMap) {
     this.map = map;
     if (this.tours) {
+      this.addMarkers();
+    }
+  }
+
+  private applyFilters(): void {
+    if (!this.allTours) return;
+
+    this.tours = this.toursSvc.getFilteredTours(this.location, this.filters, this.allTours);
+
+    if (this.map) {
       this.addMarkers();
     }
   }
