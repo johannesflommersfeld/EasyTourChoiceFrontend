@@ -1,5 +1,5 @@
 # Easy Route Choice Frontend
-This is the frontend of the easy route choice web application (todo: link).
+This is the frontend of the easy route choice web application (see https://github.com/johannesflommersfeld/EasyTourChoiceBackend for the backend).
 
 ## Features
 TBD
