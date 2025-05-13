@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Output, QueryList, ViewChildren } 
 import { CommonModule, NgFor } from '@angular/common';
 import { TourPreviewComponent } from "./tour-preview/tour-preview.component";
 import { ToursService } from '../tours.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Params, RouterModule } from '@angular/router';
 import { Activity } from '../models/tour-data/activity.model';
 import { ITour, Tour } from '../models/tour-data/tour.model';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
@@ -12,17 +12,58 @@ import { LocationService } from '../location.service';
 import { GeneralDifficulty } from '../models/tour-data/general-difficulty.model';
 import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RiskLevel } from '../models/tour-data/risk-level.model';
+import { Aspect } from '../models/tour-data/aspect.model';
+
+export type Filters = {
+  activitiesFlag: number | undefined;
+  minDistance: number | undefined;
+  maxDistance: number | undefined;
+  minDuration: number | undefined;
+  maxDuration: number | undefined;
+  durationRange: number | undefined;
+  minMetersOfElevation: number | undefined;
+  maxMetersOfElevation: number | undefined;
+  minDifficulty: GeneralDifficulty | undefined;
+  maxDifficulty: GeneralDifficulty | undefined;
+  minRisk: RiskLevel | undefined;
+  maxRisk: RiskLevel | undefined;
+  minTravelDistance: number | undefined;
+  maxTravelDistance: number | undefined;
+  minTravelDuration: number | undefined;
+  maxTravelDuration: number | undefined;
+  aspects: Aspect | undefined;
+}
 
 @Component({
   selector: 'etc-tour-catalog',
-  imports: [NgFor, TourPreviewComponent, RouterModule, LeafletModule, CommonModule, FiltersDialogComponent],
+  imports: [NgFor, TourPreviewComponent, RouterModule, LeafletModule, CommonModule],
   templateUrl: './tour-catalog.component.html',
   styleUrl: './tour-catalog.component.scss'
 })
 export class TourCatalogComponent {
-  filters: Set<Activity> = new Set();
+  // TODO: implement proper filtering
+  filters: Filters = {
+    activitiesFlag: undefined,
+    minDistance: undefined,
+    maxDistance: undefined,
+    minDuration: undefined,
+    maxDuration: undefined,
+    durationRange: undefined,
+    minMetersOfElevation: undefined,
+    maxMetersOfElevation: undefined,
+    minDifficulty: undefined,
+    maxDifficulty: undefined,
+    minRisk: undefined,
+    maxRisk: undefined,
+    minTravelDistance: undefined,
+    maxTravelDistance: undefined,
+    minTravelDuration: undefined,
+    maxTravelDuration: undefined,
+    aspects: undefined
+  };
   tours: Tour[] | null = null;
-  allTours: Tour[] | null = null; // Store all tours for filtering
+  allTours: Tour[] | null = null;
   Activity = Activity;
   map: LeafletMap | null = null;
   isLoading: boolean = true;
@@ -38,25 +79,12 @@ export class TourCatalogComponent {
   @ViewChildren('tourItem') tourItems!: QueryList<ElementRef>;
 
   private location: GPSLocation | null = null;
-  private parameterToActivity: Map<string, Activity> = new Map([
-    [Activity.HIKING.toString(), Activity.HIKING],
-    [Activity.TREKKING.toString(), Activity.TREKKING],
-    [Activity.BOULDERING.toString(), Activity.BOULDERING],
-    [Activity.SPORTCLIMBING.toString(), Activity.SPORTCLIMBING],
-    [Activity.MULTIPITCHCLIMBING.toString(), Activity.MULTIPITCHCLIMBING],
-    [Activity.VIA_VERRATA.toString(), Activity.VIA_VERRATA],
-    [Activity.MOUNTAINBIKING.toString(), Activity.MOUNTAINBIKING],
-    [Activity.ROADCYCLING.toString(), Activity.ROADCYCLING],
-    [Activity.GRAVEL.toString(), Activity.GRAVEL],
-    [Activity.BIKEPACKING.toString(), Activity.BIKEPACKING],
-    [Activity.SKITOURING.toString(), Activity.SKITOURING],
-  ]);
 
   constructor(
     private toursSvc: ToursService,
     private route: ActivatedRoute,
     private locationService: LocationService,
-    private dialog: MatDialog // Reintroduce MatDialog
+    private dialog: MatDialog
   ) { }
 
   async ngOnInit() {
@@ -75,12 +103,26 @@ export class TourCatalogComponent {
         this.isLoading = false;
       });
 
-      this.route.queryParams.subscribe((params) => {
-        this.filters = new Set<Activity>();
-        let activity: Activity | undefined = this.parameterToActivity.get(params['filter']);
-        if (activity != undefined) {
-          this.filters.add(activity);
-        }
+      this.route.queryParams.subscribe((params: Params) => {
+        this.filters = {
+          activitiesFlag: params['activities'] !== undefined ? Number(params['activities']) : undefined,
+          minDistance: params['minDistance'] !== undefined ? Number(params['minDistance']) : undefined,
+          maxDistance: params['maxDistance'] !== undefined ? Number(params['maxDistance']) : undefined,
+          minDuration: params['minDuration'] !== undefined ? Number(params['minDuration']) : undefined,
+          maxDuration: params['maxDuration'] !== undefined ? Number(params['maxDuration']) : undefined,
+          durationRange: params['durationRange'] !== undefined ? Number(params['durationRange']) : undefined,
+          minMetersOfElevation: params['minMetersOfElevation'] !== undefined ? Number(params['minMetersOfElevation']) : undefined,
+          maxMetersOfElevation: params['maxMetersOfElevation'] !== undefined ? Number(params['maxMetersOfElevation']) : undefined,
+          minDifficulty: params['minDifficulty'] !== undefined ? Number(params['minDifficulty']) : undefined,
+          maxDifficulty: params['maxDifficulty'] !== undefined ? Number(params['maxDifficulty']) : undefined,
+          minRisk: params['minRisk'] !== undefined ? Number(params['minRisk']) : undefined,
+          maxRisk: params['maxRisk'] !== undefined ? Number(params['maxRisk']) : undefined,
+          minTravelDistance: params['minTravelDistance'] !== undefined ? Number(params['minTravelDistance']) : undefined,
+          maxTravelDistance: params['maxTravelDistance'] !== undefined ? Number(params['maxTravelDistance']) : undefined,
+          minTravelDuration: params['minTravelDuration'] !== undefined ? Number(params['minTravelDuration']) : undefined,
+          maxTravelDuration: params['maxTravelDuration'] !== undefined ? Number(params['maxTravelDuration']) : undefined,
+          aspects: params['aspects'] !== undefined ? Number(params['aspects']) : undefined,
+        };
 
         this.applyFilters();
       });
@@ -96,7 +138,7 @@ export class TourCatalogComponent {
       data: { filters: this.filters },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: Filters) => {
       if (result) {
         this.filters = result;
         this.applyFilters();
@@ -109,12 +151,26 @@ export class TourCatalogComponent {
     this.applyFilters();
   }
 
-  isSelected(activity: Activity): boolean {
-    return this.filters.has(activity);
-  }
-
   clearFilter(): void {
-    this.filters.clear();
+    this.filters = {
+      activitiesFlag: undefined,
+      minDistance: undefined,
+      maxDistance: undefined,
+      minDuration: undefined,
+      maxDuration: undefined,
+      durationRange: undefined,
+      minMetersOfElevation: undefined,
+      maxMetersOfElevation: undefined,
+      minDifficulty: undefined,
+      maxDifficulty: undefined,
+      minRisk: undefined,
+      maxRisk: undefined,
+      minTravelDistance: undefined,
+      maxTravelDistance: undefined,
+      minTravelDuration: undefined,
+      maxTravelDuration: undefined,
+      aspects: undefined
+    };
     this.applyFilters();
   }
 
