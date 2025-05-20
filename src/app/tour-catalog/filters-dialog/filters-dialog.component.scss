@@ -1,5 +1,10 @@
 @use "styles/utils" as ds;
 
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+}
+
 h3 {
   color: ds.$primary-color-dark-theme;
   font-weight: bold;
