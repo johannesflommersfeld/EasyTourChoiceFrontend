@@ -13,27 +13,6 @@
     <button (click)="openFiltersDialog()">Filters</button> <!-- Open dialog -->
   </div>
 
-  <!-- TODO: style nicely and properly pass filter parameters from home to this component and from this component to the dialog. -->
-
-  <!-- <div class="filters"
-    <p>TODOS: Add all kinds of filters (drop down
-      for all activites, sliders for duration, meters of elevation, tour length, risk level, travel distance and
-      travel
-      duration). On the map, indicate the the search radius. Also add apply button.</p>
-    <a class="button" routerLink="/tour-catalog" [queryParams]="{filter: Activity.SKITOURING}"
-      routerLinkActive="selected">Ski Touring</a>
-    <a class="button" routerLink="/tour-catalog" [queryParams]="{filter: Activity.SPORTCLIMBING}"
-      routerLinkActive="selected">Sport Climbing</a>
-    <a class="button" routerLink="/tour-catalog" [queryParams]="{filter: Activity.BOULDERING}"
-      routerLinkActive="selected">Bouldering</a>
-    <a class="button" routerLink="/tour-catalog" [queryParams]="{filter: Activity.MOUNTAINBIKING}"
-      routerLinkActive="selected">Mountain Biking</a>
-    <a class="button" routerLink="/tour-catalog" [queryParams]="{filter: Activity.HIKING}"
-      routerLinkActive="selected">Hiking</a>
-    <button class="cta" routerLink="/tour-catalog" routerLinkActive="selected"
-      [routerLinkActiveOptions]="{ exact: true}">clear</button> 
-</div>-->
-
   <!-- Loading indicator -->
   <div *ngIf="isLoading" class="loading-container">
     <div class="spinner"></div>
