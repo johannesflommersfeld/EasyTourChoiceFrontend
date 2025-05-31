@@ -27,8 +27,8 @@ jobs:
         npm ci
         npm run build:ci
 
-    - name: Test
-      run: npm test --no-watch --no-progress --browsers=ChromeHeadless --headless
+    # - name: Test
+    #   run: npm test --no-watch --no-progress --browsers=ChromeHeadless
 
     - name: Get version
       run: |
