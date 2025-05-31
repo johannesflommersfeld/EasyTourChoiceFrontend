@@ -1,5 +1,7 @@
 @use "styles/utils" as ds;
 
+$image-size: 80px;
+
 .activity-selector-container {
   display: flex;
   justify-content: center;
@@ -22,6 +24,6 @@ li {
 }
 
 img {
-  width: 80px;
+  width: $image-size;
   cursor: pointer;
 }

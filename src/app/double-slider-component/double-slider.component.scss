@@ -9,7 +9,7 @@
 
   .custom-slider {
     padding: 12px 0;
-    width: 400px;
+    width: 300px;
     cursor: pointer;
   }
 
@@ -46,11 +46,12 @@
   }
 
   .custom-slider .ngx-slider .ngx-slider-bubble {
-    margin-bottom: 10px;
+    margin-bottom: 4px;
     transform: translateX(-50%);
     left: 50%;
     color: ds.$lines-color-dark-theme;
     font-weight: bold;
+    font-size: small;
   }
 
   .custom-slider .ngx-slider .ngx-slider-tick.ngx-slider-selected {
