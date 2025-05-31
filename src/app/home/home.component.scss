@@ -26,14 +26,18 @@ h3 {
 .welcome-screen-container {
   width: 80%;
   margin: 0 auto;
+  text-align: center;
+}
+
+form {
+  margin: 0 auto;
+  display: inline-block;
 }
 
 .control-pair {
   display: flex;
   flex-direction: row;
   gap: ds.$space-xl;
-  width: 70%;
-  margin: 0 auto;
 }
 
 .slider-container {

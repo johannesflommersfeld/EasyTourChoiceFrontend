@@ -23,6 +23,11 @@ h3 {
   margin-bottom: 10px;
 }
 
+.tour {
+  margin: 0 auto;
+  max-width: 1600px;
+}
+
 .tour-info {
   display: flex;
   flex-direction: row;

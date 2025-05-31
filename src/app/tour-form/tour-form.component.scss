@@ -68,6 +68,7 @@ input[type="range"] {
 .tour-form-container {
   width: 80%;
   margin: 0 auto;
+  max-width: 1600px;
 }
 
 .all-tour-infos {
@@ -201,6 +202,7 @@ input[type="range"] {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 2 * ($box-size + ds.$space-lg)
 }
 
 .location-map-wrapper {
