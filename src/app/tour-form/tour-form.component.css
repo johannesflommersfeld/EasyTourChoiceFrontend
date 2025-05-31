@@ -422,3 +422,23 @@ section textarea {
   font-size: 2rem;
   color: #333;
 }
+
+.secondary:hover {
+  background-color: #cacaca;
+}
+
+.delete:hover {
+  background-color: #ff3f3f;
+}
+
+.delete {
+  background-color: #b80000;
+}
+
+.primary:hover {
+  background-color: #75a8ff;
+}
+
+.primary {
+  background-color: #0072b8;
+}

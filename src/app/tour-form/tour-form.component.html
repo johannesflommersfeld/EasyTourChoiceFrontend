@@ -127,6 +127,10 @@
       <div class="buttons">
         <button type="button" class="secondary" (click)="cancel()">Cancel</button>
         <button type="submit" class="primary">Save</button>
+        @if(this.isEditMode)
+        {
+          <button type="button" class="delete" (click)="delete()">Delete</button>
+        }
       </div>
     </form>
   </div>
