@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DoubleSliderComponent } from './double-slider.component';
+import { RiskLevel } from '../models/tour-data/risk-level.model';
 
 describe('DoubleSliderComponentComponent', () => {
-  let component: DoubleSliderComponent;
-  let fixture: ComponentFixture<DoubleSliderComponent>;
+  let component: DoubleSliderComponent<RiskLevel>;
+  let fixture: ComponentFixture<DoubleSliderComponent<RiskLevel>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -12,7 +13,7 @@ describe('DoubleSliderComponentComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(DoubleSliderComponent);
+    fixture = TestBed.createComponent(DoubleSliderComponent<RiskLevel>);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
