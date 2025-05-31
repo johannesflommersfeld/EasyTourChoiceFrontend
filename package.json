@@ -1,6 +1,6 @@
 {
   "name": "easy-tour-choice-frontend",
-  "version": "0.0.1-dev",
+  "version": "0.0.1-rc0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
