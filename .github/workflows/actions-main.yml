@@ -34,7 +34,7 @@ jobs:
       run: |
         VERSION=$(jq -r '.version' package.json)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
-        if [ "$VERSION" != *"-"* ]; then
+        if [[ "$VERSION" != *"-"* ]]; then
           echo "RELEASE_IMAGE=true" >> $GITHUB_ENV
         elif [[ "$VERSION" == *"rc"* ]]; then
           echo "RELEASE_IMAGE=true" >> $GITHUB_ENV

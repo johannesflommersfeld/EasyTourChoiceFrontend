@@ -9,6 +9,6 @@ RUN npm run build --configuration=production -y
 # Production stage
 FROM node:18-alpine
 WORKDIR /app
-COPY --from=builder /app/EasyTourChoiceFrontend/dist ./dist
+COPY --from=builder /app/dist ./dist
 VOLUME ["/app/dist"]
 CMD ["echo", "Angular build complete"]
