@@ -7,6 +7,7 @@ import { GPSLocation } from './models/tour-data/gps-location.model';
 import { AvalancheBulletin } from './models/tour-data/avalanche-bulletin.model';
 import { WeatherForecast } from './models/tour-data/weather-forecast.model';
 import { TravelDetails } from './models/tour-data/travel-details.model';
+import * as jsonpatch from 'fast-json-patch';
 
 @Injectable({
   providedIn: 'root'
@@ -62,5 +63,14 @@ export class ToursService {
     // TODO: ensure all fields are filled
     // let newTour: ITour = { ...tour, id: 0, travelDetails: null, bulletin: null, weatherForecast: null }
     return this.http.post<ITour>(`/api/tourData/`, tour);
+  }
+
+  patchTour(id: number, tourChanges: Partial<ITour>, originalTour: ITour): Observable<ITour> {
+    // Create a JSON patch document by comparing original and updated tour
+    const patchDocument = jsonpatch.compare(originalTour, { ...originalTour, ...tourChanges });
+    console.log('Patch document:', patchDocument);
+
+    // Send the patch document to the API
+    return this.http.patch<ITour>(`/api/tourData/${id}`, patchDocument);
   }
 }

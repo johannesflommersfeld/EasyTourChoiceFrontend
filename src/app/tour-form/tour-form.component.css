@@ -406,3 +406,19 @@ section textarea {
   justify-content: flex-start;
   padding: 0 0px 20px 50px;
 }
+
+.tour-form-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-title h1 {
+  font-size: 2rem;
+  color: #333;
+}

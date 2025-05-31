@@ -5,7 +5,7 @@ import { RiskLevel } from '../models/tour-data/risk-level.model';
 import { Activity } from '../models/tour-data/activity.model';
 import { GeneralDifficulty } from '../models/tour-data/general-difficulty.model';
 import { ToursService } from '../tours.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { GPSLocation } from '../models/tour-data/gps-location.model';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
@@ -61,6 +61,14 @@ export class TourFormComponent implements OnInit {
   gpxFile: File | null = null;
   gpxFileName: string = '';
 
+  // Flag to determine if we're editing or creating
+  isEditMode = false;
+  tourId: number | null = null;
+  originalTour: ITour | null = null;
+
+  // Form title
+  formTitle = 'Add New Tour';
+
   tourForm = new FormGroup({
     activity: new FormControl<Activity>(Activity.UNDEFINED),
     tourName: new FormControl<string>(''),
@@ -83,6 +91,7 @@ export class TourFormComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private toursSvc: ToursService,
     private cdr: ChangeDetectorRef
   ) { }
@@ -97,6 +106,46 @@ export class TourFormComponent implements OnInit {
     this.tourForm.get('startingLocationLng')?.valueChanges.subscribe(() => this.updateStartingLocationMarker());
     this.tourForm.get('activityLocationLat')?.valueChanges.subscribe(() => this.updateActivityLocationMarker());
     this.tourForm.get('activityLocationLng')?.valueChanges.subscribe(() => this.updateActivityLocationMarker());
+
+    // Check if we're in edit mode by looking for a tour ID in the route
+    this.route.paramMap.subscribe(params => {
+      const tourId = params.get('tourId');
+      if (tourId) {
+        this.isEditMode = true;
+        this.tourId = +tourId;
+        this.formTitle = 'Edit Tour';
+        this.loadTourData(+tourId);
+      }
+    });
+  }
+
+  loadTourData(tourId: number) {
+    this.toursSvc.fetchTourById(tourId).subscribe(tour => {
+      // Store the original tour for patch creation later
+      this.originalTour = { ...tour };
+
+      // Populate the form with the tour data
+      this.tourForm.patchValue({
+        activity: tour.activityType,
+        tourName: tour.name,
+        shortDescription: tour.shortDescription || '',
+        distance: tour.distance,
+        duration: tour.duration,
+        approachDuration: tour.approachDuration,
+        elevationGain: tour.metersOfElevation,
+        risk: tour.risk || RiskLevel.UNKNOWN,
+        difficulty: tour.difficulty || GeneralDifficulty.UNKNOWN,
+        aspects: tour.aspect || Aspect.UNKNOWN,
+        startingLocationLat: tour.startingLocation?.latitude || null,
+        startingLocationLng: tour.startingLocation?.longitude || null,
+        activityLocationLat: tour.activityLocation?.latitude || null,
+        activityLocationLng: tour.activityLocation?.longitude || null,
+      });
+
+      // Update the text displays
+      this.updateRiskText();
+      this.updateDifficultyText();
+    });
   }
 
   updateRiskText(): void {
@@ -332,25 +381,41 @@ export class TourFormComponent implements OnInit {
       startingLocation: startingLocation,
       activityLocation: activityLocation,
       aspect: formValues.aspects || Aspect.UNKNOWN,
-      // These will be set on the server
-      id: 0,
-      startingLocationId: 0,
-      activityLocationId: 0,
-      areaId: null,
-      weatherForecast: null,
-      bulletin: null,
-      travelDetails: null
     };
 
-    console.log('Submitting tour:', tour);
+    if (this.isEditMode && this.tourId && this.originalTour) {
+      // For edit mode, we send a PATCH request with JSON Patch document
+      console.log('Updating tour:', tour);
+      this.toursSvc.patchTour(this.tourId, tour, this.originalTour).subscribe({
+        next: () => this.router.navigate(['/tour-details', this.tourId])
+      });
+    } else {
+      // For create mode, we send a POST request
+      // Add fields required for new tour
+      const newTour: Partial<ITour> = {
+        ...tour,
+        id: 0,
+        startingLocationId: 0,
+        activityLocationId: 0,
+        areaId: null,
+        weatherForecast: null,
+        bulletin: null,
+        travelDetails: null
+      };
 
-    this.toursSvc.putTour(tour).subscribe({
-      next: () => this.router.navigate(['/home'])
-    });
+      console.log('Creating new tour:', newTour);
+      this.toursSvc.putTour(newTour).subscribe({
+        next: () => this.router.navigate(['/home'])
+      });
+    }
   }
 
   cancel(): void {
-    this.router.navigate(['/home']);
+    if (this.isEditMode && this.tourId) {
+      this.router.navigate(['/tour-details', this.tourId]);
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
 
   handleGpxFileUpload(event: Event): void {

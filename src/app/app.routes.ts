@@ -9,5 +9,6 @@ export const routes: Routes = [
   { path: 'tour-catalog', component: TourCatalogComponent, title: "Tours - Easy Tour Choice" },
   { path: 'tour-details/:tourId', component: TourDetailsComponent, title: "Tour Details - Easy Tour Choices" },
   { path: 'add-tour', component: TourFormComponent, title: "Tours - Easy Tour Choice" },
+  { path: 'edit-tour/:tourId', component: TourFormComponent, title: "Edit Tour - Easy Tour Choice" },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
