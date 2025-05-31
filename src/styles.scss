@@ -10,6 +10,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+li {
+  list-style: none;
+}
+
 .custom-marker {
   display: flex;
   align-items: center;
@@ -34,7 +38,6 @@ body {
 .marker-text {
   line-height: 1;
 }
-
 
 button {
   display: inline-block;

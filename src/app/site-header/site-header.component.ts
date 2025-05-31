@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -8,5 +8,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './site-header.component.scss'
 })
 export class SiteHeaderComponent {
+  @Output() headerClicked = new EventEmitter<void>();
 
+  onHeaderClick() {
+    this.headerClicked.emit();
+  }
 }

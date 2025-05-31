@@ -420,8 +420,6 @@ export class TourFormComponent implements OnInit {
         this.delete();
       }
     });
-
-
   }
 
   delete(): void {
