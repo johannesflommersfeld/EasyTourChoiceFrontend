@@ -1,0 +1,44 @@
+name: Angular
+
+on:
+  push:
+    branches-ignore: [ "main" ]
+  pull_request:
+    branches-ignore: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Node $
+      uses: actions/setup-node@v1
+      with:
+        node-version: $
+
+    - name: Install dependencies and build
+      run: |
+        npm ci
+        npm run build:ci
+
+    - name: Test
+      run: npm test --no-watch --no-progress --browsers=ChromeHeadless
+
+    - name: Get version
+      run: |
+        VERSION=$(jq -r '.version' package.json)
+        echo "Version: $VERSION"
+        echo "version=$VERSION" >> $GITHUB_ENV
+
+    - name: Build Docker image
+      run: |
+        docker run --rm --privileged tonistiigi/binfmt --install all
+        docker buildx build --platform linux/arm64 --load \
+          -f ./easy-tour-choice-frontend.dockerfile \
+          -t ${{ secrets.DOCKER_USERNAME }}/easy-tour-choice-backend:${{ env.VERSION }} .
