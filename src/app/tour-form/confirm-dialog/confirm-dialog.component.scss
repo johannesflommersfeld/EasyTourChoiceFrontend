@@ -1,0 +1,11 @@
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-lg;
+  margin-left: ds.$space-lg;
+}
+
+button {
+  padding: 12px 24px;
+  /* Adjust button padding as needed */
+}

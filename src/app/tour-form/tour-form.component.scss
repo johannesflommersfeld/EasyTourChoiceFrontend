@@ -1,0 +1,261 @@
+@use "styles/utils" as ds;
+
+$box-size: 320px;
+$slider-size: 302px - ds.$space-lg;
+
+// <----------------------- general ----------------------->
+h1 {
+  font-size: xx-large;
+  margin-bottom: ds.$space-lg;
+  text-align: center;
+}
+
+h2 {
+  font-size: x-large;
+  text-transform: capitalize;
+}
+
+h3 {
+  color: ds.$primary-color-dark-theme;
+  font-weight: bold;
+  font-size: medium;
+  margin: 0;
+}
+
+input,
+textarea,
+select {
+  background-color: ds.$background-color-dark-theme;
+  color: ds.$lines-color-dark-theme;
+  border: ds.$line-width solid ds.$lines-color-dark-theme;
+  padding: ds.$space-s ds.$space-md;
+  border-radius: ds.$border-radius;
+  font-size: medium;
+  box-sizing: border-box;
+}
+
+textarea {
+  width: $box-size;
+  font-size: large;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+// /* Remove spinners from number inputs */
+// /* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  appearance: textfield;
+}
+
+input[type="range"] {
+  width: $slider-size;
+  margin-left: ds.$space-lg
+}
+
+.tour-form-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.all-tour-infos {
+  display: flex;
+  flex-direction: row;
+  gap: ds.$space-lg
+}
+
+// <----------------------- infos and metrics ----------------------->
+.infos-and-metrics {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-container {
+  margin-bottom: ds.$space-lg;
+}
+
+.tour-description {
+  display: flex;
+  flex-direction: row;
+  padding: ds.$space-lg;
+  gap: ds.$space-lg;
+}
+
+.short-description {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-md;
+  width: $box-size;
+}
+
+.tour-details {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-lg;
+  padding: ds.$space-lg;
+}
+
+.input-row {
+  display: flex;
+  gap: ds.$space-lg;
+}
+
+.input-column {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-lg;
+  width: $box-size;
+}
+
+.sliders {
+  display: flex;
+  flex-direction: row;
+  gap: ds.$space-lg;
+  margin-top: ds.$space-lg;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  width: $box-size;
+
+}
+
+.slider-title {
+  display: flex;
+  flex-direction: row;
+  margin-top: ds.$space-md;
+  margin: 0 ds.$space-md 0 ds.$space-lg;
+}
+
+.slider-title .value-text {
+  margin: 0 0 0 ds.$space-md;
+  color: ds.$lines-color-dark-theme;
+  font-weight: normal;
+}
+
+.windrose-container {
+  display: flex;
+  align-items: center;
+  margin-top: ds.$space-md;
+  margin-left: ds.$space-lg;
+  gap: ds.$space-xl;
+  width: $box-size;
+  box-sizing: border-box;
+}
+
+.instruction {
+  margin-right: 10px;
+  color: ds.$lines-color-dark-theme;
+  font-style: italic;
+  font-size: x-small;
+}
+
+.label-w-instruction {
+  display: flex;
+  flex-direction: column;
+  gap: ds.$space-xs;
+}
+
+// <----------------------- GPS information ----------------------->
+
+.gps-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: ds.$space-lg;
+}
+
+
+.map-instruction {
+  margin-left: ds.$space-lg;
+  color: ds.$lines-color-dark-theme;
+  font-style: italic;
+}
+
+.location-inputs-row {
+  display: flex;
+  flex-direction: row;
+  gap: ds.$space-lg;
+  margin-left: ds.$space-lg
+}
+
+.coord-inputs input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: ds.$space-md;
+}
+
+.map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.location-map-wrapper {
+  position: relative;
+  width: 2 * ($box-size + ds.$space-lg);
+  height: $box-size;
+  overflow: hidden;
+  padding-top: ds.$space-lg;
+}
+
+.location-map {
+  height: 100%;
+  width: 100%;
+  border-radius: ds.$border-radius;
+  transform: translateZ(0);
+}
+
+.context-menu {
+  position: absolute;
+  background-color: ds.$background-color-dark-theme;
+  border: ds.$line-width solid ds.$lines-color-dark-theme;
+  border-radius: ds.$border-radius;
+  z-index: 1000;
+}
+
+.context-menu-item {
+  padding: ds.$space-md ds.$space-lg;
+  cursor: pointer;
+  color: ds.$lines-color-dark-theme;
+  transition: background-color 0.1s ease;
+}
+
+.context-menu-item:hover {
+  color: ds.$primary-color-dark-theme;
+}
+
+.file-upload-container {
+  display: flex;
+  align-items: center;
+  gap: ds.$space-lg;
+  margin-top: 2*ds.$space-lg;
+  margin-left: ds.$space-lg;
+}
+
+.file-name {
+  color: #ccc;
+  font-style: italic;
+}
+
+// <----------------------- Buttons ----------------------->
+
+.buttons {
+  margin-left: ds.$space-lg;
+  margin-bottom: ds.$space-lg;
+  display: flex;
+  flex-direction: row;
+  gap: ds.$space-md
+}

@@ -64,7 +64,7 @@ export class TourCatalogComponent {
         this.location = await this.locationService.getLocation();
       }
 
-      this.toursSvc.fetchAllTours().subscribe((tours) => {
+      this.toursSvc.fetchAllTours(this.location).subscribe((tours) => {
         this.allTours = tours;
 
         this.applyFilters();
@@ -90,7 +90,7 @@ export class TourCatalogComponent {
   private applyFilters(): void {
     if (!this.allTours) return;
 
-    this.tours = this.toursSvc.getFilteredTours(this.filters, this.allTours);
+    this.tours = this.toursSvc.getFilteredTours(this.location, this.filters, this.allTours);
 
     if (this.map) {
       this.addMarkers();

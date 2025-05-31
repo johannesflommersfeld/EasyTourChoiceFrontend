@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
   selector: 'etc-site-header',
   imports: [RouterModule],
   templateUrl: './site-header.component.html',
-  styleUrl: './site-header.component.css'
+  styleUrl: './site-header.component.scss'
 })
 export class SiteHeaderComponent {
 
