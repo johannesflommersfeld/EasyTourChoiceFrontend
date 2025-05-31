@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { GPSLocation } from '../models/tour-data/gps-location.model';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
-import L, { icon, Icon, latLng, Layer, marker, tileLayer, Map as LeafletMap, LatLng } from 'leaflet';
+import L, { latLng, Layer, tileLayer, Map as LeafletMap, LatLng } from 'leaflet';
 import { Aspect } from '../models/tour-data/aspect.model';
 import { AspectPickerComponent } from "./aspect-picker/aspect-picker.component";
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +24,6 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './tour-form.component.scss'
 })
 export class TourFormComponent implements OnInit {
-  // Expose enums to the template
   Activity = Activity;
   RiskLevel = RiskLevel;
   GeneralDifficulty = GeneralDifficulty;
@@ -36,7 +35,6 @@ export class TourFormComponent implements OnInit {
   difficultyMin = Math.min(...Object.keys(GeneralDifficulty).filter(k => !isNaN(Number(k))).map(Number));
   difficultyMax = Math.max(...Object.keys(GeneralDifficulty).filter(k => !isNaN(Number(k))).map(Number));
 
-  // Text display for enum values
   riskLevelText: string = '';
   difficultyLevelText: string = '';
 
@@ -60,16 +58,13 @@ export class TourFormComponent implements OnInit {
     center: latLng(46, 7) // Default center (Switzerland)
   };
 
-  // Add property to store the uploaded GPX file and filename
   gpxFile: File | null = null;
   gpxFileName: string = '';
 
-  // Flag to determine if we're editing or creating
   isEditMode = false;
   tourId: number | null = null;
   originalTour: ITour | null = null;
 
-  // Form title
   formTitle = 'Add New Tour';
 
   tourForm = new FormGroup({
@@ -84,7 +79,6 @@ export class TourFormComponent implements OnInit {
     risk: new FormControl<RiskLevel>(RiskLevel.UNKNOWN),
     difficulty: new FormControl<GeneralDifficulty>(GeneralDifficulty.UNKNOWN),
     aspects: new FormControl<Aspect>(Aspect.UNKNOWN),
-    // Using string to store location data temporarily
     startingLocationLat: new FormControl<number | null>(null),
     startingLocationLng: new FormControl<number | null>(null),
     activityLocationLat: new FormControl<number | null>(null),
@@ -101,17 +95,14 @@ export class TourFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // Initialize text displays
     this.updateRiskText();
     this.updateDifficultyText();
 
-    // Subscribe to form value changes for location inputs
     this.tourForm.get('startingLocationLat')?.valueChanges.subscribe(() => this.updateStartingLocationMarker());
     this.tourForm.get('startingLocationLng')?.valueChanges.subscribe(() => this.updateStartingLocationMarker());
     this.tourForm.get('activityLocationLat')?.valueChanges.subscribe(() => this.updateActivityLocationMarker());
     this.tourForm.get('activityLocationLng')?.valueChanges.subscribe(() => this.updateActivityLocationMarker());
 
-    // Check if we're in edit mode by looking for a tour ID in the route
     this.route.paramMap.subscribe(params => {
       const tourId = params.get('tourId');
       if (tourId) {
@@ -125,10 +116,8 @@ export class TourFormComponent implements OnInit {
 
   loadTourData(tourId: number) {
     this.toursSvc.fetchTourById(tourId).subscribe(tour => {
-      // Store the original tour for patch creation later
       this.originalTour = { ...tour };
 
-      // Populate the form with the tour data
       this.tourForm.patchValue({
         activity: tour.activityType,
         tourName: tour.name,
@@ -146,7 +135,6 @@ export class TourFormComponent implements OnInit {
         activityLocationLng: tour.activityLocation?.longitude || null,
       });
 
-      // Update the text displays
       this.updateRiskText();
       this.updateDifficultyText();
     });
@@ -195,7 +183,7 @@ export class TourFormComponent implements OnInit {
       case GeneralDifficulty.CHALLENGING:
         this.difficultyLevelText = 'Challenging';
         break;
-      case GeneralDifficulty.VERY_CHALLENING:
+      case GeneralDifficulty.VERY_CHALLENGING:
         this.difficultyLevelText = 'Very Challenging';
         break;
       default:

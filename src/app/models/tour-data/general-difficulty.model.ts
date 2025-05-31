@@ -3,5 +3,5 @@ export enum GeneralDifficulty {
   EASY,
   MILDLY_CHALLENGING,
   CHALLENGING,
-  VERY_CHALLENING
+  VERY_CHALLENGING
 }
