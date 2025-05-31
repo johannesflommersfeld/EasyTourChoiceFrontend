@@ -33,8 +33,15 @@ jobs:
     - name: Get version
       run: |
         VERSION=$(jq -r '.version' package.json)
-        echo "Version: $VERSION"
-        echo "version=$VERSION" >> $GITHUB_ENV
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        if [ "$VERSION" != *"-"* ]; then
+          echo "RELEASE_IMAGE=true" >> $GITHUB_ENV
+        elif [[ "$VERSION" == *"rc"* ]]; then
+          echo "RELEASE_IMAGE=true" >> $GITHUB_ENV
+        else
+          echo "RELEASE_IMAGE=false" >> $GITHUB_ENV
+        fi
+        echo "Resolved version: $VERSION"
 
     - name: Build Docker image
       run: |
