@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Output, QueryList, ViewChildren } 
 import { CommonModule, NgFor } from '@angular/common';
 import { TourPreviewComponent } from "./tour-preview/tour-preview.component";
 import { ToursService } from '../tours.service';
-import { ActivatedRoute, Params, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Activity } from '../models/tour-data/activity.model';
 import { ITour, Tour } from '../models/tour-data/tour.model';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
@@ -21,7 +21,6 @@ export type Filters = {
   maxDistance: number | undefined;
   minDuration: number | undefined;
   maxDuration: number | undefined;
-  durationRange: number | undefined;
   minMetersOfElevation: number | undefined;
   maxMetersOfElevation: number | undefined;
   minDifficulty: GeneralDifficulty | undefined;
@@ -49,7 +48,6 @@ export class TourCatalogComponent {
     maxDistance: undefined,
     minDuration: undefined,
     maxDuration: undefined,
-    durationRange: undefined,
     minMetersOfElevation: undefined,
     maxMetersOfElevation: undefined,
     minDifficulty: undefined,
@@ -82,10 +80,16 @@ export class TourCatalogComponent {
 
   constructor(
     private toursSvc: ToursService,
-    private route: ActivatedRoute,
     private locationService: LocationService,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private router: Router
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as { filters: Filters };
+    if (state?.filters) {
+      this.filters = state.filters;
+    }
+  }
 
   async ngOnInit() {
     this.isLoading = true;
@@ -97,34 +101,8 @@ export class TourCatalogComponent {
 
       this.toursSvc.fetchAllTours(this.location).subscribe((tours) => {
         this.allTours = tours;
-
         this.applyFilters();
-
         this.isLoading = false;
-      });
-
-      this.route.queryParams.subscribe((params: Params) => {
-        this.filters = {
-          activitiesFlag: params['activities'] !== undefined ? Number(params['activities']) : undefined,
-          minDistance: params['minDistance'] !== undefined ? Number(params['minDistance']) : undefined,
-          maxDistance: params['maxDistance'] !== undefined ? Number(params['maxDistance']) : undefined,
-          minDuration: params['minDuration'] !== undefined ? Number(params['minDuration']) : undefined,
-          maxDuration: params['maxDuration'] !== undefined ? Number(params['maxDuration']) : undefined,
-          durationRange: params['durationRange'] !== undefined ? Number(params['durationRange']) : undefined,
-          minMetersOfElevation: params['minMetersOfElevation'] !== undefined ? Number(params['minMetersOfElevation']) : undefined,
-          maxMetersOfElevation: params['maxMetersOfElevation'] !== undefined ? Number(params['maxMetersOfElevation']) : undefined,
-          minDifficulty: params['minDifficulty'] !== undefined ? Number(params['minDifficulty']) : undefined,
-          maxDifficulty: params['maxDifficulty'] !== undefined ? Number(params['maxDifficulty']) : undefined,
-          minRisk: params['minRisk'] !== undefined ? Number(params['minRisk']) : undefined,
-          maxRisk: params['maxRisk'] !== undefined ? Number(params['maxRisk']) : undefined,
-          minTravelDistance: params['minTravelDistance'] !== undefined ? Number(params['minTravelDistance']) : undefined,
-          maxTravelDistance: params['maxTravelDistance'] !== undefined ? Number(params['maxTravelDistance']) : undefined,
-          minTravelDuration: params['minTravelDuration'] !== undefined ? Number(params['minTravelDuration']) : undefined,
-          maxTravelDuration: params['maxTravelDuration'] !== undefined ? Number(params['maxTravelDuration']) : undefined,
-          aspects: params['aspects'] !== undefined ? Number(params['aspects']) : undefined,
-        };
-
-        this.applyFilters();
       });
     } catch (error) {
       console.error('Error initializing tour catalog:', error);
@@ -136,6 +114,10 @@ export class TourCatalogComponent {
     const dialogRef = this.dialog.open(FiltersDialogComponent, {
       width: '600px',
       data: { filters: this.filters },
+    });
+
+    dialogRef.afterOpened().subscribe(() => {
+      window.dispatchEvent(new Event('resize')); // Trigger a resize event
     });
 
     dialogRef.afterClosed().subscribe((result: Filters) => {
@@ -158,7 +140,6 @@ export class TourCatalogComponent {
       maxDistance: undefined,
       minDuration: undefined,
       maxDuration: undefined,
-      durationRange: undefined,
       minMetersOfElevation: undefined,
       maxMetersOfElevation: undefined,
       minDifficulty: undefined,

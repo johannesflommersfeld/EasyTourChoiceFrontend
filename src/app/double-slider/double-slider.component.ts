@@ -1,7 +1,7 @@
 // double-slider.component.ts
-import { Component, forwardRef, Input, ChangeDetectorRef, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import { Component, forwardRef, Input, ChangeDetectorRef, ChangeDetectionStrategy, AfterViewInit, ViewChild, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Options, NgxSliderModule, ChangeContext } from '@angular-slider/ngx-slider';
+import { Options, NgxSliderModule, ChangeContext, SliderComponent } from '@angular-slider/ngx-slider';
 import { CommonModule } from '@angular/common';
 
 export interface DoubleSliderValue<T> {
@@ -38,6 +38,9 @@ export class DoubleSliderComponent<T> implements ControlValueAccessor, AfterView
   @Input() enumType?: Record<string, T>;
   @Input() translate?: (value: number) => string;
 
+  @ViewChild(SliderComponent) slider!: SliderComponent;
+  @Input() manualRefresh: EventEmitter<void> = new EventEmitter<void>();
+
   sliderValues: DoubleSliderValue<T> = { lowValue: 0, highValue: 0 };
 
   private onChange: (value: DoubleSliderValue<T>) => void = () => { };
@@ -52,6 +55,12 @@ export class DoubleSliderComponent<T> implements ControlValueAccessor, AfterView
       console.log('Slider initialized');
       this.cdr.detectChanges();
     });
+  }
+
+  refreshSlider(): void {
+    if (this.manualRefresh) {
+      this.manualRefresh.emit(); // Emit the manualRefresh event to trigger a layout recalculation
+    }
   }
 
   writeValue(val: DoubleSliderValue<T> | null): void {
