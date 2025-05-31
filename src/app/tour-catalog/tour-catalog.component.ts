@@ -14,6 +14,7 @@ import { FiltersDialogComponent } from './filters-dialog/filters-dialog.componen
 import { MatDialog } from '@angular/material/dialog';
 import { RiskLevel } from '../models/tour-data/risk-level.model';
 import { Aspect } from '../models/tour-data/aspect.model';
+import { FormsModule } from '@angular/forms';
 
 export type Filters = {
   activitiesFlag: number | undefined;
@@ -34,9 +35,19 @@ export type Filters = {
   aspects: Aspect | undefined;
 }
 
+enum SortingCriteria {
+  DISTANCE,
+  DURATION,
+  METER_OF_ELEVATION,
+  DIFFICULTY,
+  RISK,
+  TRAVEL_DISTANCE,
+  TRAVEL_DURATION,
+}
+
 @Component({
   selector: 'etc-tour-catalog',
-  imports: [NgFor, TourPreviewComponent, RouterModule, LeafletModule, CommonModule],
+  imports: [NgFor, TourPreviewComponent, RouterModule, LeafletModule, CommonModule, FormsModule],
   templateUrl: './tour-catalog.component.html',
   styleUrl: './tour-catalog.component.scss'
 })
@@ -60,6 +71,8 @@ export class TourCatalogComponent {
     maxTravelDuration: undefined,
     aspects: undefined
   };
+  sortingCriteria: typeof SortingCriteria = SortingCriteria;
+  sortOption: SortingCriteria = SortingCriteria.DISTANCE;
   tours: Tour[] | null = null;
   allTours: Tour[] | null = null;
   Activity = Activity;
@@ -155,6 +168,42 @@ export class TourCatalogComponent {
     this.applyFilters();
   }
 
+  sortTours(): void {
+    if (!this.tours) return;
+
+    const sortOption = Number(this.sortOption) as SortingCriteria;
+
+    switch (sortOption) {
+      case SortingCriteria.DISTANCE:
+        this.tours.sort((a, b) => (a.distance || 0) - (b.distance || 0));
+        break;
+      case SortingCriteria.DURATION:
+        this.tours.sort((a, b) => (a.duration || 0) - (b.duration || 0));
+        break;
+      case SortingCriteria.METER_OF_ELEVATION:
+        this.tours.sort((a, b) => (a.metersOfElevation || 0) - (b.metersOfElevation || 0));
+        break;
+      case SortingCriteria.DIFFICULTY:
+        this.tours.sort((a, b) => (a.difficulty || 0) - (b.difficulty || 0));
+        break;
+      case SortingCriteria.RISK:
+        this.tours.sort((a, b) => (a.risk || 0) - (b.risk || 0));
+        break;
+      case SortingCriteria.TRAVEL_DISTANCE:
+        this.tours.sort((a, b) => (a.travelDetails?.travelDistance || 0) - (b.travelDetails?.travelDistance || 0));
+        break;
+      case SortingCriteria.TRAVEL_DURATION:
+        this.tours.sort((a, b) => (a.travelDetails?.travelTime || 0) - (b.travelDetails?.travelTime || 0));
+        break;
+      default:
+        break;
+    }
+
+    if (this.map) {
+      this.addMarkers();
+    }
+  }
+
   showTourDetails(tour: ITour): void {
     this.openTour.emit(tour);
     console.log(`Details of tour ${tour.name} passed on.`)
@@ -171,10 +220,7 @@ export class TourCatalogComponent {
     if (!this.allTours) return;
 
     this.tours = this.toursSvc.getFilteredTours(this.location, this.filters, this.allTours);
-
-    if (this.map) {
-      this.addMarkers();
-    }
+    this.sortTours();
   }
 
   private addMarkers(): void {

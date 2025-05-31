@@ -1,14 +1,14 @@
 <div class="container">
   <div class="controls">
     <h3>Sort by:</h3>
-    <select>
-      <option value="distance">Distance</option>
-      <option value="duration">Duration</option>
-      <option value="elevation">Elevation</option>
-      <option value="difficulty">Difficulty</option>
-      <option value="risk">Rsik</option>
-      <option value="travel_distance">Travel distance</option>
-      <option value="travel_duration">Travel duration</option>
+    <select [(ngModel)]="sortOption" (change)="sortTours()">
+      <option [value]="sortingCriteria.DISTANCE">Distance</option>
+      <option [value]="sortingCriteria.DURATION">Duration</option>
+      <option [value]="sortingCriteria.METER_OF_ELEVATION">Elevation</option>
+      <option [value]="sortingCriteria.DIFFICULTY">Difficulty</option>
+      <option [value]="sortingCriteria.RISK">Rsik</option>
+      <option [value]="sortingCriteria.TRAVEL_DISTANCE">Travel distance</option>
+      <option [value]="sortingCriteria.TRAVEL_DURATION">Travel duration</option>
     </select>
     <button (click)="openFiltersDialog()">Filters</button> <!-- Open dialog -->
   </div>
