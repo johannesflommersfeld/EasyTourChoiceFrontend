@@ -1,108 +1,37 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
-/* You can add global styles to this file, and also import other style files */
-@use "styles/utils" as ds;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      accent: mat.$azure-palette,
+      warn: mat.$red-palette,   
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
 
 body {
-  background-color: ds.$background-color-dark-theme;
-  font-size: 16px;
-  color: ds.$primary-color-dark-theme;
+  color-scheme: dark;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface-variant);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-li {
-  list-style: none;
-}
-
-.custom-marker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.marker-circle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
-  border: 2px solid white;
-  box-shadow: 0px 0px 5px #00000080;
-}
-
-.marker-text {
-  line-height: 1;
-}
-
-button {
-  display: inline-block;
-  padding: ds.$space-md ds.$space-xl;
-  border-radius: ds.$border-radius;
-  font-size: medium;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.1s ease;
-  color: ds.$background-color-dark-theme;
-  border: transparent;
-}
-
-.primary {
-  background-color: ds.$primary-color-dark-theme;
-}
-
-.primary:hover,
-.primary:active {
-  background-color: ds.$primar-color-contrast-dark-theme;
-}
-
-.secondary {
-  background-color: ds.$lines-color-dark-theme;
-}
-
-.secondary:hover,
-.secondary:active {
-  background-color: ds.$lines-color-contrast-dark-theme;
-}
-
-.warn {
-  background-color: ds.$error-color;
-}
-
-.warn:hover,
-.warn:active {
-  background-color: ds.$error-color-contrast;
-}
-
-:root {
-  @include mat.dialog-overrides((container-color: ds.$background-color-dark-theme,
-    ));
-}
-
-.mat-dialog-container {
-  padding-left: 24px;
-}
-
-mat-dialog-title {
-  margin-bottom: 16px;
-  color: #FFFFFF;
-}
-
-mat-dialog-content p {
-  color: ds.$lines-color-dark-theme;
-}
-
-.buttons {
-  display: flex;
-  gap: ds.$space-md;
-}
-
-.mat-dialog-title {
-  padding-left: 20px;
-  margin-bottom: 0;
-}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Open Sans", sans-serif; }

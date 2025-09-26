@@ -1,0 +1,26 @@
+<header>
+  <mat-toolbar>
+    <img routerLink="/home" class="logo" src="logo.png" alt="Logo" />
+    <span class="title"> {{ title() }} </span>
+
+    <!-- Desktop Navigation -->
+    <nav class="nav-links-desktop">
+      <button mat-button routerLink="/home">Home</button>
+      <button mat-button routerLink="/tour-catalog">Tour Catalog</button>
+      <button mat-flat-button routerLink="/add-tour">Add Tour</button>
+    </nav>
+    
+    <!-- Mobile Navigation -->
+    <nav class="nav-links-mobile">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Navigation menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/home">Home</button>
+        <button mat-menu-item routerLink="/tour-catalog">Tour Catalog</button>
+        <button mat-menu-item routerLink="/add-tour">Add Tour</button>
+      </mat-menu>
+    </nav>
+  </mat-toolbar>
+</header>
+<router-outlet />

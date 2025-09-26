@@ -1,0 +1,51 @@
+.logo {
+  height: 80%;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.nav-links-desktop {
+  display: none;
+}
+
+.nav-links-mobile {
+  display: block;
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+  .nav-links-desktop {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+  }
+  
+  .nav-links-mobile {
+    display: none;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .title {
+    display: none;
+  }
+
+  .nav-links-desktop {
+    display: none;
+  }
+  
+  .nav-links-mobile {
+    display: block;
+    margin-left: auto;
+  }
+}
+
+/* Spacing for toolbar */
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 auto;
+  background-color: var(--mat-sys-surface-variant);
+}

@@ -1,0 +1,27 @@
+$image-size: 80px;
+
+.activity-selector-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  list-style-type: none;
+  flex-wrap: wrap;
+}
+
+li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  width: $image-size;
+  cursor: pointer;
+}
