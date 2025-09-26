@@ -97,7 +97,7 @@ export class TourCatalogComponent {
     private dialog: MatDialog,
     private router: Router
   ) {
-    const navigation = this.router.getCurrentNavigation();
+    const navigation = this.router.currentNavigation();
     const state = navigation?.extras.state as { filters: Filters };
     if (state?.filters) {
       this.filters = state.filters;

@@ -450,4 +450,6 @@ export class TourFormComponent implements OnInit {
       reader.readAsText(this.gpxFile);
     }
   }
+
+  // TODO: add function to handle image upload and call the ImageAnalysisService
 }
