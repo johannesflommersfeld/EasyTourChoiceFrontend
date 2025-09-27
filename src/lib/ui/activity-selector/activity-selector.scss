@@ -1,10 +1,11 @@
-$image-size: 80px;
+
+$image-size-mobile: 70px;
+$image-size-desktop: 80px;
+
 
 .activity-selector-container {
   display: flex;
   justify-content: center;
-  width: 100%;
-  margin: 0 auto;
 }
 
 ul {
@@ -13,6 +14,10 @@ ul {
   gap: 1rem;
   list-style-type: none;
   flex-wrap: wrap;
+  max-width: 100%;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 li {
@@ -21,7 +26,21 @@ li {
   align-items: center;
 }
 
-img {
-  width: $image-size;
-  cursor: pointer;
+
+/* Desktop styles */
+@media (min-width: 768px) {
+  img {
+    width: $image-size-desktop;
+    max-width: 100%;
+    cursor: pointer;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  img {
+    width: $image-size-mobile;
+    max-width: 100%;
+    cursor: pointer;
+  }
 }

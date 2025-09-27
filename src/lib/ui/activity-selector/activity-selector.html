@@ -1,16 +1,16 @@
 <div class="activity-selector-container">
   <ul>
-    @for(activity of activitiesOrdered; track activity) {
+    @for(activity of activitiesOrdered(); track activity) {
       <li>
         @if(isIconSelected(activity))
         {
-        <img [src]="activityIconNames[activity].FileName" (click)="clickIcon(activity)"
-          [alt]="activityIconNames[activity].FileName" matTooltip="{{ activityIconNames[activity].ActivityName }}">
+        <img [src]="activityIconNames()[activity].FileName" (click)="onActivityClick(activity)"
+          [alt]="activityIconNames()[activity].FileName" matTooltip="{{ activityIconNames()[activity].ActivityName }}">
         }
         @else{
-        <img [src]="getGreyIcon(activityIconNames[activity].FileName)" (click)="clickIcon(activity)"
-          [alt]="getGreyIcon(activityIconNames[activity].FileName)"
-          matTooltip="{{ activityIconNames[activity].ActivityName }}">
+        <img [src]="getGreyIcon(activityIconNames()[activity].FileName)" (click)="onActivityClick(activity)"
+          [alt]="getGreyIcon(activityIconNames()[activity].FileName)"
+          matTooltip="{{ activityIconNames()[activity].ActivityName }}">
         }
       </li>
     }

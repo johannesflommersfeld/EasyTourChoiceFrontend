@@ -1,1 +1,7 @@
-<app-activity-selector formControlName="activitiesFlag" />
+<div class="home-container">
+  <app-activity-selector 
+    [activitiesOrdered]="activitiesOrdered()"
+    [activityIconNames]="activityIconNames()"
+    [value]="selectedActivitiesFlag()"
+    (valueChange)="onActivitiesChange($event)" />
+</div>
