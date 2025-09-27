@@ -17,6 +17,10 @@ html {
     typography: Roboto,
     density: 0,
   ));
+
+  @include mat.slider-overrides((
+    inactive-track-color: var(--mat-sys-on-surface-variant),
+  ));
 }
 
 body {

@@ -1,6 +1,14 @@
-// .home-container {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 100%;
-// }
+h1 {
+  font-size: xx-large;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.home-container {
+  margin: 3rem 0;
+  gap: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

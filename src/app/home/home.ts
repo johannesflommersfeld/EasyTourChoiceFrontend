@@ -1,15 +1,19 @@
 import { Component, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { Activity } from '../../lib/domain/tour-data/activity';
+import { FilterValues } from '../../lib/domain/tour-data/filter-values';
 import { ActivitySelectorComponent } from '../../lib/ui/activity-selector/activity-selector';
+import { Filters} from '../../lib/ui/filters/filters';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-signals',
-  imports: [ActivitySelectorComponent],
+  imports: [ActivitySelectorComponent, Filters, MatButtonModule],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
 export class HomeComponent {
-  protected readonly activitiesOrdered = signal<Activity[]>([
+  protected readonly activitiesOrdered: Activity[] = [
     Activity.UNDEFINED,
     Activity.ROADCYCLING,
     Activity.GRAVEL,
@@ -22,9 +26,9 @@ export class HomeComponent {
     Activity.HIKING,
     Activity.TREKKING,
     Activity.SKITOURING,
-  ]);
+  ];
 
-  protected readonly activityIconNames = signal<Record<Activity, { FileName: string, ActivityName: string }>>({
+  protected readonly activityIconNames: Record<Activity, { FileName: string, ActivityName: string }> ={
     [Activity.UNDEFINED]: { FileName: 'activities/undefined.png', ActivityName: "Undefined" },
     [Activity.HIKING]: { FileName: 'activities/hiking.png', ActivityName: "Hiking" },
     [Activity.TREKKING]: { FileName: 'activities/trekking.png', ActivityName: "Trekking" },
@@ -37,12 +41,29 @@ export class HomeComponent {
     [Activity.GRAVEL]: { FileName: 'activities/gravel.png', ActivityName: "Gravelbiking" },
     [Activity.BIKEPACKING]: { FileName: 'activities/bikepacking.png', ActivityName: "Bike Packing" },
     [Activity.SKITOURING]: { FileName: 'activities/ski-touring.png', ActivityName: "Ski Touring" },
-  });
+  };
 
   protected selectedActivitiesFlag = signal(Activity.UNDEFINED);
 
+  private filters: FilterValues | undefined;
+
+  constructor(
+    private router: Router
+  ) { }
+
   onActivitiesChange(flag: number) {
     this.selectedActivitiesFlag.set(flag);
-    console.log('Selected activities flag:', flag);
+  }
+
+  onFiltersChanged(filters: FilterValues): void {
+    this.filters = filters;
+  }
+
+  searchTours(): void {
+    if (this.filters) {
+      this.router.navigate(['/tour-catalog'], { state: { filters: this.filters } });
+    } else {
+      this.router.navigate(['/tour-catalog']);
+    }
   }
 }

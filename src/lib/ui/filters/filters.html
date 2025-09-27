@@ -1,0 +1,65 @@
+<div class="slider-container">
+  <div class="control-pair">
+    <div>
+      <h3 class="slider-label">Distance (km)</h3>
+      <mat-slider discrete [max]="upperLimitDistance" [min]="lowerLimitDistance">
+        <input matSliderStartThumb [value]="filterValues.distance.min" (valueChange)="onMinDistanceChanged($event)">
+        <input matSliderEndThumb [value]="filterValues.distance.max" (valueChange)="onMaxDistanceChanged($event)">
+      </mat-slider>
+    </div>
+    <div>
+      <h3 class="slider-label">Duration (h)</h3>
+      <mat-slider discrete [max]="upperLimitDuration" [min]="lowerLimitDuration">
+        <input matSliderStartThumb [value]="filterValues.duration.min" (valueChange)="onMinDurationChanged($event)">
+        <input matSliderEndThumb [value]="filterValues.duration.max" (valueChange)="onMaxDurationChanged($event)">
+      </mat-slider>
+    </div>
+  </div>
+
+  <div class="control-pair">
+    <div>
+      <h3 class="slider-label">Elevation (m)</h3>
+      <mat-slider discrete [max]="upperLimitElevation" [min]="lowerLimitElevation">
+        <input matSliderStartThumb [value]="filterValues.elevation.min" (valueChange)="onMinElevationChanged($event)">
+        <input matSliderEndThumb [value]="filterValues.elevation.max" (valueChange)="onMaxElevationChanged($event)">
+      </mat-slider>
+    </div>
+    <div>
+      <h3 class="slider-label">Aspects</h3>
+    </div>
+  </div>
+
+  <div class="control-pair">
+    <div>
+      <h3 class="slider-label">Difficutly</h3>
+      <mat-slider discrete [max]="upperLimitDifficulty" [min]="lowerLimitDifficulty">
+        <input matSliderStartThumb [value]="filterValues.difficulty.min" (valueChange)="onMinDifficultyChanged($event)">
+        <input matSliderEndThumb [value]="filterValues.difficulty.max" (valueChange)="onMaxDifficultyChanged($event)">
+      </mat-slider>
+    </div>
+    <div>
+      <h3 class="slider-label">Risk</h3>
+      <mat-slider discrete [max]="upperLimitRisk" [min]="lowerLimitRisk">
+        <input matSliderStartThumb [value]="filterValues.risk.min" (valueChange)="onMinRiskChanged($event)">
+        <input matSliderEndThumb [value]="filterValues.risk.max" (valueChange)="onMaxRiskChanged($event)">
+      </mat-slider>
+    </div>
+  </div>
+
+    <div class="control-pair">
+    <div>
+      <h3 class="slider-label">Travel Distance (km)</h3>
+      <mat-slider discrete [max]="upperLimitTravelDistance" [min]="lowerLimitTravelDistance">
+        <input matSliderStartThumb [value]="filterValues.travelDistance.min" (valueChange)="onMinTravelDistanceChanged($event)">
+        <input matSliderEndThumb [value]="filterValues.travelDistance.max" (valueChange)="onMaxTravelDistanceChanged($event)">
+      </mat-slider>
+    </div>
+    <div>
+      <h3 class="slider-label">Travel Duration (h)</h3>
+      <mat-slider discrete [max]="upperLimitTravelDuration" [min]="lowerLimitTravelDuration">
+        <input matSliderStartThumb [value]="filterValues.travelDuration.min" (valueChange)="onMinTravelDurationChanged($event)">
+        <input matSliderEndThumb [value]="filterValues.travelDuration.max" (valueChange)="onMaxTravelDurationChanged($event)">
+      </mat-slider>
+    </div>
+  </div>
+</div>
