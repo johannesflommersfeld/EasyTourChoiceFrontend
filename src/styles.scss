@@ -21,6 +21,16 @@ html {
   @include mat.slider-overrides((
     inactive-track-color: var(--mat-sys-on-surface-variant),
   ));
+
+  @include mat.select-overrides((
+    panel-background-color: var(--mat-sys-surface-variant),
+    enabled-trigger-text-color: var(--mat-sys-surface-variant),
+    enabled-arrow-color: var(--mat-sys-surface-variant),
+  ));
+
+  @include mat.form-field-overrides((
+    filled-container-color: var(--mat-sys-on-surface),
+  ));
 }
 
 body {

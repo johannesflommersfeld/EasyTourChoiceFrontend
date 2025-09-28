@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="controls">
+    <h3>Sort by:</h3>
+    <mat-form-field>
+      <mat-select [value]="selectedSortOption()" (selectionChange)="onSortOptionChange($event.value)">
+        @for (option of sortOptionNames; track option) {
+          <mat-option [value]="option">{{option}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <button mat-flat-button (click)="openFiltersDialog()">Filters</button>
+  </div>
+
+  <div>
+    <h3>Tours Count: {{ tours()?.length || 0 }}</h3>
+    <ul>
+      @for (tour of tours(); track tour.id) {
+        <li>{{ tour.name }}</li>
+      }
+    </ul>
+  </div>
+
+  <!-- Loading indicator -->
+  <!-- @if(isLoading){
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading tours...</div>
+    </div>
+  } -->
+
+
+  <!-- Tour preview section -->
+   <!-- @if (!isLoading && tours && tours.length > 0) {
+    <div class="preview">
+      <div class="map" leaflet (leafletMapReady)="onMapReady($event)">
+      </div>
+      <ul class="tours">
+        <li class="tour-item" *ngFor="let tour of tours; index as idx" #tourItem>
+          <etc-tour-preview [tour]="tour" [index]="idx" (open)="showTourDetails(tour)"></etc-tour-preview>
+        </li>
+      </ul>
+    </div>
+   } -->
+
+
+  <!-- No results message -->
+  <!-- <div *ngIf="!isLoading && (!tours || tours.length === 0)" class="no-results">
+    <p>No tours found that match your filter criteria.</p>
+  </div> -->
+</div>

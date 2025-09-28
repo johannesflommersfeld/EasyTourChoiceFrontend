@@ -58,7 +58,6 @@ export class Filters {
         }
       };
     }
-    console.log(this.filterValues);
     this.filtersChanged.emit(this.filterValues);
   }
 
