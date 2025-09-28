@@ -10,3 +10,9 @@ mat-slider {
     gap: 1rem;
   }
 }
+
+.aspects-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}

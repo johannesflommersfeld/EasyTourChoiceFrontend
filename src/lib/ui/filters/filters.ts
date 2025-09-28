@@ -2,11 +2,13 @@ import { Component, output } from '@angular/core';
 import {MatSliderModule} from '@angular/material/slider';
 import { RiskLevel } from '../../domain/tour-data/risk-level';
 import { GeneralDifficulty } from '../../domain/tour-data/general-difficulty';
-import { FilterValues } from '../../domain/tour-data/filter-values';
+import { DifficultyRangeValue, FilterValues, RangeValue, RiskRangeValue } from '../../domain/tour-data/filter-values';
+import { AspectIndicatorComponent } from '../aspect-indicator/aspect-indicator';
+import { Aspect } from '../../domain/tour-data/aspect';
 
 @Component({
   selector: 'app-filters',
-  imports: [MatSliderModule],
+  imports: [MatSliderModule, AspectIndicatorComponent],
   templateUrl: './filters.html',
   styleUrl: './filters.scss'
 })
@@ -25,7 +27,6 @@ export class Filters {
   readonly upperLimitTravelDistance: number = 1200;
   readonly lowerLimitTravelDuration: number = 0;
   readonly upperLimitTravelDuration: number = 48;
-  // TODO: add aspects here and in the template
 
   protected filterValues: FilterValues = {
     distance: { min: this.lowerLimitDistance, max: this.upperLimitDistance },
@@ -35,18 +36,29 @@ export class Filters {
     difficulty: { min: this.lowerLimitDifficulty, max: this.upperLimitDifficulty },
     travelDistance: { min: this.lowerLimitTravelDistance, max: this.upperLimitTravelDistance },
     travelDuration: { min: this.lowerLimitTravelDuration, max: this.upperLimitTravelDuration },
+    aspects: 0b1111_1111 as Aspect,
   };
 
   filtersChanged = output<FilterValues>();
 
-  private updateFilter<K extends keyof FilterValues>(key: K, value: Partial<FilterValues[K]>): void {
-    this.filterValues = {
-      ...this.filterValues,
-      [key]: {
-        ...this.filterValues[key],
-        ...value
-      }
-    };
+  private updateFilter<K extends keyof FilterValues>(key: K, value: Partial<FilterValues[K]> | FilterValues[K]): void {
+    if (key === 'aspects') {
+      // For aspects, we're dealing with a primitive value, not an object
+      this.filterValues = {
+        ...this.filterValues,
+        [key]: value as FilterValues[K]
+      };
+    } else {
+      // For range values, we can safely spread the objects
+      this.filterValues = {
+        ...this.filterValues,
+        [key]: {
+          ...(this.filterValues[key] as RangeValue | DifficultyRangeValue | RiskRangeValue),
+          ...(value as RangeValue | DifficultyRangeValue | RiskRangeValue)
+        }
+      };
+    }
+    console.log(this.filterValues);
     this.filtersChanged.emit(this.filterValues);
   }
 
@@ -64,4 +76,13 @@ export class Filters {
   onMaxTravelDistanceChanged = (value: number) => this.updateFilter('travelDistance', { max: value });
   onMinTravelDurationChanged = (value: number) => this.updateFilter('travelDuration', { min: value });
   onMaxTravelDurationChanged = (value: number) => this.updateFilter('travelDuration', { max: value });
+  onAspectsChanged = (value: Aspect | undefined) => {
+    if (value === undefined)
+    {
+      this.updateFilter('aspects', Aspect.UNKNOWN)
+    }
+    else {
+      this.updateFilter('aspects', value);
+    }
+  };
 }

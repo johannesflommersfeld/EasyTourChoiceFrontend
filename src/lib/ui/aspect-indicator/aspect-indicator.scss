@@ -1,0 +1,18 @@
+
+path {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 1;
+  paint-order: stroke fill markers;
+  stroke: var(--mat-sys-surface-variant);
+  cursor: pointer;
+}
+
+.background {
+  fill: var(--mat-sys-on-surface-variant);
+}
+
+.foreground {
+  fill: var(--mat-sys-primary);
+}

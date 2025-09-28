@@ -24,8 +24,9 @@
         <input matSliderEndThumb [value]="filterValues.elevation.max" (valueChange)="onMaxElevationChanged($event)">
       </mat-slider>
     </div>
-    <div>
+    <div class="aspects-container">
       <h3 class="slider-label">Aspects</h3>
+      <app-aspect-indicator [aspects]="filterValues.aspects" (aspectsChange)="onAspectsChanged($event)" />
     </div>
   </div>
 

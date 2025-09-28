@@ -25,5 +25,5 @@ export interface FilterValues {
   difficulty: DifficultyRangeValue;
   travelDistance: RangeValue;
   travelDuration: RangeValue;
-  // TODO: add aspects
+  aspects: Aspect;
 }
