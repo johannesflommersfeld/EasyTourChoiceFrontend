@@ -56,7 +56,7 @@ export class AspectIndicatorComponent {
   }
 
   private contains(aspect: Aspect): boolean {
-    let aspects = this.aspects()
+    const aspects = this.aspects()
     if (!aspects) return false;
     return (aspects & aspect) > 0;
   }

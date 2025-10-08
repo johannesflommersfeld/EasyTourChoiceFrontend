@@ -12,12 +12,14 @@ import { SortingCriterium } from '../../lib/ui/sorting-criterium';
 })
 export class ToursService {
 
-  // readonly usersResource = httpResource<Tour[]>(() => `/api/tourData`);
-
   createToursResource(filter: Signal<FilterValues | undefined>, sortOption: Signal<string | undefined>, sortOptionsMap?: Record<string, SortingCriterium>) {
     const toursResource = httpResource<Tour[]>(() => '/api/tourData');
 
     return computed(() => {
+      if (!toursResource.hasValue()) {
+        return undefined;
+      }
+
       let tours = toursResource.value();
       const filterValues = filter();
       const sortOptionValue = sortOption() ? sortOption() : "Distance";
@@ -116,57 +118,6 @@ export class ToursService {
   //   params = params.append('userLatitude', location.latitude);
   //   params = params.append('userLongitude', location.longitude);
   //   return this.http.get<TravelDetails>((`/api/tourData/tours/${id}/travelInfo`), { params });
-  // }
-
-  // getFilteredTours(location: GPSLocation | null, filters: Filters, allTours?: Tour[]): Tour[] {
-  //   if (!allTours) {
-  //     if (this.tours.length === 0) {
-  //       this.fetchAllTours(location).subscribe(tours => { this.tours = tours; });
-  //     }
-  //     allTours = this.tours;
-  //   }
-
-  //   return allTours.filter((tour) => {
-  //     let included: boolean = true;
-  //     if (filters.activitiesFlag !== undefined && filters.activitiesFlag !== Activity.UNDEFINED) {
-  //       included &&= (tour.activityType & filters.activitiesFlag) !== 0;
-  //     }
-  //     if (filters.minDistance !== undefined && filters.maxDistance !== undefined && tour.distance !== null) {
-  //       included &&= tour.distance >= filters.minDistance;
-  //       included &&= tour.distance <= filters.maxDistance;
-  //     }
-  //     if (filters.minDuration !== undefined && filters.maxDuration !== undefined && tour.duration !== null) {
-  //       included &&= tour.duration >= filters.minDuration;
-  //       included &&= tour.duration <= filters.maxDuration;
-  //     }
-  //     if (filters.minMetersOfElevation !== undefined && filters.maxMetersOfElevation !== undefined &&
-  //       tour.metersOfElevation !== null) {
-  //       included &&= tour.metersOfElevation >= filters.minMetersOfElevation;
-  //       included &&= tour.metersOfElevation <= filters.maxMetersOfElevation;
-  //     }
-  //     if (filters.minDifficulty !== undefined && filters.maxDifficulty !== undefined && tour.difficulty !== null && tour.difficulty !== GeneralDifficulty.UNKNOWN) {
-  //       included &&= tour.difficulty >= filters.minDifficulty;
-  //       included &&= tour.difficulty <= filters.maxDifficulty;
-  //     }
-  //     if (filters.minRisk !== undefined && filters.maxRisk !== undefined && tour.risk !== null && tour.risk !== RiskLevel.UNKNOWN) {
-  //       included &&= tour.risk >= filters.minRisk;
-  //       included &&= tour.risk <= filters.maxRisk;
-  //     }
-  //     if (filters.minTravelDistance !== undefined && filters.maxTravelDistance !== undefined &&
-  //       tour.travelDetails?.travelDistance !== undefined && tour.travelDetails?.travelDistance !== null) {
-  //       included &&= tour.travelDetails?.travelDistance >= filters.minTravelDistance;
-  //       included &&= tour.travelDetails?.travelDistance <= filters.maxTravelDistance;
-  //     }
-  //     if (filters.minTravelDuration !== undefined && filters.maxTravelDuration !== undefined &&
-  //       tour.travelDetails?.travelTime !== undefined && tour.travelDetails?.travelTime !== null) {
-  //       included &&= tour.travelDetails?.travelTime >= filters.minTravelDuration;
-  //       included &&= tour.travelDetails?.travelTime <= filters.maxTravelDuration;
-  //     }
-  //     if (filters.aspects !== undefined && tour.aspect !== null && tour.aspect !== Aspect.UNKNOWN) {
-  //       included &&= (tour.aspect & filters.aspects) !== 0;
-  //     }
-  //     return included;
-  //   });
   // }
 
   // putTour(tour: Partial<ITour>): Observable<ITour> {

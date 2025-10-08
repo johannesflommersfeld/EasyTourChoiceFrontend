@@ -30,7 +30,14 @@ html {
 
   @include mat.form-field-overrides((
     filled-container-color: var(--mat-sys-on-surface),
+    filled-label-text-color: var(--mat-sys-surface-variant),
+    filled-hover-label-text-color:  var(--mat-sys-surface-variant),
+    filled-focus-label-text-color: var(--mat-sys-surface-variant),
   ));
+
+  .mat-mdc-dialog-surface {
+    background-color: var(--mat-sys-surface-variant) !important;
+  }
 }
 
 body {
@@ -49,3 +56,45 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Open Sans", sans-serif; }
+
+
+/* Custom marker styles */
+.custom-marker {
+  background: transparent !important;
+  border: none !important;
+  width: 30px !important;
+  height: 30px !important;
+  display: block !important;
+}
+
+.marker-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  border: 2px solid white;
+  box-sizing: border-box; /* Include border in dimensions */
+}
+
+.marker-text {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  user-select: none;
+  line-height: 1; /* Prevent extra height from line-height */
+}
+
+/* Ensure markers appear above other map elements */
+.leaflet-marker-pane {
+  z-index: 600;
+}
+
+/* Remove default Leaflet marker styles */
+.leaflet-div-icon {
+  background: transparent !important;
+  border: none !important;
+}

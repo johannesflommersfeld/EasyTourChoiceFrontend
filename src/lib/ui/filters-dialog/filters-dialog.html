@@ -1,0 +1,10 @@
+<div class="dialog">
+  <h2 mat-dialog-title>Filters</h2>
+  <mat-dialog-content>
+    <app-filters [filterValues]="data.filters" (filtersChanged)="onFiltersChanged($event)"/>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-flat-button [mat-dialog-close]="filters()" cdkFocusInitial>Apply</button>
+  </mat-dialog-actions>
+</div>
+

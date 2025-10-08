@@ -6,6 +6,6 @@
     [value]="selectedActivitiesFlag()"
     (valueChange)="onActivitiesChange($event)"
   />
-  <app-filters (filtersChanged)="onFiltersChanged($event)"/>
+  <app-filters [filterValues]="filters" (filtersChanged)="onFiltersChanged($event)"/>
   <button mat-flat-button (click)="searchTours()">Search</button>
 </div>

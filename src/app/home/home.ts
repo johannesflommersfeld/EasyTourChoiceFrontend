@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Activity } from '../../lib/domain/tour-data/activity';
 import { FilterValues } from '../../lib/domain/tour-data/filter-values';
+import { Aspect } from '../../lib/domain/tour-data/aspect';
 import { ActivitySelectorComponent } from '../../lib/ui/activity-selector/activity-selector';
-import { Filters} from '../../lib/ui/filters/filters';
+import { Filters, FilterLimits } from '../../lib/ui/filters/filters';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,6 +14,19 @@ import { Router } from '@angular/router';
   styleUrl: './home.scss'
 })
 export class HomeComponent {
+  private router = inject(Router);
+
+  protected filters: FilterValues = {
+    distance: { min: FilterLimits.lowerLimitDistance, max: FilterLimits.upperLimitDistance },
+    duration: { min: FilterLimits.lowerLimitDuration, max: FilterLimits.upperLimitDuration },
+    elevation: { min: FilterLimits.lowerLimitElevation, max: FilterLimits.upperLimitElevation },
+    risk: { min: FilterLimits.lowerLimitRisk, max: FilterLimits.upperLimitRisk },
+    difficulty: { min: FilterLimits.lowerLimitDifficulty, max: FilterLimits.upperLimitDifficulty },
+    travelDistance: { min: FilterLimits.lowerLimitTravelDistance, max: FilterLimits.upperLimitTravelDistance },
+    travelDuration: { min: FilterLimits.lowerLimitTravelDuration, max: FilterLimits.upperLimitTravelDuration },
+    aspects: 0b1111_1111 as Aspect,
+  };
+
   protected readonly activitiesOrdered: Activity[] = [
     Activity.UNDEFINED,
     Activity.ROADCYCLING,
@@ -45,21 +59,15 @@ export class HomeComponent {
 
   protected selectedActivitiesFlag = signal(Activity.UNDEFINED);
 
-  private filters: FilterValues | undefined;
-
-  constructor(
-    private router: Router
-  ) { }
-
-  onActivitiesChange(flag: number) {
+  protected onActivitiesChange(flag: number) {
     this.selectedActivitiesFlag.set(flag);
   }
 
-  onFiltersChanged(filters: FilterValues): void {
+  protected onFiltersChanged(filters: FilterValues): void {
     this.filters = filters;
   }
 
-  searchTours(): void {
+  protected searchTours(): void {
     if (this.filters) {
       this.router.navigate(['/tour-catalog'], { state: { filters: this.filters } });
     } else {

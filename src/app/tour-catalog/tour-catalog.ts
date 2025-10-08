@@ -1,29 +1,22 @@
-import { Component, OnInit, Signal, signal } from '@angular/core';
+import { Component, OnInit, Signal, signal, inject, ViewChildren, QueryList, ElementRef, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FilterValues } from '../../lib/domain/tour-data/filter-values';
-import { Map as LeafletMap } from 'leaflet'; 
 import { MatButtonModule } from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { ToursService } from '../services/tours';
-import { Tour } from '../../lib/domain/tour-data/tour';
+import { ITour, Tour } from '../../lib/domain/tour-data/tour';
 import { SortingCriterium } from '../../lib/ui/sorting-criterium';
+import { LocationService } from '../services/location';
+import { GPSLocation } from '../../lib/domain/tour-data/gps-location';
+import { TourListComponent } from '../../lib/ui/tour-list/tour-list';
+import { MatIcon } from '@angular/material/icon';
+import { MapComponent } from '../../lib/ui/map/map';
+import { MatDialog } from '@angular/material/dialog';
+import { FiltersDialog } from '../../lib/ui/filters-dialog/filters-dialog';
 
-@Component({
-  selector: 'app-tour-catalog',
-  imports: [MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule],
-  templateUrl: './tour-catalog.html',
-  styleUrl: './tour-catalog.scss'
-})
-export class TourCatalogComponent implements OnInit {
-
-  protected filters = signal<FilterValues | undefined>(undefined)
-  protected readonly tours: Signal<Tour[] | undefined>;
-
-  protected map: LeafletMap | null = null;
-
-  private sortOptions: Record<string, SortingCriterium> = {
+const SortOptions: Record<string, SortingCriterium> = {
     "Distance": SortingCriterium.DISTANCE,
     "Duration": SortingCriterium.DURATION,
     "Elevation": SortingCriterium.METER_OF_ELEVATION,
@@ -32,53 +25,63 @@ export class TourCatalogComponent implements OnInit {
     "Travel distance": SortingCriterium.TRAVEL_DISTANCE,
     "Travel duration": SortingCriterium.TRAVEL_DURATION,
   };
-  protected sortOptionNames: string[] = Object.keys(this.sortOptions);
+
+@Component({
+  selector: 'app-tour-catalog',
+  imports: [MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatIcon, TourListComponent, MapComponent],
+  templateUrl: './tour-catalog.html',
+  styleUrl: './tour-catalog.scss'
+})
+export class TourCatalogComponent implements OnInit {
+  private router = inject(Router);
+  private tourService = inject(ToursService);
+  private locationService = inject(LocationService);
+  private dialog = inject(MatDialog);
+
+  protected filters = signal<FilterValues | undefined>(undefined)
+  protected location = signal<GPSLocation | undefined>(undefined);
   protected selectedSortOption = signal<string>("Distance");
+  protected tourListComponent = viewChild<TourListComponent>('tourList');
+  @ViewChildren('tourItem') protected tourItems!: QueryList<ElementRef>;
+  protected readonly sortOptionNames: string[] = Object.keys(SortOptions);
+  protected readonly tours: Signal<Tour[] | undefined>;
 
-  constructor(private router: Router, private tourService: ToursService) {
-    this.tours = this.tourService.createToursResource(this.filters.asReadonly(), this.selectedSortOption.asReadonly(), this.sortOptions);
+  constructor() {
+    this.tours = this.tourService.createToursResource(
+      this.filters.asReadonly(),
+      this.selectedSortOption.asReadonly(),
+      SortOptions
+    );
   }
 
-  ngOnInit(): void {
-    const navigation = this.router.currentNavigation();
-    if (navigation?.extras?.state) {
-      this.filters.set(navigation.extras.state['filters'] as FilterValues);
-      console.log('Received filters:', this.filters());
+  async ngOnInit() {
+    if (!this.location()) {
+      this.location.set(await this.locationService.getLocation());
     }
+
+    if (history.state && history.state.filters) {
+        this.filters.set(history.state.filters as FilterValues);
+      }
   }
 
-  protected updateFilters(newFilters: FilterValues) {
+  protected updateFilters = (newFilters: FilterValues) => {
     this.filters.set(newFilters);
+    history.replaceState({ ...history.state, filters: newFilters }, '');
+  };
+  protected onSortOptionChange = (optionName: string) => this.selectedSortOption.set(optionName);
+  protected onTourSelectedFromMap = (index: number) => this.tourListComponent()?.scrollToTour(index);
+  protected onTourSelected = (tour: ITour) => this.router.navigate(['/tour-details', tour.id]);
+
+  protected openFiltersDialog() {
+    const dialogRef = this.dialog.open(FiltersDialog, {
+      data: { filters: this.filters() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.filters.set(result);
+        history.replaceState({ ...history.state, filters: result }, '');
+      }
+    });
   }
-
-  protected onSortOptionChange(optionName: string) {
-    this.selectedSortOption.set(optionName);
-  }
-
-
-  onMapReady(map: Event) {
-    // this.map = map;
-    // if (this.tours) {
-    //   this.addMarkers();
-    // }
-  }
-
-  openFiltersDialog(): void {
-    // const dialogRef = this.dialog.open(FiltersDialogComponent, {
-    //   width: '600px',
-    //   data: { filters: this.filters },
-    // });
-
-    // dialogRef.afterOpened().subscribe(() => {
-    //   window.dispatchEvent(new Event('resize')); // Trigger a resize event
-    // });
-
-    // dialogRef.afterClosed().subscribe((result: Filters) => {
-    //   if (result) {
-    //     this.filters = result;
-    //     this.applyFilters();
-    //   }
-    // });
-  }
-
 }

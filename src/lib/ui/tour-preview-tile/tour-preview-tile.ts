@@ -1,0 +1,77 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { 
+  ActivityPipe,
+  DifficultyPipe,
+  DurationPipe,
+  KilometersPipe,
+  MetersPipe,
+  RiskPipe
+} from '../../utils/pipes';
+import { RiskLevel } from '../../domain/tour-data/risk-level';
+import { GeneralDifficulty } from '../../domain/tour-data/general-difficulty';
+import { ITour } from '../../domain/tour-data/tour';
+
+// TODO refactor to use material tile
+
+@Component({
+  selector: 'app-tour-preview-tile',
+  imports: [
+    KilometersPipe,
+    RouterModule,
+    ActivityPipe,
+    RiskPipe,
+    CommonModule,
+    DurationPipe,
+    MetersPipe,
+    DifficultyPipe,
+  ],
+  templateUrl: './tour-preview-tile.html',
+  styleUrl: './tour-preview-tile.scss'
+})
+export class TourPreviewTileComponent {
+  @Input() tour!: ITour;
+  @Input() index!: number;
+  @Output() open = new EventEmitter();
+  @Output() tourSelected = new EventEmitter<ITour>();
+
+  protected detailsButtonClicked = (tour: ITour) => this.tourSelected.emit(tour);
+
+  getDifficultyColor = TourPreviewTileComponent.getDifficultyColor;
+
+  static getDifficultyColor(difficulty: GeneralDifficulty): string {
+    if (difficulty === GeneralDifficulty.EASY) {
+      return '#008a00';
+    }
+    else if (difficulty === GeneralDifficulty.MILDLY_CHALLENGING) {
+      return '#00628f';
+    }
+    else if (difficulty === GeneralDifficulty.CHALLENGING) {
+      return '#a01e1e';
+    }
+    else {
+      return 'black';
+    }
+  }
+
+  getRiskColor = TourPreviewTileComponent.getRiskColor;
+
+  static getRiskColor(difficulty: RiskLevel): string {
+    if (difficulty === RiskLevel.VERY_SAFE) {
+      return '#008a00';
+    }
+    else if (difficulty === RiskLevel.SAFE) {
+      return '#008a00';
+    }
+    else if (difficulty === RiskLevel.MODERATE_RISK) {
+      return '#da8a10';
+    }
+    else if (difficulty === RiskLevel.HIGH_RISK) {
+      return '#a01e1e';
+    }
+    else {
+      return 'black';
+    }
+  }
+}
