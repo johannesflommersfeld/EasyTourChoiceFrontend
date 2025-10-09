@@ -11,11 +11,11 @@ import { Activity } from '../../domain/tour-data/activity';
 export class ActivitySelectorComponent {
   readonly activitiesOrdered = input.required<Activity[]>();
   readonly activityIconNames = input.required<Record<Activity, { FileName: string, ActivityName: string }>>();
-  
+
   readonly value = input(Activity.UNDEFINED);
-  readonly valueChange = output<number>();
+  protected readonly valueChange = output<number>();
   
-  onActivityClick(activity: Activity) {
+  protected onActivityClick(activity: Activity) {
     let newValue: number;
     if (activity === Activity.UNDEFINED) {
       newValue = Activity.UNDEFINED;
@@ -26,14 +26,14 @@ export class ActivitySelectorComponent {
     this.valueChange.emit(newValue);
   }
   
-  isIconSelected(activity: Activity) {
+  protected isIconSelected(activity: Activity) {
     if (activity === Activity.UNDEFINED) {
       return this.value() === Activity.UNDEFINED;
     }
     return (this.value() & (1 << activity)) > 0;
   }
   
-  getGreyIcon(iconName: string): string {
+  protected getGreyIcon(iconName: string): string {
     return iconName.replace(".png", "_grey.png");
   }
 }

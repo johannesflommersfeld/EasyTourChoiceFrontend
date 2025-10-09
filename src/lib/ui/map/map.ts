@@ -14,11 +14,10 @@ import { TourPreviewTileComponent } from '../tour-preview-tile/tour-preview-tile
 export class MapComponent {
   tours = input<Tour[] | undefined>();
   location = input<GPSLocation | undefined>();
-  tourSelected = output<number>();
+  protected tourSelected = output<number>();
 
   protected map: LeafletMap | undefined;
 
-  // Watch for changes in tours and update markers
   private tourEffect = effect(() => {
     // Access tours, location, and map to trigger effect when either changes
     const tours = this.tours();

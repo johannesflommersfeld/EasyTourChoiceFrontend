@@ -11,14 +11,9 @@ import { TourPreviewTileComponent } from '../tour-preview-tile/tour-preview-tile
 })
 export class TourListComponent {
   tours = input.required<Tour[] | undefined>();
-  
-  tourSelected = output<Tour>();
-  
-  @ViewChildren('tourItem') tourItems!: QueryList<ElementRef>;
+  protected tourSelected = output<Tour>();
 
-  onTourClick(tour: Tour): void {
-    this.tourSelected.emit(tour);
-  }
+  @ViewChildren('tourItem') tourItems!: QueryList<ElementRef>;
 
   scrollToTour(index: number): void {
     const tourElements = this.tourItems?.toArray();
@@ -32,5 +27,9 @@ export class TourListComponent {
       behavior: 'smooth',
       block: isFirst ? 'start' : isLast ? 'end' : 'center'
     });
+  }
+
+  protected onTourClick(tour: Tour): void {
+    this.tourSelected.emit(tour);
   }
 }

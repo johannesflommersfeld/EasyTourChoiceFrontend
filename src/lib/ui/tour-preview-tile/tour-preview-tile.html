@@ -1,26 +1,34 @@
 <section class="tour">
   <div class="tour-preview">
     <div class="tour-info">
-      <div class="tour-index">{{ index + 1 }}</div>
-      <div class="activity">{{ tour.activityType | activity }}</div>
-      <div class="tour-flag" *ngIf="tour.difficulty"
-        [ngStyle]="{'background-color': getDifficultyColor(tour.difficulty)}">{{
-        tour.difficulty | difficulty }}</div>
-      <div class="tour-flag" *ngIf="tour.risk" [ngStyle]="{'background-color': getRiskColor(tour.risk)}">{{ tour.risk |
-        risk }}</div>
+      <div class="tour-index">{{ index() + 1 }}</div>
+      <div class="activity">{{ tour().activityType | activity }}</div>
+      @if(tour().difficulty; as tourDifficulty)
+      {
+        <div class="tour-flag"
+          [ngStyle]="{'background-color': getDifficultyColor(tourDifficulty)}">{{
+          tourDifficulty | difficulty }}
+        </div>
+      }
+      @if(tour().risk; as tourRisk)
+      {
+        <div class="tour-flag"
+          [ngStyle]="{'background-color': getRiskColor(tourRisk)}">{{ tourRisk | risk }}
+        </div>
+      }
     </div>
     <h1>
-      <a class="tour-name" (click)="detailsButtonClicked(tour)">{{ tour.name }}</a>
+      <a class="tour-name" (click)="detailsButtonClicked(tour())">{{ tour().name }}</a>
     </h1>
     <div class="details">
       <img class="preview-icon" [src]="'distance-icon.png'" [alt]="'distance:'" />
-      <div class="preview-detail">{{ tour.distance | kilometers }}</div>
+      <div class="preview-detail">{{ tour().distance | kilometers }}</div>
       <img class="preview-icon" [src]="'elevation-icon.png'" [alt]="'elevation:'" />
-      <div class="preview-detail">{{ tour.metersOfElevation | meters }}</div>
+      <div class="preview-detail">{{ tour().metersOfElevation | meters }}</div>
       <img class="preview-icon" [src]="'time-icon.png'" [alt]="'duration:'" />
-      <div class="preview-detail">{{ tour.duration | duration }}</div>
+      <div class="preview-detail">{{ tour().duration | duration }}</div>
     </div>
     <h2>Description</h2>
-    <div class="description">{{ tour.shortDescription }}</div>
+    <div class="description">{{ tour().shortDescription }}</div>
   </div>
 </section>

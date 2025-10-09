@@ -30,8 +30,8 @@ export class FilterLimits {
   styleUrl: './filters.scss'
 })
 export class Filters implements OnInit {
-  filterValues = input<FilterValues>();
-  filtersChanged = output<FilterValues>();
+  filterValues = input.required<FilterValues>();
+  protected filtersChanged = output<FilterValues>();
 
   protected filterValuesInternal!: FilterValues;
 
@@ -51,9 +51,7 @@ export class Filters implements OnInit {
   protected readonly upperLimitTravelDuration = FilterLimits.upperLimitTravelDuration;
 
   ngOnInit() {
-    if (this.filterValues()) {
-      this.filterValuesInternal = {...this.filterValues()!};
-    }
+    this.filterValuesInternal = {...this.filterValues()};
   }
 
   private updateFilter<K extends keyof FilterValues>(key: K, value: Partial<FilterValues[K]> | FilterValues[K]): void {
@@ -76,21 +74,21 @@ export class Filters implements OnInit {
     this.filtersChanged.emit({...this.filterValuesInternal});
   }
 
-  onMinDistanceChanged = (value: number) => this.updateFilter('distance', { min: value });
-  onMaxDistanceChanged = (value: number) => this.updateFilter('distance', { max: value });
-  onMinDurationChanged = (value: number) => this.updateFilter('duration', { min: value });
-  onMaxDurationChanged = (value: number) => this.updateFilter('duration', { max: value });
-  onMinElevationChanged = (value: number) => this.updateFilter('elevation', { min: value });
-  onMaxElevationChanged = (value: number) => this.updateFilter('elevation', { max: value });
-  onMinRiskChanged = (value: RiskLevel) => this.updateFilter('risk', { min: value });
-  onMaxRiskChanged = (value: RiskLevel) => this.updateFilter('risk', { max: value });
-  onMinDifficultyChanged = (value: GeneralDifficulty) => this.updateFilter('difficulty', { min: value });
-  onMaxDifficultyChanged = (value: GeneralDifficulty) => this.updateFilter('difficulty', { max: value });
-  onMinTravelDistanceChanged = (value: number) => this.updateFilter('travelDistance', { min: value });
-  onMaxTravelDistanceChanged = (value: number) => this.updateFilter('travelDistance', { max: value });
-  onMinTravelDurationChanged = (value: number) => this.updateFilter('travelDuration', { min: value });
-  onMaxTravelDurationChanged = (value: number) => this.updateFilter('travelDuration', { max: value });
-  onAspectsChanged = (value: Aspect | undefined) => {
+  protected onMinDistanceChanged = (value: number) => this.updateFilter('distance', { min: value });
+  protected onMaxDistanceChanged = (value: number) => this.updateFilter('distance', { max: value });
+  protected onMinDurationChanged = (value: number) => this.updateFilter('duration', { min: value });
+  protected onMaxDurationChanged = (value: number) => this.updateFilter('duration', { max: value });
+  protected onMinElevationChanged = (value: number) => this.updateFilter('elevation', { min: value });
+  protected onMaxElevationChanged = (value: number) => this.updateFilter('elevation', { max: value });
+  protected onMinRiskChanged = (value: RiskLevel) => this.updateFilter('risk', { min: value });
+  protected onMaxRiskChanged = (value: RiskLevel) => this.updateFilter('risk', { max: value });
+  protected onMinDifficultyChanged = (value: GeneralDifficulty) => this.updateFilter('difficulty', { min: value });
+  protected onMaxDifficultyChanged = (value: GeneralDifficulty) => this.updateFilter('difficulty', { max: value });
+  protected onMinTravelDistanceChanged = (value: number) => this.updateFilter('travelDistance', { min: value });
+  protected onMaxTravelDistanceChanged = (value: number) => this.updateFilter('travelDistance', { max: value });
+  protected onMinTravelDurationChanged = (value: number) => this.updateFilter('travelDuration', { min: value });
+  protected onMaxTravelDurationChanged = (value: number) => this.updateFilter('travelDuration', { max: value });
+  protected onAspectsChanged = (value: Aspect | undefined) => {
     if (value === undefined)
     {
       this.updateFilter('aspects', Aspect.UNKNOWN)

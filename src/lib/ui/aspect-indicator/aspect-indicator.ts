@@ -23,37 +23,14 @@ export class AspectIndicatorComponent {
     }
   }
 
-  protected containsNorth(): boolean {
-    return this.contains(Aspect.NORTH);
-  }
-
-  protected containsNorthEast(): boolean {
-    return this.contains(Aspect.NORTH_EAST);
-  }
-
-  protected containsEast(): boolean {
-    return this.contains(Aspect.EAST);
-  }
-
-  protected containsSouthEast(): boolean {
-    return this.contains(Aspect.SOUTH_EAST);
-  }
-
-  protected containsSouth(): boolean {
-    return this.contains(Aspect.SOUTH);
-  }
-
-  protected containsSouthWest(): boolean {
-    return this.contains(Aspect.SOUTH_WEST);
-  }
-
-  protected containsWest(): boolean {
-    return this.contains(Aspect.WEST);
-  }
-
-  protected containsNorthWest(): boolean {
-    return this.contains(Aspect.NORTH_WEST);
-  }
+  protected containsNorth = (): boolean => this.contains(Aspect.NORTH);
+  protected containsNorthEast = (): boolean => this.contains(Aspect.NORTH_EAST);
+  protected containsEast = (): boolean => this.contains(Aspect.EAST);
+  protected containsSouthEast = (): boolean => this.contains(Aspect.SOUTH_EAST);
+  protected containsSouth = (): boolean => this.contains(Aspect.SOUTH);
+  protected containsSouthWest = (): boolean => this.contains(Aspect.SOUTH_WEST);
+  protected containsWest = (): boolean => this.contains(Aspect.WEST);
+  protected containsNorthWest = (): boolean => this.contains(Aspect.NORTH_WEST);
 
   private contains(aspect: Aspect): boolean {
     const aspects = this.aspects()

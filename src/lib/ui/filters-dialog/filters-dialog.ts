@@ -1,7 +1,6 @@
-import { Component, Inject, inject, model, OnInit } from '@angular/core';
-import { FilterLimits, Filters } from '../filters/filters';
+import { Component, inject, model } from '@angular/core';
+import { Filters } from '../filters/filters';
 import { FilterValues } from '../../domain/tour-data/filter-values';
-import { Aspect } from '../../domain/tour-data/aspect';
 import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 

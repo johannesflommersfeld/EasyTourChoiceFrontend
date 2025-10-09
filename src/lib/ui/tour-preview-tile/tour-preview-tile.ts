@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, Input, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { 
@@ -31,10 +31,9 @@ import { ITour } from '../../domain/tour-data/tour';
   styleUrl: './tour-preview-tile.scss'
 })
 export class TourPreviewTileComponent {
-  @Input() tour!: ITour;
-  @Input() index!: number;
-  @Output() open = new EventEmitter();
-  @Output() tourSelected = new EventEmitter<ITour>();
+  tour = input.required<ITour>();
+  index = input.required<number>();
+  protected tourSelected = output<ITour>();
 
   protected detailsButtonClicked = (tour: ITour) => this.tourSelected.emit(tour);
 
