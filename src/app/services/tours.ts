@@ -6,13 +6,14 @@ import { Aspect } from '../../lib/domain/tour-data/aspect';
 import { RiskLevel } from '../../lib/domain/tour-data/risk-level';
 import { GeneralDifficulty } from '../../lib/domain/tour-data/general-difficulty';
 import { SortingCriterium } from '../../lib/ui/sorting-criterium';
+import { Activity } from '../../lib/domain/tour-data/activity';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToursService {
 
-  createToursResource(filter: Signal<FilterValues | undefined>, sortOption: Signal<string | undefined>, sortOptionsMap?: Record<string, SortingCriterium>) {
+  createToursResource(filter: Signal<FilterValues | undefined>, sortOption: Signal<string | undefined>, activities: Signal<Activity[] | undefined>, sortOptionsMap?: Record<string, SortingCriterium>) {
     const toursResource = httpResource<Tour[]>(() => '/api/tourData');
 
     return computed(() => {
@@ -23,9 +24,16 @@ export class ToursService {
       let tours = toursResource.value();
       const filterValues = filter();
       const sortOptionValue = sortOption() ? sortOption() : "Distance";
+      const activityValues = activities() ? activities() : [Activity.UNDEFINED];
       const sortingCriterium = sortOptionsMap ? sortOptionsMap[sortOptionValue as keyof typeof sortOptionsMap] : SortingCriterium.DISTANCE;
 
       if (!tours) return tours;
+
+      if (activityValues && activityValues.length > 0 && !activityValues.includes(Activity.UNDEFINED)) {
+        tours = tours.filter(tour => {
+          return activityValues.includes(tour.activityType);
+        })
+      }
 
       if (filterValues !== undefined) {
         tours = tours.filter(tour => {

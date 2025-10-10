@@ -6,6 +6,7 @@ import { Aspect } from '../../lib/domain/tour-data/aspect';
 import { ActivitySelectorComponent } from '../../lib/ui/activity-selector/activity-selector';
 import { Filters, FilterLimits } from '../../lib/ui/filters/filters';
 import { Router } from '@angular/router';
+import { ActivitiesOrdered, ActivityIconNames } from '../utils/activites';
 
 @Component({
   selector: 'app-home-signals',
@@ -27,35 +28,8 @@ export class HomeComponent {
     aspects: 0b1111_1111 as Aspect,
   };
 
-  protected readonly activitiesOrdered: Activity[] = [
-    Activity.UNDEFINED,
-    Activity.ROADCYCLING,
-    Activity.GRAVEL,
-    Activity.MOUNTAINBIKING,
-    Activity.BIKEPACKING,
-    // Activity.BOULDERING,
-    // Activity.SPORTCLIMBING,
-    // Activity.MULTIPITCHCLIMBING,
-    Activity.VIA_VERRATA,
-    Activity.HIKING,
-    Activity.TREKKING,
-    Activity.SKITOURING,
-  ];
-
-  protected readonly activityIconNames: Record<Activity, { FileName: string, ActivityName: string }> ={
-    [Activity.UNDEFINED]: { FileName: 'activities/undefined.png', ActivityName: "Undefined" },
-    [Activity.HIKING]: { FileName: 'activities/hiking.png', ActivityName: "Hiking" },
-    [Activity.TREKKING]: { FileName: 'activities/trekking.png', ActivityName: "Trekking" },
-    [Activity.BOULDERING]: { FileName: 'activities/bouldering.png', ActivityName: "Bouldering" },
-    [Activity.SPORTCLIMBING]: { FileName: 'activities/sport-climbing.png', ActivityName: "Sport Climbing" },
-    [Activity.MULTIPITCHCLIMBING]: { FileName: 'activities/multi-pitch-climbing.png', ActivityName: "Multi-pitch Climbing" },
-    [Activity.VIA_VERRATA]: { FileName: 'activities/via-verrata.png', ActivityName: "Via Verrata" },
-    [Activity.MOUNTAINBIKING]: { FileName: 'activities/mtb.png', ActivityName: "Mountainbiking" },
-    [Activity.ROADCYCLING]: { FileName: 'activities/roadcycling.png', ActivityName: "Road Cycling" },
-    [Activity.GRAVEL]: { FileName: 'activities/gravel.png', ActivityName: "Gravelbiking" },
-    [Activity.BIKEPACKING]: { FileName: 'activities/bikepacking.png', ActivityName: "Bike Packing" },
-    [Activity.SKITOURING]: { FileName: 'activities/ski-touring.png', ActivityName: "Ski Touring" },
-  };
+  protected readonly activitiesOrdered: Activity[] = ActivitiesOrdered;
+  protected readonly activityIconNames: Record<Activity, { FileName: string, ActivityName: string }> = ActivityIconNames;
 
   protected selectedActivitiesFlag = signal(Activity.UNDEFINED);
 
@@ -69,9 +43,26 @@ export class HomeComponent {
 
   protected searchTours(): void {
     if (this.filters) {
-      this.router.navigate(['/tour-catalog'], { state: { filters: this.filters } });
+      this.router.navigate(['/tour-catalog'], { state: { filters: this.filters, activities: HomeComponent.flagToActivities(this.selectedActivitiesFlag())} });
     } else {
       this.router.navigate(['/tour-catalog']);
     }
+  }
+
+  private static flagToActivities(flag: number): Activity[] {
+    if (flag == Activity.UNDEFINED) {
+      return [Activity.UNDEFINED]
+    }
+
+    let activites: Activity[] = []
+    for (let activity of ActivitiesOrdered) {
+      if (flag == Activity.UNDEFINED) continue;
+
+      if (flag & (1 << activity))
+      {
+        activites.push(activity);
+      }
+    }
+    return activites;
   }
 }

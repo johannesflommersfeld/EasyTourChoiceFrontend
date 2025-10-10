@@ -8,6 +8,16 @@
         }
       </mat-select>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Activity</mat-label>
+      <mat-select [value]="selectedActivities()" (selectionChange)="onActivityChange($event.value)" multiple>
+        @for (activity of availableActivities; track activity) {
+          <mat-option [value]="activity">{{activityNames[activity].ActivityName}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
     <button mat-flat-button (click)="openFiltersDialog()">
       Filters
       <mat-icon>filter_list</mat-icon>

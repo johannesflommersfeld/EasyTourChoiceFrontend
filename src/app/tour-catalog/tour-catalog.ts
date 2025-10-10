@@ -16,6 +16,8 @@ import { MapComponent } from '../../lib/ui/map/map';
 import { MatDialog } from '@angular/material/dialog';
 import { FiltersDialog } from '../../lib/ui/filters-dialog/filters-dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Activity } from '../../lib/domain/tour-data/activity';
+import { ActivitiesOrdered, ActivityIconNames } from '../utils/activites';
 
 const SortOptions: Record<string, SortingCriterium> = {
     "Distance": SortingCriterium.DISTANCE,
@@ -26,6 +28,8 @@ const SortOptions: Record<string, SortingCriterium> = {
     "Travel distance": SortingCriterium.TRAVEL_DISTANCE,
     "Travel duration": SortingCriterium.TRAVEL_DURATION,
   };
+
+// TODO: add activity selection
 
 @Component({
   selector: 'app-tour-catalog',
@@ -42,15 +46,19 @@ export class TourCatalogComponent implements OnInit {
   protected filters = signal<FilterValues | undefined>(undefined)
   protected location = signal<GPSLocation | undefined>(undefined);
   protected selectedSortOption = signal<string>("Distance");
+  protected selectedActivities = signal<Activity[]>([]);
   protected tourListComponent = viewChild<TourListComponent>('tourList');
   @ViewChildren('tourItem') protected tourItems!: QueryList<ElementRef>;
   protected readonly sortOptionNames: string[] = Object.keys(SortOptions);
   protected readonly tours: Signal<Tour[] | undefined>;
+  protected readonly availableActivities = ActivitiesOrdered;
+  protected readonly activityNames = ActivityIconNames;
 
   constructor() {
     this.tours = this.tourService.createToursResource(
       this.filters.asReadonly(),
       this.selectedSortOption.asReadonly(),
+      this.selectedActivities.asReadonly(),
       SortOptions
     );
   }
@@ -61,8 +69,11 @@ export class TourCatalogComponent implements OnInit {
     }
 
     if (history.state && history.state.filters) {
-        this.filters.set(history.state.filters as FilterValues);
-      }
+      this.filters.set(history.state.filters as FilterValues);
+    }
+    if (history.state && history.state.activities) {
+      this.selectedActivities.set(history.state.activities as Activity[]);
+    }
   }
 
   protected updateFilters = (newFilters: FilterValues) => {
@@ -70,6 +81,15 @@ export class TourCatalogComponent implements OnInit {
     history.replaceState({ ...history.state, filters: newFilters }, '');
   };
   protected onSortOptionChange = (optionName: string) => this.selectedSortOption.set(optionName);
+  protected onActivityChange = (options: Activity[]) => {
+    if (options.includes(Activity.UNDEFINED) && !history.state.activities.includes(Activity.UNDEFINED)) {
+      this.selectedActivities.set([Activity.UNDEFINED])
+    }
+    else {
+      this.selectedActivities.set(options.filter(activity => activity !== Activity.UNDEFINED))
+    }
+    history.replaceState({ ...history.state, activities: this.selectedActivities() }, '');
+  };
   protected onTourSelectedFromMap = (index: number) => this.tourListComponent()?.scrollToTour(index);
   protected onTourSelected = (tour: ITour) => this.router.navigate(['/tour-details', tour.id]);
 
