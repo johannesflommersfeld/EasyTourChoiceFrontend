@@ -7,6 +7,7 @@ import { ActivitySelectorComponent } from '../../lib/ui/activity-selector/activi
 import { Filters, FilterLimits } from '../../lib/ui/filters/filters';
 import { Router } from '@angular/router';
 import { ActivitiesOrdered, ActivityIconNames } from '../utils/activites';
+import { DefaultFilters } from '../utils/filters';
 
 @Component({
   selector: 'app-home-signals',
@@ -17,16 +18,7 @@ import { ActivitiesOrdered, ActivityIconNames } from '../utils/activites';
 export class HomeComponent {
   private router = inject(Router);
 
-  protected filters: FilterValues = {
-    distance: { min: FilterLimits.lowerLimitDistance, max: FilterLimits.upperLimitDistance },
-    duration: { min: FilterLimits.lowerLimitDuration, max: FilterLimits.upperLimitDuration },
-    elevation: { min: FilterLimits.lowerLimitElevation, max: FilterLimits.upperLimitElevation },
-    risk: { min: FilterLimits.lowerLimitRisk, max: FilterLimits.upperLimitRisk },
-    difficulty: { min: FilterLimits.lowerLimitDifficulty, max: FilterLimits.upperLimitDifficulty },
-    travelDistance: { min: FilterLimits.lowerLimitTravelDistance, max: FilterLimits.upperLimitTravelDistance },
-    travelDuration: { min: FilterLimits.lowerLimitTravelDuration, max: FilterLimits.upperLimitTravelDuration },
-    aspects: 0b1111_1111 as Aspect,
-  };
+  protected filters: FilterValues = DefaultFilters
 
   protected readonly activitiesOrdered: Activity[] = ActivitiesOrdered;
   protected readonly activityIconNames: Record<Activity, { FileName: string, ActivityName: string }> = ActivityIconNames;
@@ -42,11 +34,7 @@ export class HomeComponent {
   }
 
   protected searchTours(): void {
-    if (this.filters) {
-      this.router.navigate(['/tour-catalog'], { state: { filters: this.filters, activities: HomeComponent.flagToActivities(this.selectedActivitiesFlag())} });
-    } else {
-      this.router.navigate(['/tour-catalog']);
-    }
+    this.router.navigate(['/tour-catalog'], { state: { filters: this.filters, activities: HomeComponent.flagToActivities(this.selectedActivitiesFlag())} });
   }
 
   private static flagToActivities(flag: number): Activity[] {

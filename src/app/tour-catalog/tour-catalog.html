@@ -24,14 +24,14 @@
     </button>
   </div>
 
-  @if (tours(); as tourList) {
+  @if (tours() !== undefined) {
     <div class="preview">
       <app-map 
         [tours]="tours()" 
         [location]="location()"
         (tourSelected)="onTourSelectedFromMap($event)">
       </app-map>
-      @if (tourList.length > 0) {
+      @if (tours()?.length) {
         <app-tour-list 
             [tours]="tours()" 
             (tourSelected)="onTourSelected($event)"

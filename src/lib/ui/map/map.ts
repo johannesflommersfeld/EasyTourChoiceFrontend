@@ -12,7 +12,7 @@ import { TourPreviewTileComponent } from '../tour-preview-tile/tour-preview-tile
   styleUrl: './map.scss'
 })
 export class MapComponent {
-  tours = input<Tour[] | undefined>();
+  tours = input.required<Tour[] | undefined>();
   location = input<GPSLocation | undefined>();
   protected tourSelected = output<number>();
 
@@ -24,7 +24,7 @@ export class MapComponent {
     const location = this.location();
     const map = this.map;
     
-    if (tours && map) {
+    if (map) {
       this.addMarkers();
     }
   });
