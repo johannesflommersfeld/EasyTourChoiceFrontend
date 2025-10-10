@@ -1,13 +1,19 @@
 .tours {
-  margin: 0;
-  padding: 0;
-  gap: 1rem;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
-  width: 400px;
+  width: 24rem;
   height: 100%;
+  gap: 1rem;
   flex-shrink: 0;
   list-style: none;
+}
+
+@media (max-width: 767px) {
+  .tours {
+    width: 18rem;
+    padding: 0;
+    height: 60%;
+  }
 }

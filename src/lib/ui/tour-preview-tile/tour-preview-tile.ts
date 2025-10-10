@@ -1,6 +1,7 @@
-import { Component, input, Input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 import { 
   ActivityPipe,
   DifficultyPipe,
@@ -12,8 +13,7 @@ import {
 import { RiskLevel } from '../../domain/tour-data/risk-level';
 import { GeneralDifficulty } from '../../domain/tour-data/general-difficulty';
 import { ITour } from '../../domain/tour-data/tour';
-
-// TODO refactor to use material tile
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-tour-preview-tile',
@@ -26,6 +26,8 @@ import { ITour } from '../../domain/tour-data/tour';
     DurationPipe,
     MetersPipe,
     DifficultyPipe,
+    MatCardModule,
+    MatButtonModule,
   ],
   templateUrl: './tour-preview-tile.html',
   styleUrl: './tour-preview-tile.scss'

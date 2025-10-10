@@ -1,21 +1,11 @@
-@if (tours(); as tourList) {
-  @if (tourList.length > 0) {
-    <ul class="tours">
-      @for (tour of tourList; track tour.id; let idx = $index) {
-        <li class="tour-item" #tourItem>
-          <app-tour-preview-tile
-            [tour]="tour"
-            [index]="idx"
-            (tourSelected)="onTourClick(tour)">
-          </app-tour-preview-tile>
-        </li>
-      }
-    </ul>
+<ul class="tours">
+  @for (tour of tours(); track tour.id; let idx = $index) {
+    <li class="tour-item" #tourItem>
+      <app-tour-preview-tile
+        [tour]="tour"
+        [index]="idx"
+        (tourSelected)="onTourClick(tour)">
+      </app-tour-preview-tile>
+    </li>
   }
-}
-
-@if (!tours() || tours()?.length === 0) {
-  <div class="no-results">
-    <p>No tours found that match your filter criteria.</p>
-  </div>
-}
+</ul>

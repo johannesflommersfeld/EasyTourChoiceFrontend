@@ -29,7 +29,5 @@ export class TourListComponent {
     });
   }
 
-  protected onTourClick(tour: Tour): void {
-    this.tourSelected.emit(tour);
-  }
+  protected onTourClick = (tour: Tour) => this.tourSelected.emit(tour);
 }

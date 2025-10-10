@@ -1,34 +1,45 @@
-<section class="tour">
-  <div class="tour-preview">
-    <div class="tour-info">
-      <div class="tour-index">{{ index() + 1 }}</div>
-      <div class="activity">{{ tour().activityType | activity }}</div>
-      @if(tour().difficulty; as tourDifficulty)
-      {
-        <div class="tour-flag"
-          [ngStyle]="{'background-color': getDifficultyColor(tourDifficulty)}">{{
-          tourDifficulty | difficulty }}
-        </div>
-      }
-      @if(tour().risk; as tourRisk)
-      {
-        <div class="tour-flag"
-          [ngStyle]="{'background-color': getRiskColor(tourRisk)}">{{ tourRisk | risk }}
-        </div>
-      }
-    </div>
-    <h1>
-      <a class="tour-name" (click)="detailsButtonClicked(tour())">{{ tour().name }}</a>
-    </h1>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <div mat-card-avatar class="tour-index">{{ index() + 1 }}</div>
+    <mat-card-title>{{ tour().name }}</mat-card-title>
+    <mat-card-subtitle>
+      <div class="subtitles">
+        <div class="activity">{{ tour().activityType | activity }}</div>
+        @if(tour().difficulty; as tourDifficulty)
+        {
+          <div class="tour-flag"
+            [ngStyle]="{'background-color': getDifficultyColor(tourDifficulty)}">{{
+            tourDifficulty | difficulty }}
+          </div>
+        }
+        @if(tour().risk; as tourRisk)
+        {
+          <div class="tour-flag"
+            [ngStyle]="{'background-color': getRiskColor(tourRisk)}">{{ tourRisk | risk }}
+          </div>
+        }
+      </div>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
     <div class="details">
-      <img class="preview-icon" [src]="'distance-icon.png'" [alt]="'distance:'" />
-      <div class="preview-detail">{{ tour().distance | kilometers }}</div>
-      <img class="preview-icon" [src]="'elevation-icon.png'" [alt]="'elevation:'" />
-      <div class="preview-detail">{{ tour().metersOfElevation | meters }}</div>
-      <img class="preview-icon" [src]="'time-icon.png'" [alt]="'duration:'" />
-      <div class="preview-detail">{{ tour().duration | duration }}</div>
+      <div class="detail-group">
+        <img class="preview-icon" [src]="'distance-icon.png'" [alt]="'distance:'" />
+        <div>{{ tour().distance | kilometers }}</div>
+      </div>
+      <div class="detail-group">
+        <img class="preview-icon" [src]="'elevation-icon.png'" [alt]="'elevation:'" />
+        <div>{{ tour().metersOfElevation | meters }}</div>
+      </div>
+      <div class="detail-group">
+        <img class="preview-icon" [src]="'time-icon.png'" [alt]="'duration:'" />
+        <div>{{ tour().duration | duration }}</div>
+      </div>
     </div>
-    <h2>Description</h2>
     <div class="description">{{ tour().shortDescription }}</div>
-  </div>
-</section>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="detailsButtonClicked(tour())">Details</button>
+  </mat-card-actions>
+</mat-card>

@@ -35,6 +35,11 @@ html {
     filled-focus-label-text-color: var(--mat-sys-surface-variant),
   ));
 
+  @include mat.card-overrides((
+    outlined-outline-color: var(--mat-sys-on-surface-variant),
+    outlined-container-color: var(--mat-sys-surface-variant),
+  ));
+
   .mat-mdc-dialog-surface {
     background-color: var(--mat-sys-surface-variant) !important;
   }
