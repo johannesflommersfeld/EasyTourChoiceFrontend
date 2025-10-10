@@ -15,6 +15,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MapComponent } from '../../lib/ui/map/map';
 import { MatDialog } from '@angular/material/dialog';
 import { FiltersDialog } from '../../lib/ui/filters-dialog/filters-dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const SortOptions: Record<string, SortingCriterium> = {
     "Distance": SortingCriterium.DISTANCE,
@@ -28,7 +29,7 @@ const SortOptions: Record<string, SortingCriterium> = {
 
 @Component({
   selector: 'app-tour-catalog',
-  imports: [MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatIcon, TourListComponent, MapComponent],
+  imports: [MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatIcon, MatProgressSpinnerModule, TourListComponent, MapComponent],
   templateUrl: './tour-catalog.html',
   styleUrl: './tour-catalog.scss'
 })

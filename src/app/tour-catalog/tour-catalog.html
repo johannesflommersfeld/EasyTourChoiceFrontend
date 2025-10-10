@@ -14,36 +14,31 @@
     </button>
   </div>
 
-  <!-- Loading indicator -->
-  @if(!tours()){
-    <div class="loading-container">
-      <div class="spinner"></div>
-      <div class="loading-text">Loading tours...</div>
+  @if (tours(); as tourList) {
+    <div class="preview">
+      <app-map 
+        [tours]="tours()" 
+        [location]="location()"
+        (tourSelected)="onTourSelectedFromMap($event)">
+      </app-map>
+      @if (tourList.length > 0) {
+        <app-tour-list 
+            [tours]="tours()" 
+            (tourSelected)="onTourSelected($event)"
+            #tourList>
+        </app-tour-list>
+      }
+      @else {
+        <div class="no-results">
+          <p>No tours found that match your filter criteria.</p>
+        </div>
+      }
     </div>
   }
-
-  <!-- Tour preview section -->
-  @if (tours(); as tourList) {
-    @if (tourList.length > 0) {
-      <div class="preview">
-        <app-map 
-          [tours]="tours()" 
-          [location]="location()"
-          (tourSelected)="onTourSelectedFromMap($event)">
-        </app-map>
-        <app-tour-list 
-           [tours]="tours()" 
-           (tourSelected)="onTourSelected($event)"
-           #tourList>
-        </app-tour-list>
-      </div>
-    }
-  }
-
-
-  @if(tours()?.length === 0) {
-    <div class="no-results">
-      <p>No tours found that match your filter criteria.</p>
+  @else {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <div class="loading-text">Loading tours...</div>
     </div>
   }
 </div>

@@ -57,41 +57,14 @@
   }
 }
 
-/* Loading indicator styles */
 .loading-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 300px;
-  width: 100%;
+  gap: 1rem;
+  margin-top: 5rem;
 }
 
-.loading-text {
-  color: var(--mat-sys-on-surface);
-  font-size: 1rem;
-}
-
-.spinner {
-  width: 70px;
-  height: 70px;
-  border: 8px solid var(--mat-sys-surface-variant);
-  border-radius: 50%;
-  border-top-color: var(--mat-sys-primar);
-  animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* No results message */
 .no-results {
   display: flex;
   justify-content: center;
