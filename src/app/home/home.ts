@@ -2,9 +2,8 @@ import { Component, signal, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Activity } from '../../lib/domain/tour-data/activity';
 import { FilterValues } from '../../lib/domain/tour-data/filter-values';
-import { Aspect } from '../../lib/domain/tour-data/aspect';
 import { ActivitySelectorComponent } from '../../lib/ui/activity-selector/activity-selector';
-import { Filters, FilterLimits } from '../../lib/ui/filters/filters';
+import { Filters } from '../../lib/ui/filters/filters';
 import { Router } from '@angular/router';
 import { ActivitiesOrdered, ActivityIconNames } from '../utils/activites';
 import { DefaultFilters } from '../utils/filters';
@@ -42,15 +41,15 @@ export class HomeComponent {
       return [Activity.UNDEFINED]
     }
 
-    let activites: Activity[] = []
-    for (let activity of ActivitiesOrdered) {
+    const activities: Activity[] = []
+    for (const activity of ActivitiesOrdered) {
       if (flag == Activity.UNDEFINED) continue;
 
       if (flag & (1 << activity))
       {
-        activites.push(activity);
+        activities.push(activity);
       }
     }
-    return activites;
+    return activities;
   }
 }

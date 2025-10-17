@@ -1,19 +1,30 @@
-import { computed, Injectable, Signal } from '@angular/core';
-import { httpResource } from '@angular/common/http';
-import { Tour } from '../../lib/domain/tour-data/tour';
+import { computed, inject, Injectable, Signal } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { ITour, Tour } from '../../lib/domain/tour-data/tour';
 import { FilterValues } from '../../lib/domain/tour-data/filter-values';
 import { Aspect } from '../../lib/domain/tour-data/aspect';
 import { RiskLevel } from '../../lib/domain/tour-data/risk-level';
 import { GeneralDifficulty } from '../../lib/domain/tour-data/general-difficulty';
 import { SortingCriterium } from '../../lib/ui/sorting-criterium';
 import { Activity } from '../../lib/domain/tour-data/activity';
+import { WeatherForecast } from '../../lib/domain/tour-data/weather-forecast';
+import { AvalancheBulletin } from '../../lib/domain/tour-data/avalanche-bulletin';
+import * as jsonpatch from 'fast-json-patch';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToursService {
+  private readonly http = inject(HttpClient)
 
-  createToursResource(filter: Signal<FilterValues | undefined>, sortOption: Signal<string | undefined>, activities: Signal<Activity[] | undefined>, sortOptionsMap?: Record<string, SortingCriterium>) {
+  createToursResource(
+    filter: Signal<FilterValues | undefined>,
+    sortOption: Signal<string | undefined>,
+    activities: Signal<Activity[] | undefined>,
+    sortOptionsMap?: Record<string, SortingCriterium>
+  ) {
     const toursResource = httpResource<Tour[]>(() => '/api/tourData');
 
     return computed(() => {
@@ -25,7 +36,9 @@ export class ToursService {
       const filterValues = filter();
       const sortOptionValue = sortOption() ? sortOption() : "Distance";
       const activityValues = activities() ? activities() : [Activity.UNDEFINED];
-      const sortingCriterium = sortOptionsMap ? sortOptionsMap[sortOptionValue as keyof typeof sortOptionsMap] : SortingCriterium.DISTANCE;
+      const sortingCriterium = sortOptionsMap
+        ? sortOptionsMap[sortOptionValue as keyof typeof sortOptionsMap]
+        : SortingCriterium.DISTANCE;
 
       if (!tours) return tours;
 
@@ -107,45 +120,22 @@ export class ToursService {
     });
   }
 
+  createSingleTourResource = (tourId: Signal<string | undefined>) => httpResource<Tour>(() => tourId() ? `/api/tourData/tours/${tourId()}` : undefined);
+  createWeatherForecastResourceById = (tourId: Signal<string | undefined>) => httpResource<WeatherForecast>(() => `/api/tourData/tours/${tourId()}/weatherForecast`);
+  createAvalancheReportResourceById = (tourId: Signal<string | undefined>) => httpResource<AvalancheBulletin>(() => `/api/tourData/tours/${tourId()}/avalancheReport`);
 
-  createSingleTourResource(tourId: Signal<string>) {
-    return httpResource<Tour>(() => `/api/tourData/${tourId()}`);
+  putTour(tour: Partial<ITour>): Observable<ITour> {
+    // TODO: ensure all fields are filled
+    // let newTour: ITour = { ...tour, id: 0, travelDetails: null, bulletin: null, weatherForecast: null }
+    return this.http.post<ITour>(`/api/tourData/`, tour);
   }
 
+  patchTour(id: number, tourChanges: Partial<ITour>, originalTour: ITour): Observable<ITour> {
+    const patchDocument = jsonpatch.compare(originalTour, { ...originalTour, ...tourChanges });
+    return this.http.patch<ITour>(`/api/tourData/${id}`, patchDocument);
+  }
 
-  // fetchWeatherForecastById(id: number): Observable<WeatherForecast> {
-  //   return this.http.get<WeatherForecast>((`/api/tourData/tours/${id}/weatherForecast`));
-  // }
-
-  // fetchAvalancheReportById(id: number): Observable<AvalancheBulletin> {
-  //   return this.http.get<AvalancheBulletin>((`/api/tourData/tours/${id}/avalancheReport`));
-  // }
-
-  // fetchTravelInfoById(id: number, location: GPSLocation): Observable<TravelDetails> {
-  //   let params = new HttpParams();
-  //   params = params.append('userLatitude', location.latitude);
-  //   params = params.append('userLongitude', location.longitude);
-  //   return this.http.get<TravelDetails>((`/api/tourData/tours/${id}/travelInfo`), { params });
-  // }
-
-  // putTour(tour: Partial<ITour>): Observable<ITour> {
-  //   // TODO: ensure all fields are filled
-  //   // let newTour: ITour = { ...tour, id: 0, travelDetails: null, bulletin: null, weatherForecast: null }
-  //   return this.http.post<ITour>(`/api/tourData/`, tour);
-  // }
-
-  // patchTour(id: number, tourChanges: Partial<ITour>, originalTour: ITour): Observable<ITour> {
-  //   // Create a JSON patch document by comparing original and updated tour
-  //   const patchDocument = jsonpatch.compare(originalTour, { ...originalTour, ...tourChanges });
-  //   console.log('Patch document:', patchDocument);
-
-  //   // Send the patch document to the API
-  //   return this.http.patch<ITour>(`/api/tourData/${id}`, patchDocument);
-  // }
-
-  // deleteTour(id: number) {
-  //   console.log('Delete tour:', id);
-  //   return this.http.delete(`/api/tourData/${id}`);
-  // }
-
+  deleteTour(id: number) {
+    return this.http.delete(`/api/tourData/${id}`);
+  }
 }

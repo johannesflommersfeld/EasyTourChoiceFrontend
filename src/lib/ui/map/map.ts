@@ -20,8 +20,8 @@ export class MapComponent {
 
   private tourEffect = effect(() => {
     // Access tours, location, and map to trigger effect when either changes
-    const tours = this.tours();
-    const location = this.location();
+    this.tours();
+    this.location();
     const map = this.map;
     
     if (map) {
@@ -89,7 +89,7 @@ export class MapComponent {
           shadowUrl: 'assets/marker-shadow.png'
         })
       });
-      targetMarker.addTo(this.map).on('click', (e) => this.markerOnClick(index));
+      targetMarker.addTo(this.map).on('click', () => this.markerOnClick(index));
     }
     else {
       const risk = this.tours() && index < this.tours()!.length ? this.tours()![index].risk : null;
@@ -110,7 +110,7 @@ export class MapComponent {
       const targetMarker = marker([location.latitude, location.longitude], {
         icon: customIcon,
       });
-      targetMarker.addTo(this.map).on('click', (e) => this.markerOnClick(index));
+      targetMarker.addTo(this.map).on('click', () => this.markerOnClick(index));
     }
   }
 

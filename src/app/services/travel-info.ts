@@ -7,16 +7,19 @@ import { TravelDetails } from "../../lib/domain/tour-data/travel-details";
   providedIn: 'root'
 })
 export class TravelInfoService {
+  createTravelInfoResourceById(id: Signal<string | undefined>, location: Signal<GPSLocation | undefined>): HttpResourceRef<TravelDetails | undefined> {
+    return httpResource(() => {
+      if (!location()) return undefined;
 
-  fetchTravelInfoById(id: Signal<number>, location: GPSLocation): HttpResourceRef<TravelDetails | undefined> {
-    return httpResource(() => ({
-      url: `/api/tourData/tours/${id()}/travelInfo`,
-      method: 'GET',
-      params: {
-        'userLatitude': location.latitude,
-        'userLongitude': location.longitude,
-      },
-      reportProgress: true,
-    }));
+      return {
+        url: `/api/tourData/tours/${id()}/travelInfo`,
+        method: 'GET',
+        params: {
+          'userLatitude': location()?.latitude ?? '',
+          'userLongitude': location()?.longitude ?? '',
+        },
+        reportProgress: true,
+      }
+    });
   }
 }
