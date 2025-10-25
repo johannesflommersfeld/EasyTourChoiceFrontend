@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, Signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
-import { ITour, Tour } from '../../lib/domain/tour-data/tour';
+import { ITour } from '../../lib/domain/tour-data/tour';
 import { FilterValues } from '../../lib/domain/tour-data/filter-values';
 import { Aspect } from '../../lib/domain/tour-data/aspect';
 import { RiskLevel } from '../../lib/domain/tour-data/risk-level';
@@ -25,7 +25,7 @@ export class ToursService {
     activities: Signal<Activity[] | undefined>,
     sortOptionsMap?: Record<string, SortingCriterium>
   ) {
-    const toursResource = httpResource<Tour[]>(() => '/api/tourData');
+    const toursResource = httpResource<ITour[]>(() => '/api/tourData');
 
     return computed(() => {
       if (!toursResource.hasValue()) {
@@ -120,9 +120,9 @@ export class ToursService {
     });
   }
 
-  createSingleTourResource = (tourId: Signal<string | undefined>) => httpResource<Tour>(() => tourId() ? `/api/tourData/tours/${tourId()}` : undefined);
-  createWeatherForecastResourceById = (tourId: Signal<string | undefined>) => httpResource<WeatherForecast>(() => `/api/tourData/tours/${tourId()}/weatherForecast`);
-  createAvalancheReportResourceById = (tourId: Signal<string | undefined>) => httpResource<AvalancheBulletin>(() => `/api/tourData/tours/${tourId()}/avalancheReport`);
+  createSingleTourResource = (tourId: Signal<number | undefined>) => httpResource<ITour>(() => tourId() ? `/api/tourData/tours/${tourId()}` : undefined);
+  createWeatherForecastResourceById = (tourId: Signal<number | undefined>) => httpResource<WeatherForecast>(() => `/api/tourData/tours/${tourId()}/weatherForecast`);
+  createAvalancheReportResourceById = (tourId: Signal<number | undefined>) => httpResource<AvalancheBulletin>(() => `/api/tourData/tours/${tourId()}/avalancheReport`);
 
   putTour(tour: Partial<ITour>): Observable<ITour> {
     // TODO: ensure all fields are filled
@@ -131,7 +131,10 @@ export class ToursService {
   }
 
   patchTour(id: number, tourChanges: Partial<ITour>, originalTour: ITour): Observable<ITour> {
+    console.log('patch');
+    console.log({ ...originalTour, ...tourChanges });
     const patchDocument = jsonpatch.compare(originalTour, { ...originalTour, ...tourChanges });
+    console.log(patchDocument);
     return this.http.patch<ITour>(`/api/tourData/${id}`, patchDocument);
   }
 

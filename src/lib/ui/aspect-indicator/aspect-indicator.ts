@@ -1,5 +1,6 @@
 import { Component, model } from '@angular/core';
 import { Aspect } from '../../domain/tour-data/aspect';
+import { FormValueControl } from '@angular/forms/signals';
 
 
 @Component({
@@ -8,16 +9,16 @@ import { Aspect } from '../../domain/tour-data/aspect';
   templateUrl: './aspect-indicator.html',
   styleUrl: './aspect-indicator.scss'
 })
-export class AspectIndicatorComponent {
+export class AspectIndicatorComponent implements FormValueControl<Aspect | undefined> {
 
-  aspects = model<Aspect>()
+  value = model<Aspect>()
 
   protected onAspectPickerClick(event: MouseEvent): void {
     const target = event.target as SVGElement;
     const aspect = this.getAspectFromId(target.id);
     
     if (aspect !== undefined) {
-      this.aspects.update((aspects) => {
+      this.value.update((aspects) => {
         return aspects ? aspects ^ aspect : aspect;
       });
     }
@@ -33,7 +34,7 @@ export class AspectIndicatorComponent {
   protected containsNorthWest = (): boolean => this.contains(Aspect.NORTH_WEST);
 
   private contains(aspect: Aspect): boolean {
-    const aspects = this.aspects()
+    const aspects = this.value()
     if (!aspects) return false;
     return (aspects & aspect) > 0;
   }

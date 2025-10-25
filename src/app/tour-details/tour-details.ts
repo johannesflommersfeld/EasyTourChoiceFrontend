@@ -1,5 +1,5 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { Tour } from '../../lib/domain/tour-data/tour';
+import { ITour } from '../../lib/domain/tour-data/tour';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ToursService } from '../services/tours';
 import { HttpResourceRef } from '@angular/common/http';
@@ -11,10 +11,14 @@ import { TravelDetails } from '../../lib/domain/tour-data/travel-details';
 import { LocationService } from '../services/location';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialog } from '../../lib/ui/delete-dialog/delete-dialog';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-tour-details',
-  imports: [MatProgressSpinnerModule, MatButtonModule],
+  imports: [MatProgressSpinnerModule, MatButtonModule, MatIconModule],
   templateUrl: './tour-details.html',
   styleUrl: './tour-details.scss'
 })
@@ -23,10 +27,11 @@ export class TourDetailsComponent implements OnInit{
   private tourService = inject(ToursService);
   private travelInfoService = inject(TravelInfoService);
   private locationService = inject(LocationService);
+  private dialog = inject(MatDialog);
 
-  protected tourId = input<string>();
+  protected tourId = input<number>();
 
-  protected tour: HttpResourceRef<Tour | undefined>;
+  protected tour: HttpResourceRef<ITour | undefined>;
   protected weatherForecast: HttpResourceRef<WeatherForecast | undefined>;
   protected avalancheReport: HttpResourceRef<AvalancheBulletin | undefined>;
   protected travelInfo: HttpResourceRef<TravelDetails | undefined>;
@@ -47,4 +52,16 @@ export class TourDetailsComponent implements OnInit{
   }
 
   protected onEditTour = () => this.router.navigate(['/edit-tour', this.tourId()]);
+
+  protected async onDeleteTour() {
+    const dialogRef = this.dialog.open(DeleteDialog);
+
+    dialogRef.afterClosed().subscribe(async result => {
+      const tourId  = this.tourId();
+      if (result && tourId) {
+        await lastValueFrom(this.tourService.deleteTour(tourId));
+        this.router.navigate(['/tour-catalog'])
+      }
+    });
+  };
 }

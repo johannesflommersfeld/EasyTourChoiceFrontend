@@ -1,5 +1,5 @@
 import { Component, input, output, ViewChildren, QueryList, ElementRef } from '@angular/core';
-import { Tour } from '../../domain/tour-data/tour';
+import { ITour } from '../../domain/tour-data/tour';
 import { TourPreviewTileComponent } from '../tour-preview-tile/tour-preview-tile';
 
 @Component({
@@ -10,8 +10,8 @@ import { TourPreviewTileComponent } from '../tour-preview-tile/tour-preview-tile
   styleUrl: './tour-list.scss'
 })
 export class TourListComponent {
-  tours = input.required<Tour[] | undefined>();
-  protected tourSelected = output<Tour>();
+  tours = input.required<ITour[] | undefined>();
+  protected tourSelected = output<ITour>();
 
   @ViewChildren('tourItem') tourItems!: QueryList<ElementRef>;
 
@@ -29,5 +29,5 @@ export class TourListComponent {
     });
   }
 
-  protected onTourClick = (tour: Tour) => this.tourSelected.emit(tour);
+  protected onTourClick = (tour: ITour) => this.tourSelected.emit(tour);
 }

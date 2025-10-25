@@ -7,5 +7,8 @@
     (valueChange)="onActivitiesChange($event)"
   />
   <app-filters [filterValues]="filters" (filtersChanged)="onFiltersChanged($event)"/>
-  <button mat-flat-button (click)="searchTours()">Search</button>
+  <button mat-flat-button (click)="searchTours()">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
 </div>

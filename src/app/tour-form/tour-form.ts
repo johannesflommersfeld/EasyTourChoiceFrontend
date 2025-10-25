@@ -1,11 +1,19 @@
-import { Component, computed, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
+import { 
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+  WritableSignal
+} from '@angular/core';
 import {
   form, 
   required, 
   submit,
-  Field, 
+  Control,
 } from '@angular/forms/signals';
-import { ITour } from '../../lib/domain/tour-data/tour';
+import { ITour, ITourWithLocations } from '../../lib/domain/tour-data/tour';
 import { ToursService } from '../services/tours';
 import { Activity } from '../../lib/domain/tour-data/activity';
 import { GeneralDifficulty } from '../../lib/domain/tour-data/general-difficulty';
@@ -18,9 +26,33 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { ActivitiesOrdered } from '../utils/activites';
+import { RiskPipe, DifficultyPipe, ActivityPipe } from '../utils/pipes';
+import { GPSLocation } from '../../lib/domain/tour-data/gps-location';
+import { LocationFormComponent } from './location-form/location-form';
+import { AspectIndicatorComponent } from '../../lib/ui/aspect-indicator/aspect-indicator';
+import { MapComponent } from '../../lib/ui/map/map';
+import { InteractiveMarkersDirective } from '../../lib/ui/map/interactive-markers';
+
 @Component({
   selector: 'app-tour-form',
-  imports: [Field, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatProgressSpinnerModule],
+  imports: [
+    Control,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    RiskPipe,
+    DifficultyPipe,
+    ActivityPipe,
+    LocationFormComponent,
+    AspectIndicatorComponent,
+    MapComponent,
+    InteractiveMarkersDirective,
+    MatIconModule,
+  ],
   templateUrl: './tour-form.html',
   styleUrl: './tour-form.scss'
 })
@@ -28,17 +60,28 @@ export class TourFormComponent {
   private router = inject(Router);
   private readonly tourService = inject(ToursService);
 
-  protected readonly tourId = input<string>();
+  protected readonly tourId = input<number>();
+  protected readonly availableActivities = ActivitiesOrdered;
+  protected readonly riskValues = Object.values(RiskLevel).filter(value => typeof value === 'number');;
+  protected readonly difficultyValues = Object.values(GeneralDifficulty).filter(value => typeof value === 'number');;
+
   private readonly tourResource = this.tourService.createSingleTourResource(this.tourId);
-  
+
   protected readonly receivedTour = computed(() => {
     if (!this.tourResource?.hasValue()) {
       return undefined;
     }
-    return this.tourResource.value();
+    const tour: ITour = this.tourResource.value();
+    const tourWithLocations: ITourWithLocations = {
+        ...tour,
+        startingLocation: tour.startingLocation ?? new GPSLocation(null, null),
+        activityLocation: tour.activityLocation ?? new GPSLocation(null, null),
+        aspect: tour.aspect ?? Aspect.UNKNOWN
+    };
+    return tourWithLocations;
   });
 
-  protected readonly tour: WritableSignal<ITour> = signal({
+  protected readonly tour: WritableSignal<ITourWithLocations> = signal({
     name: "",
     shortDescription: null,
     activityType: Activity.UNDEFINED,
@@ -49,8 +92,8 @@ export class TourFormComponent {
     difficulty: GeneralDifficulty.UNKNOWN,
     risk: RiskLevel.UNKNOWN,
     aspect: Aspect.UNKNOWN,
-    startingLocation: null,
-    activityLocation: null,
+    startingLocation: new GPSLocation(null, null),
+    activityLocation: new GPSLocation(null, null),
     // TODO: create TourCreate class to not have to initialize those fields
     id: 0,
     travelDetails: null,
@@ -69,12 +112,6 @@ export class TourFormComponent {
     required(tour.duration);
     required(tour.distance);
     required(tour.metersOfElevation);
-    required(tour.approachDuration);
-    required(tour.difficulty);
-    required(tour.risk);
-    required(tour.aspect);
-    required(tour.startingLocation);
-    required(tour.activityLocation);
   });
 
   constructor() {
@@ -85,12 +122,31 @@ export class TourFormComponent {
     );
   }
 
-  save() {
-    submit(this.tourForm, async (form) => {
-      const tour = this.tourService.putTour(form().value());
-      this.tour.set(await lastValueFrom(tour));
-      this.router.navigate(['/tour-details', this.tour().id]);
+  async save() {
+    console.log('Form valid:', this.tourForm().valid());
+    const result = await submit(this.tourForm, async (form) => {
+      const tourToSave: ITour = form().value();
+
+      // set invalid locations to null to create valid tour
+      if (!tourToSave.startingLocation?.latitude || !tourToSave.startingLocation?.longitude) { 
+        tourToSave.startingLocation = null;
+      }
+      if (!tourToSave.activityLocation?.latitude || !tourToSave.activityLocation?.longitude) { 
+        tourToSave.activityLocation = null;
+      }
+
+      const receivedTour = this.receivedTour();
+      const response = receivedTour 
+        ? this.tourService.patchTour(this.tour().id, tourToSave, receivedTour)
+        : this.tourService.putTour(tourToSave);
+      await lastValueFrom(response);
     });
+
+    if (result === undefined && this.tourForm().valid()) {
+      this.router.navigate(['/tour-details', this.tour().id]);
+    } else {
+      console.log('Invalid tour.');
+    }
   }
 
   cancel(): void {
@@ -99,5 +155,19 @@ export class TourFormComponent {
     } else {
       this.router.navigate(['/tour-catalog']);
     }
+  }
+
+  protected updateStartingLocation(location: GPSLocation) {
+    this.tour.update(currentTour => ({
+      ...currentTour,
+      startingLocation: location
+    }));
+  }
+
+  protected updateActivityLocation(location: GPSLocation) {
+    this.tour.update(currentTour => ({
+      ...currentTour,
+      activityLocation: location
+    }));
   }
 }

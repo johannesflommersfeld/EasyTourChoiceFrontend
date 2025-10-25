@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ToursService } from '../services/tours';
-import { ITour, Tour } from '../../lib/domain/tour-data/tour';
+import { ITour } from '../../lib/domain/tour-data/tour';
 import { SortingCriterium } from '../../lib/ui/sorting-criterium';
 import { LocationService } from '../services/location';
 import { GPSLocation } from '../../lib/domain/tour-data/gps-location';
@@ -49,7 +49,7 @@ export class TourCatalogComponent implements OnInit {
   protected tourListComponent = viewChild<TourListComponent>('tourList');
   @ViewChildren('tourItem') protected tourItems!: QueryList<ElementRef>;
   protected readonly sortOptionNames: string[] = Object.keys(SortOptions);
-  protected readonly tours: Signal<Tour[] | undefined>;
+  protected readonly tours: Signal<ITour[] | undefined>;
   protected readonly availableActivities = ActivitiesOrdered;
   protected readonly activityNames = ActivityIconNames;
 

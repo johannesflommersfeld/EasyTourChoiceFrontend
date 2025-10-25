@@ -1,0 +1,13 @@
+<div class="coordinates">
+  @let locationForm = location();
+  <mat-form-field>
+    <mat-label>Latitude</mat-label>
+    <input matInput [control]="locationForm.latitude" type="number"/>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Longitude</mat-label>
+    <input matInput [control]="locationForm.longitude" type="number"/>
+  </mat-form-field>
+</div>
+

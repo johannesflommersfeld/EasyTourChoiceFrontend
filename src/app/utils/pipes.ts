@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Activity } from '../domain/tour-data/activity';
-import { RiskLevel } from '../domain/tour-data/risk-level';
-import { GeneralDifficulty } from '../domain/tour-data/general-difficulty';
+import { Activity } from '../../lib/domain/tour-data/activity';
+import { RiskLevel } from '../../lib/domain/tour-data/risk-level';
+import { GeneralDifficulty } from '../../lib/domain/tour-data/general-difficulty';
 
 @Pipe({
   name: 'kilometers',
@@ -20,22 +20,27 @@ export class KilometersPipe implements PipeTransform {
   name: 'activity',
 })
 export class ActivityPipe implements PipeTransform {
-  activityStrings = new Map<Activity, string>([
+  static activityStrings = new Map<Activity, string>([
+    [Activity.UNDEFINED, 'Undefined'],
     [Activity.HIKING, 'Hike'],
-    [Activity.TREKKING, 'Trekking tour'],
-    [Activity.BOULDERING, 'Boulder'],
-    [Activity.SPORTCLIMBING, 'Sport climb'],
-    [Activity.MULTIPITCHCLIMBING, 'Multi-pitch climb'],
-    [Activity.VIA_VERRATA, 'Via verrata'],
-    [Activity.MOUNTAINBIKING, 'MTB tour'],
-    [Activity.ROADCYCLING, 'Road cycling tour'],
-    [Activity.GRAVEL, 'Gravel tour'],
-    [Activity.BIKEPACKING, 'Bike packing tour'],
-    [Activity.SKITOURING, 'Ski tour'],
+    [Activity.TREKKING, 'Trekking'],
+    [Activity.BOULDERING, 'Bouldering'],
+    [Activity.SPORTCLIMBING, 'Sport Climbing'],
+    [Activity.MULTIPITCHCLIMBING, 'Multi-pitch Climbing'],
+    [Activity.VIA_VERRATA, 'Via Verrata'],
+    [Activity.MOUNTAINBIKING, 'Mountainbiking'],
+    [Activity.ROADCYCLING, 'Road cycling'],
+    [Activity.GRAVEL, 'Gravelbiking'],
+    [Activity.BIKEPACKING, 'Bike Packing'],
+    [Activity.SKITOURING, 'Ski Touring'],
   ]);
 
+  static transform(value: Activity): string {
+    return `${ActivityPipe.activityStrings.get(value)}`;
+  }
+
   transform(value: Activity): string {
-    return `${this.activityStrings.get(value)}`;
+    return ActivityPipe.transform(value);
   }
 }
 
@@ -44,9 +49,6 @@ export class ActivityPipe implements PipeTransform {
 })
 export class RiskPipe implements PipeTransform {
   transform(value: RiskLevel | null): string {
-    if (value == null) {
-      return 'unknown'
-    }
     if (value == RiskLevel.VERY_SAFE) {
       return 'very safe'
     }
@@ -63,7 +65,6 @@ export class RiskPipe implements PipeTransform {
       return 'dangerous'
     }
     return 'unknown'
-
   }
 }
 

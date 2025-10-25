@@ -7,7 +7,12 @@
     </div>
   }
   @else {
-    <button mat-flat-button (click)="onEditTour()">Edit Tour</button>
+    <button mat-icon-button (click)="onEditTour()">
+       <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onDeleteTour()">
+       <mat-icon>delete</mat-icon>
+    </button>
   }
 
   <!-- Tour details that show after data is loaded -->

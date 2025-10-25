@@ -7,10 +7,11 @@ import { Filters } from '../../lib/ui/filters/filters';
 import { Router } from '@angular/router';
 import { ActivitiesOrdered, ActivityIconNames } from '../utils/activites';
 import { DefaultFilters } from '../utils/filters';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home-signals',
-  imports: [ActivitySelectorComponent, Filters, MatButtonModule],
+  imports: [ActivitySelectorComponent, Filters, MatButtonModule, MatIcon],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

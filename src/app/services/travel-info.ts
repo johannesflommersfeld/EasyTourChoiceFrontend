@@ -7,7 +7,7 @@ import { TravelDetails } from "../../lib/domain/tour-data/travel-details";
   providedIn: 'root'
 })
 export class TravelInfoService {
-  createTravelInfoResourceById(id: Signal<string | undefined>, location: Signal<GPSLocation | undefined>): HttpResourceRef<TravelDetails | undefined> {
+  createTravelInfoResourceById(id: Signal<number | undefined>, location: Signal<GPSLocation | undefined>): HttpResourceRef<TravelDetails | undefined> {
     return httpResource(() => {
       if (!location()) return undefined;
 

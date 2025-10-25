@@ -33,6 +33,13 @@ html {
     filled-label-text-color: var(--mat-sys-surface-variant),
     filled-hover-label-text-color:  var(--mat-sys-surface-variant),
     filled-focus-label-text-color: var(--mat-sys-surface-variant),
+    filled-input-text-color: var(--mat-sys-surface-variant),
+    filled-error-label-text-color: rgb(152, 31, 31),
+    filled-error-active-indicator-color: rgb(152, 31, 31),
+    filled-error-focus-active-indicator-color: rgb(152, 31, 31),
+    filled-error-focus-label-text-color: rgb(152, 31, 31),
+    filled-error-hover-label-text-color: rgb(152, 31, 31),
+    filled-error-caret-color: rgb(152, 31, 31),
   ));
 
   @include mat.card-overrides((
@@ -42,6 +49,32 @@ html {
 
   .mat-mdc-dialog-surface {
     background-color: var(--mat-sys-surface-variant) !important;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  // leaflet styles
+  .leaflet-popup-content-wrapper {
+    background: var(--mat-sys-surface-variant);
+    color: var(--mat-sys-on-surface-variant);
+    padding: 1rem;
+  }
+
+  .leaflet-popup-content {
+    margin: 0;
+    border-radius: 2rem;
+  }
+
+  .leaflet-popup-tip {
+    background: var(--mat-sys-surface-variant);
   }
 }
 
@@ -93,13 +126,11 @@ body { margin: 0; font-family: Roboto, "Open Sans", sans-serif; }
   line-height: 1; /* Prevent extra height from line-height */
 }
 
-/* Ensure markers appear above other map elements */
 .leaflet-marker-pane {
   z-index: 600;
 }
 
-/* Remove default Leaflet marker styles */
 .leaflet-div-icon {
-  background: transparent !important;
-  border: none !important;
+  background: transparent;
+  border: none;
 }
