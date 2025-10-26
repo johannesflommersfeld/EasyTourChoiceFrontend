@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Activity } from '../../lib/domain/tour-data/activity';
-import { RiskLevel } from '../../lib/domain/tour-data/risk-level';
-import { GeneralDifficulty } from '../../lib/domain/tour-data/general-difficulty';
+import { Activity } from '../domain/tour-data/activity';
+import { RiskLevel } from '../domain/tour-data/risk-level';
+import { GeneralDifficulty } from '../domain/tour-data/general-difficulty';
 
 @Pipe({
   name: 'kilometers',
@@ -130,5 +130,15 @@ export class DurationPipe implements PipeTransform {
     const hours: number = Math.floor(value);
     const minutes: string = `${Math.round((value - hours) * 60)}`.padStart(2, '0');
     return `${hours}h ${minutes}min`;
+  }
+}
+
+@Pipe({
+  name: 'hour',
+})
+export class HourPipe implements PipeTransform {
+  transform(value: string): string {
+    let hour = new Date(value).getHours()
+    return `${hour} h`;
   }
 }

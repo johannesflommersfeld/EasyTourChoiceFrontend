@@ -15,6 +15,14 @@
     </button>
   }
 
+  @if (weatherForecast.hasValue()) {
+    <h2>Weather Forecast</h2>
+    <app-weather-report-scroller [weatherForecast]="weatherForecast.value()"/>
+  }
+
+  @if (avalancheReport.hasValue()) {
+
+  }
   <!-- Tour details that show after data is loaded -->
   <!-- <div *ngIf="!isLoading && tour" class="tour-details">
     <h1>{{ tour.name }}</h1>

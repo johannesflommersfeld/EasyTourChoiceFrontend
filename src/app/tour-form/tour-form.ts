@@ -28,7 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivitiesOrdered } from '../utils/activites';
-import { RiskPipe, DifficultyPipe, ActivityPipe } from '../utils/pipes';
+import { RiskPipe, DifficultyPipe, ActivityPipe } from '../../lib/utils/pipes';
 import { GPSLocation } from '../../lib/domain/tour-data/gps-location';
 import { LocationFormComponent } from './location-form/location-form';
 import { AspectIndicatorComponent } from '../../lib/ui/aspect-indicator/aspect-indicator';

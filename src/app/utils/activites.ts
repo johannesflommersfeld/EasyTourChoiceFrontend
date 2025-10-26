@@ -1,5 +1,5 @@
 import { Activity } from "../../lib/domain/tour-data/activity";
-import { ActivityPipe } from './pipes';
+import { ActivityPipe } from '../../lib/utils/pipes';
 
 export const ActivitiesOrdered: Activity[] = [
   Activity.UNDEFINED,

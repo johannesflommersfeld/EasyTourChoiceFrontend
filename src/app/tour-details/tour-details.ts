@@ -15,10 +15,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialog } from '../../lib/ui/delete-dialog/delete-dialog';
 import { lastValueFrom } from 'rxjs';
+import { WeatherReportScroller } from '../../lib/ui/weather-report-scroller/weather-report-scroller';
 
 @Component({
   selector: 'app-tour-details',
-  imports: [MatProgressSpinnerModule, MatButtonModule, MatIconModule],
+  imports: [MatProgressSpinnerModule, MatButtonModule, MatIconModule, WeatherReportScroller],
   templateUrl: './tour-details.html',
   styleUrl: './tour-details.scss'
 })

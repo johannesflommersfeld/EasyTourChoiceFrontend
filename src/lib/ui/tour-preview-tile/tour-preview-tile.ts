@@ -9,7 +9,7 @@ import {
   KilometersPipe,
   MetersPipe,
   RiskPipe
-} from '../../../app/utils/pipes';
+} from '../../utils/pipes';
 import { RiskLevel } from '../../domain/tour-data/risk-level';
 import { GeneralDifficulty } from '../../domain/tour-data/general-difficulty';
 import { ITour } from '../../domain/tour-data/tour';

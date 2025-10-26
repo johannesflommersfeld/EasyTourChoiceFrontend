@@ -1,0 +1,30 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    @if (weatherInfo().data.nextOneHours && weatherInfo().data.nextOneHours.symbolCode) {
+      <div mat-card-avatar class="weather-icon" [style.backgroundImage]="'url(' + weatherSymbolPath() + ')'"></div>
+    }
+    <mat-card-title>{{ weatherInfo().time | hour }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table>
+      <tr>
+        <td>Temp.</td>
+        <td>Precip.</td>
+        <td>Prob.</td>
+        <td>Wind</td>
+      </tr>
+      <tr>
+        <td>({{ temperatureUnit() }})</td>
+        <td>({{ precipicationUnit() }})</td>
+        <td>(%)</td>
+        <td>({{ windSpeedUnit() }})</td>
+      </tr>
+      <tr>
+        <th>{{ weatherInfo().data.instant.airTemperature }}</th>
+        <th>{{ precipitationAmount() }}</th>
+        <th>{{ precipitationProbability() }}</th>
+        <th>{{ weatherInfo().data.instant.windSpeed }}</th>
+      </tr>
+    </table>
+  </mat-card-content>
+</mat-card>
