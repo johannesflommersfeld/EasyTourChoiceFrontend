@@ -13,6 +13,9 @@
     <button mat-icon-button (click)="onDeleteTour()">
        <mat-icon>delete</mat-icon>
     </button>
+
+    <app-aspect-indicator class="aspect-indicator-small"
+      [value]="getAspects()"></app-aspect-indicator>
   }
 
   @if (weatherForecast.hasValue()) {
@@ -21,7 +24,8 @@
   }
 
   @if (avalancheReport.hasValue()) {
-
+    <h2>Avalanche Report - {{ avalancheReport.value().publicationTime | time }}</h2>
+    <app-avalanche-report-scroller [bulletin]="avalancheReport.value()"/>
   }
   <!-- Tour details that show after data is loaded -->
   <!-- <div *ngIf="!isLoading && tour" class="tour-details">
@@ -54,14 +58,5 @@
       </div>
     </div>
 
-    <div *ngIf="tour.weatherForecast" class="section">
-      <h2>Weather</h2>
-      <etc-weather-forecast [forecast]="tour.weatherForecast"></etc-weather-forecast>
-    </div>
-
-    <div *ngIf="tour.bulletin" class="section">
-      <h2 class="label">Avalanche Report - {{ tour.bulletin.publicationTime | time }}</h2>
-      <etc-avalanche-report [bulletin]="tour.bulletin"></etc-avalanche-report>
-    </div>
   </div> -->
 </div>

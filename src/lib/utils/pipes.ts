@@ -2,6 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Activity } from '../domain/tour-data/activity';
 import { RiskLevel } from '../domain/tour-data/risk-level';
 import { GeneralDifficulty } from '../domain/tour-data/general-difficulty';
+import { TendencyType } from '../domain/tour-data/tendency-type';
+import { AvalancheProblemType } from '../domain/tour-data/avalanche-problem-type';
 
 @Pipe({
   name: 'kilometers',
@@ -77,9 +79,9 @@ export class TimePipe implements PipeTransform {
   transform(value: string): string {
     const date: Date = new Date(value);
     const hour: number = date.getHours();
-    const day: number = date.getDay();
+    const day: number = date.getDate();
     const month: string = this.months[date.getMonth()];
-    return `${month} ${day}:${hour}h`;
+    return `${month} ${day}, ${hour}h`;
   }
 }
 
@@ -138,7 +140,58 @@ export class DurationPipe implements PipeTransform {
 })
 export class HourPipe implements PipeTransform {
   transform(value: string): string {
-    let hour = new Date(value).getHours()
+    const hour = new Date(value).getHours()
     return `${hour} h`;
+  }
+}
+
+@Pipe({
+  name: 'elevation',
+})
+export class ElevationPipe implements PipeTransform {
+  transform(value: string | null): string {
+    if (value == null) {
+      return ''
+    }
+    if (value == 'treeline') {
+      return value;
+    }
+    return `${value} m`;
+  }
+}
+
+@Pipe({
+  name: 'tendency',
+})
+export class TendencyPipe implements PipeTransform {
+  transform(value: TendencyType | null): string {
+    switch (value) {
+      case TendencyType.DECREASING:
+        return 'decreasing';
+      case TendencyType.INCREASING:
+        return 'increasing';
+      case TendencyType.STEADY:
+        return 'steady';
+      default:
+        return 'unknown'
+    }
+  }
+}
+
+@Pipe({
+  name: 'problem',
+})
+export class ProblemPipe implements PipeTransform {
+  transform(value: AvalancheProblemType): string {
+    const problemNames = new Map<AvalancheProblemType, string>([
+      [AvalancheProblemType.NEW_SNOW, 'New snow'],
+      [AvalancheProblemType.WIND_SLAB, 'Wind slab'],
+      [AvalancheProblemType.GLIDING_SNOW, 'Gliding snow'],
+      [AvalancheProblemType.WET_SNOW, 'Wet snow'],
+      [AvalancheProblemType.PERSISTENT_WEAK_LAYERS, 'Persistent weak layer'],
+      [AvalancheProblemType.CORNICES, 'Cornices'],
+    ]);
+
+    return problemNames.get(value) ?? '';
   }
 }

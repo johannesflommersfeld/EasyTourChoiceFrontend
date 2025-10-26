@@ -16,10 +16,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialog } from '../../lib/ui/delete-dialog/delete-dialog';
 import { lastValueFrom } from 'rxjs';
 import { WeatherReportScroller } from '../../lib/ui/weather-report-scroller/weather-report-scroller';
+import { TimePipe } from '../../lib/utils/pipes';
+import { AvalancheReportScroller } from '../../lib/ui/avalanche-report-scroller/avalanche-report-scroller';
+import { AspectIndicatorComponent } from '../../lib/ui/aspect-indicator/aspect-indicator';
+import { Aspect } from '../../lib/domain/tour-data/aspect';
 
 @Component({
   selector: 'app-tour-details',
-  imports: [MatProgressSpinnerModule, MatButtonModule, MatIconModule, WeatherReportScroller],
+  imports: [
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule,
+    WeatherReportScroller,
+    AvalancheReportScroller,
+    TimePipe,
+    AspectIndicatorComponent,
+  ],
   templateUrl: './tour-details.html',
   styleUrl: './tour-details.scss'
 })
@@ -65,4 +77,12 @@ export class TourDetailsComponent implements OnInit{
       }
     });
   };
+
+  protected getAspects(): Aspect | undefined { 
+    const tour = this.tour.value()
+    if (tour) {
+      return tour.aspect ?? Aspect.UNKNOWN;
+    }
+    return undefined;
+  }
 }

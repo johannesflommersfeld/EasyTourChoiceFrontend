@@ -1,0 +1,51 @@
+@let bulletinDetails = bulletin();
+<ul>
+  @if(changesThroughoutDay()) {
+    <li>
+      <app-avalanche-report-overview-tile
+        [region]="getRegion()"
+        [problems]="getEarlierProblems()"
+        [level]="getEarlierLevel()"
+        [riskBoundary]="getEarlierRiskBoundary()"
+        [headline]="getHeadline()"
+        [tendency]="bulletinDetails.tendency"
+        [time]="'early'"/>
+    </li>
+    <li>
+      <app-avalanche-report-overview-tile
+        [region]="getRegion()"
+        [problems]="getLaterProblems()"
+        [level]="getLaterLevel()"
+        [riskBoundary]="getLaterRiskBoundary()"
+        [headline]="getHeadline()"
+        [tendency]="bulletinDetails.tendency"
+        [time]="'late'"/>
+    </li>
+  }
+  @else {
+    <li>
+      <app-avalanche-report-overview-tile
+        [region]="getRegion()"
+        [problems]="getProblems()"
+        [level]="getLevel()"
+        [riskBoundary]="getRiskBoundary()"
+        [headline]="getHeadline()"
+        [tendency]="bulletinDetails.tendency"/>
+    </li>
+  }
+  <li>
+    <app-avalanche-report-details-tile
+      [title]="'Avalanche Activity'"
+      [paragraphs]="bulletinDetails.reportBody['Avalanche activity'].slice(1)"/>
+  </li>
+  <li>
+    <app-avalanche-report-details-tile
+      [title]="'Snowpack Structure'"
+      [paragraphs]="bulletinDetails.reportBody['Snowpack structure']"/>
+  </li>
+  <li>
+    <app-avalanche-report-details-tile
+      [title]="'Tendency'"
+      [paragraphs]="bulletinDetails.reportBody['TendencyText']"/>
+  </li>
+</ul>

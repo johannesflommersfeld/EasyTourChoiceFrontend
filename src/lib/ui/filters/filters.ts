@@ -5,6 +5,7 @@ import { GeneralDifficulty } from '../../domain/tour-data/general-difficulty';
 import { DifficultyRangeValue, FilterValues, RangeValue, RiskRangeValue } from '../../domain/tour-data/filter-values';
 import { AspectIndicatorComponent } from '../aspect-indicator/aspect-indicator';
 import { Aspect } from '../../domain/tour-data/aspect';
+import { InteractiveSelectionDirective } from '../aspect-indicator/interactive-selection';
 
 export class FilterLimits {
   static readonly lowerLimitDistance: number = 0;
@@ -25,7 +26,7 @@ export class FilterLimits {
 
 @Component({
   selector: 'app-filters',
-  imports: [MatSliderModule, AspectIndicatorComponent],
+  imports: [MatSliderModule, AspectIndicatorComponent, InteractiveSelectionDirective],
   templateUrl: './filters.html',
   styleUrl: './filters.scss'
 })

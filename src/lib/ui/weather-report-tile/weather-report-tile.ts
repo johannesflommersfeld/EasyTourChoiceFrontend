@@ -19,12 +19,11 @@ export class WeatherReportTile {
   meta = input.required<Meta>()
 
   protected weatherSymbolPath = () => {
-    let symbol: WeatherSymbol | null = this.weatherInfo().data.nextOneHours.symbolCode;
+    const symbol: WeatherSymbol | null = this.weatherInfo().data.nextOneHours.symbolCode;
     if (!symbol) {
       throw new Error("No weather symbol in forecast.");
     }
-    let symbolName: string = `${symbol}`.padStart(2, '0');
-    console.log(symbolName);
+    const symbolName: string = `${symbol}`.padStart(2, '0');
     return `/weather-symbols/${symbolName}.svg`
   }
 
@@ -33,7 +32,7 @@ export class WeatherReportTile {
     if (!meta) {
       return "-";
     }
-    let unit = meta.units.airTemperature;
+    const unit = meta.units.airTemperature;
     if (unit == "celsius") {
       return "°C";
     }

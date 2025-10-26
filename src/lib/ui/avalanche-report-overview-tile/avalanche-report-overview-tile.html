@@ -1,0 +1,25 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <div mat-card-avatar class="risk-icon" [style.backgroundImage]="'url(' + levelSymbolPath() + ')'"></div>
+    <mat-card-title> {{ region() }} </mat-card-title>
+    @if (time()) {
+    <mat-card-subtitle>{{ time()}}</mat-card-subtitle>
+    }
+    <mat-card-subtitle>{{ riskBoundary() | elevation}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="headline">{{ headline() }}</div>
+    <h1>Avalanche problems</h1>
+    @for (problem of problems(); track problem) {
+      <div class="problem-header">
+        <div class="problem-type">{{ problem.problemType | problem }}</div>
+        <img class="problem-symbol" src=" {{ problemSymbolPath(problem.problemType) }}" alt="Problemtype: {{problem.problemType}}"/>
+        <app-aspect-indicator class="aspect-indicator-small"
+          [value]="problem.aspect"></app-aspect-indicator>
+      </div>
+      <div class="problem-summary">{{ getProblemSummary(problem)}}</div>
+    }
+    <h1>Tendency</h1>
+    <p> {{ tendency() | tendency }}</p>
+  </mat-card-content>
+</mat-card>

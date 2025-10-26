@@ -34,6 +34,7 @@ import { LocationFormComponent } from './location-form/location-form';
 import { AspectIndicatorComponent } from '../../lib/ui/aspect-indicator/aspect-indicator';
 import { MapComponent } from '../../lib/ui/map/map';
 import { InteractiveMarkersDirective } from '../../lib/ui/map/interactive-markers';
+import { InteractiveSelectionDirective } from '../../lib/ui/aspect-indicator/interactive-selection';
 
 @Component({
   selector: 'app-tour-form',
@@ -52,6 +53,7 @@ import { InteractiveMarkersDirective } from '../../lib/ui/map/interactive-marker
     MapComponent,
     InteractiveMarkersDirective,
     MatIconModule,
+    InteractiveSelectionDirective
   ],
   templateUrl: './tour-form.html',
   styleUrl: './tour-form.scss'

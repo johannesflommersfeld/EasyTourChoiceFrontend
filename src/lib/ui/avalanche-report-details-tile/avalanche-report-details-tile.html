@@ -1,0 +1,10 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title> {{ title() }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    @for (text of paragraphs(); track text) {
+      <p [innerHTML]="text"></p>
+    }
+  </mat-card-content>
+</mat-card>

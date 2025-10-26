@@ -26,7 +26,7 @@
     </div>
     <div class="aspects-container">
       <h3 class="slider-label">Aspects</h3>
-      <app-aspect-indicator [value]="filterValuesInternal.aspects" (valueChange)="onAspectsChanged($event)" />
+      <app-aspect-indicator appInteractiveSelection [value]="filterValuesInternal.aspects" (valueChange)="onAspectsChanged($event)" />
     </div>
   </div>
 
