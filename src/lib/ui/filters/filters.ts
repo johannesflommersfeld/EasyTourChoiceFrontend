@@ -89,8 +89,8 @@ export class Filters implements OnInit {
   protected onMaxTravelDistanceChanged = (value: number) => this.updateFilter('travelDistance', { max: value });
   protected onMinTravelDurationChanged = (value: number) => this.updateFilter('travelDuration', { min: value });
   protected onMaxTravelDurationChanged = (value: number) => this.updateFilter('travelDuration', { max: value });
-  protected onAspectsChanged = (value: Aspect | undefined) => {
-    if (value === undefined)
+  protected onAspectsChanged = (value: Aspect | null | undefined) => {
+    if (!value)
     {
       this.updateFilter('aspects', Aspect.UNKNOWN)
     }

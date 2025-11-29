@@ -1,5 +1,6 @@
 import { Component, model, output } from '@angular/core';
 import { Aspect } from '../../domain/tour-data/aspect';
+import { FormValueControl } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-aspect-indicator',
@@ -7,8 +8,8 @@ import { Aspect } from '../../domain/tour-data/aspect';
   templateUrl: './aspect-indicator.html',
   styleUrl: './aspect-indicator.scss'
 })
-export class AspectIndicatorComponent {
-  value = model<Aspect>()
+export class AspectIndicatorComponent implements FormValueControl<Aspect | null | undefined>{
+  value = model<Aspect | null>()
 
   aspectClick = output<MouseEvent>();
 

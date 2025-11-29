@@ -41,11 +41,9 @@ export class InteractiveMarkersDirective implements OnInit {
       this.mapComponent.clear();
       if (primaryLocation) {
         this.mapComponent.addMarkerToMap(primaryLocation, this.primaryIcon, undefined);
-        this.primaryLocationChanged.emit(primaryLocation);
       }
       if (secondaryLocation) {
         this.mapComponent.addMarkerToMap(secondaryLocation, this.secondaryIcon, undefined);
-        this.secondaryLocationChanged.emit(secondaryLocation);
       }
     });
   }
@@ -64,12 +62,16 @@ export class InteractiveMarkersDirective implements OnInit {
       const componentRef = this.vcr.createComponent(PopupComponent);
 
       componentRef.instance.primaryClick.subscribe(() => {
-        this.primaryLocationInternal.set(new GPSLocation(e.latlng.lat, e.latlng.lng));
+        const newLocation = new GPSLocation(e.latlng.lat, e.latlng.lng);
+        this.primaryLocationInternal.set(newLocation);
+        this.primaryLocationChanged.emit(newLocation);
         popup.remove();
       });
       
       componentRef.instance.secondaryClick.subscribe(() => {
-        this.secondaryLocationInternal.set(new GPSLocation(e.latlng.lat, e.latlng.lng));
+        const newLocation = new GPSLocation(e.latlng.lat, e.latlng.lng);
+        this.secondaryLocationInternal.set(newLocation);
+        this.secondaryLocationChanged.emit(newLocation);
         popup.remove();
       });
       

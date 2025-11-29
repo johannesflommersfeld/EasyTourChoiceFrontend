@@ -9,8 +9,8 @@ import { AvalancheProblemType } from '../domain/tour-data/avalanche-problem-type
   name: 'kilometers',
 })
 export class KilometersPipe implements PipeTransform {
-  transform(value: number | null): string {
-    if (value === null) {
+  transform(value: number | null | undefined): string {
+    if (!value) {
       return '--'
     }
     const rounded: number = Math.round(value);
@@ -89,8 +89,8 @@ export class TimePipe implements PipeTransform {
   name: 'meters',
 })
 export class MetersPipe implements PipeTransform {
-  transform(value: number | null): string {
-    if (value === null) {
+  transform(value: number | null | undefined): string {
+    if (!value) {
       return '--'
     }
     return `${value} m`;
@@ -101,8 +101,8 @@ export class MetersPipe implements PipeTransform {
   name: 'difficulty',
 })
 export class DifficultyPipe implements PipeTransform {
-  transform(value: GeneralDifficulty | null): string {
-    if (value == null) {
+  transform(value: GeneralDifficulty | null | undefined): string {
+    if (!value) {
       return 'unknown'
     }
     if (value == GeneralDifficulty.EASY) {
@@ -125,8 +125,8 @@ export class DifficultyPipe implements PipeTransform {
   name: 'duration',
 })
 export class DurationPipe implements PipeTransform {
-  transform(value: number | null): string {
-    if (value === null) {
+  transform(value: number | null | undefined): string {
+    if (!value) {
       return '--'
     }
     const hours: number = Math.floor(value);
@@ -149,8 +149,8 @@ export class HourPipe implements PipeTransform {
   name: 'elevation',
 })
 export class ElevationPipe implements PipeTransform {
-  transform(value: string | null): string {
-    if (value == null) {
+  transform(value: string | null | undefined): string {
+    if (!value) {
       return ''
     }
     if (value == 'treeline') {
@@ -164,7 +164,7 @@ export class ElevationPipe implements PipeTransform {
   name: 'tendency',
 })
 export class TendencyPipe implements PipeTransform {
-  transform(value: TendencyType | null): string {
+  transform(value: TendencyType | null | undefined): string {
     switch (value) {
       case TendencyType.DECREASING:
         return 'decreasing';

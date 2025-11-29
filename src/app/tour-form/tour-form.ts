@@ -11,7 +11,7 @@ import {
   form, 
   required, 
   submit,
-  Control,
+  Field,
 } from '@angular/forms/signals';
 import { ITour, ITourWithLocations } from '../../lib/domain/tour-data/tour';
 import { ToursService } from '../services/tours';
@@ -29,7 +29,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivitiesOrdered } from '../utils/activites';
 import { RiskPipe, DifficultyPipe, ActivityPipe } from '../../lib/utils/pipes';
-import { GPSLocation } from '../../lib/domain/tour-data/gps-location';
+import { GPSLocation, IGPSLocationForForm } from '../../lib/domain/tour-data/gps-location';
 import { LocationFormComponent } from './location-form/location-form';
 import { AspectIndicatorComponent } from '../../lib/ui/aspect-indicator/aspect-indicator';
 import { MapComponent } from '../../lib/ui/map/map';
@@ -39,7 +39,7 @@ import { InteractiveSelectionDirective } from '../../lib/ui/aspect-indicator/int
 @Component({
   selector: 'app-tour-form',
   imports: [
-    Control,
+    Field,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -76,8 +76,28 @@ export class TourFormComponent {
     const tour: ITour = this.tourResource.value();
     const tourWithLocations: ITourWithLocations = {
         ...tour,
-        startingLocation: tour.startingLocation ?? new GPSLocation(null, null),
-        activityLocation: tour.activityLocation ?? new GPSLocation(null, null),
+        // signal forms cannot properly handle null yet, requiring this workaround
+        shortDescription: tour.shortDescription ?? "",
+        duration: tour.duration ?? 0,
+        distance: tour.distance ?? 0,
+        difficulty: tour.difficulty ?? GeneralDifficulty.UNKNOWN,
+        risk: tour.risk ?? RiskLevel.UNKNOWN,
+        metersOfElevation: tour.metersOfElevation ?? 0,
+        approachDuration: tour.approachDuration ?? undefined,
+        startingLocation: {
+          ...tour.startingLocation,
+          latitude: tour.startingLocation?.latitude ?? undefined,
+          longitude: tour.startingLocation?.longitude ?? undefined,
+          locationId: tour.startingLocation?.locationId ?? null,
+          altitude: tour.startingLocation?.altitude ?? null
+        },
+        activityLocation: {
+          ...tour.activityLocation,
+          latitude: tour.activityLocation?.latitude ?? undefined,
+          longitude: tour.activityLocation?.longitude ?? undefined,
+          locationId: tour.activityLocation?.locationId ?? null,
+          altitude: tour.activityLocation?.altitude ?? null
+        },
         aspect: tour.aspect ?? Aspect.UNKNOWN
     };
     return tourWithLocations;
@@ -85,17 +105,17 @@ export class TourFormComponent {
 
   protected readonly tour: WritableSignal<ITourWithLocations> = signal({
     name: "",
-    shortDescription: null,
+    shortDescription: "",
     activityType: Activity.UNDEFINED,
-    duration: null,
-    distance: null,
-    metersOfElevation: null,
-    approachDuration: null,
+    duration: 0,
+    distance: 0,
+    metersOfElevation: 0,
+    approachDuration: 0,
     difficulty: GeneralDifficulty.UNKNOWN,
     risk: RiskLevel.UNKNOWN,
     aspect: Aspect.UNKNOWN,
-    startingLocation: new GPSLocation(null, null),
-    activityLocation: new GPSLocation(null, null),
+    startingLocation: new GPSLocation(0, 0) as IGPSLocationForForm,
+    activityLocation: new GPSLocation(0, 0) as IGPSLocationForForm,
     // TODO: create TourCreate class to not have to initialize those fields
     id: 0,
     travelDetails: null,
@@ -162,14 +182,22 @@ export class TourFormComponent {
   protected updateStartingLocation(location: GPSLocation) {
     this.tour.update(currentTour => ({
       ...currentTour,
-      startingLocation: location
+      startingLocation: {
+        ...location,
+        latitude: location.latitude ?? undefined,
+        longitude: location.longitude ?? undefined,
+      }
     }));
   }
 
   protected updateActivityLocation(location: GPSLocation) {
     this.tour.update(currentTour => ({
       ...currentTour,
-      activityLocation: location
+      activityLocation: {
+        ...location,
+        latitude: location.latitude ?? undefined,
+        longitude: location.longitude ?? undefined,
+      }
     }));
   }
 }

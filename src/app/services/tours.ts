@@ -50,32 +50,32 @@ export class ToursService {
 
       if (filterValues !== undefined) {
         tours = tours.filter(tour => {
-          if (tour.distance !== null &&
+          if (tour.distance &&
               (tour.distance < filterValues.distance.min || tour.distance > filterValues.distance.max)) {
             return false;
           }
 
-          if (tour.duration !== null &&
+          if (tour.duration&&
               (tour.duration < filterValues.duration.min || tour.duration > filterValues.duration.max)) {
             return false;
           }
 
-          if (tour.metersOfElevation !== null &&
+          if (tour.metersOfElevation &&
               (tour.metersOfElevation < filterValues.elevation.min || tour.metersOfElevation > filterValues.elevation.max)) {
             return false;
           }
 
-          if (tour.difficulty !== null && tour.difficulty !== GeneralDifficulty.UNKNOWN &&
+          if (tour.difficulty !== null && tour.difficulty !== undefined && tour.difficulty !== GeneralDifficulty.UNKNOWN &&
               (tour.difficulty < filterValues.difficulty.min || tour.difficulty > filterValues.difficulty.max)) {
             return false;
           }
 
-          if (tour.risk !== null && tour.risk !== RiskLevel.UNKNOWN &&
+          if (tour.risk !== null && tour.risk !== undefined && tour.risk !== RiskLevel.UNKNOWN &&
               (tour.risk < filterValues.risk.min || tour.risk > filterValues.risk.max)) {
             return false;
           }
 
-          if (filterValues.aspects !== Aspect.UNKNOWN && tour.aspect !== null && tour.aspect !== Aspect.UNKNOWN) {
+          if (filterValues.aspects !== Aspect.UNKNOWN && tour.aspect !== null && tour.aspect !== undefined && tour.aspect !== Aspect.UNKNOWN) {
             if ((tour.aspect & filterValues.aspects) === 0) {
               return false;
             }

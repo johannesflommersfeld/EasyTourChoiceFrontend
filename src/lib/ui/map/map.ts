@@ -98,7 +98,7 @@ export class MapComponent {
     }
 
     for (const [idx, tour] of this.tours()!.entries()) {
-      const location: GPSLocation | null = tour.activityLocation || tour.startingLocation;
+      const location: GPSLocation | null | undefined = tour.activityLocation || tour.startingLocation;
 
       if (!location?.latitude || !location?.longitude) {
         continue;

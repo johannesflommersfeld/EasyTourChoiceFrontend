@@ -14,35 +14,35 @@
         <div class="key-data">
           <mat-form-field>
             <mat-label>Name</mat-label>
-            <input matInput [control]="tourForm.name"/>
+            <input matInput [field]="tourForm.name"/>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Duration (h)</mat-label>
-            <input matInput [control]="tourForm.duration" type="number"/>
+            <input matInput [field]="tourForm.duration" type="number"/>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Distance (km)</mat-label>
-            <input matInput [control]="tourForm.distance" type="number"/>
+            <input matInput [field]="tourForm.distance" type="number"/>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Elevation (m)</mat-label>
-            <input matInput [control]="tourForm.metersOfElevation" type="number"/>
+            <input matInput [field]="tourForm.metersOfElevation" type="number"/>
           </mat-form-field>
         </div>
 
       <mat-form-field>
         <mat-label>Short Description</mat-label>
-        <textarea matInput [control]="tourForm.shortDescription"></textarea>
+        <textarea matInput [field]="tourForm.shortDescription"></textarea>
       </mat-form-field>
       </div>
 
       <div class="form-section">
         <mat-form-field>
           <mat-label>Activity</mat-label>
-          <mat-select [control]="tourForm.activityType">
+          <mat-select [field]="tourForm.activityType">
             @for (activity of availableActivities; track activity) {
               <mat-option [value]="activity">{{activity | activity}}</mat-option>
             }
@@ -51,33 +51,41 @@
 
         <mat-form-field>
           <mat-label>Approach Duration (h)</mat-label>
-          <input matInput [control]="tourForm.approachDuration" type="number"/>
+          @if (tourForm.approachDuration){
+            <input matInput [field]="tourForm.approachDuration" type="number"/>
+          }
         </mat-form-field>
       </div>
 
       <div class="form-section">
         <mat-form-field>
           <mat-label>Difficulty</mat-label>
-          <mat-select [control]="tourForm.difficulty">
-            @for (difficulty of difficultyValues; track difficulty) {
-              <mat-option [value]="difficulty">{{difficulty | difficulty}}</mat-option>
-            }
-          </mat-select>
+          @if (tourForm.difficulty) {
+            <mat-select [field]="tourForm.difficulty">
+              @for (difficulty of difficultyValues; track difficulty) {
+                <mat-option [value]="difficulty">{{difficulty | difficulty}}</mat-option>
+              }
+            </mat-select>
+          }
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Rsik</mat-label>
-          <mat-select [control]="tourForm.risk">
+          @if (tourForm.risk) {
+            <mat-select [field]="tourForm.risk">
             @for (risk of riskValues; track risk) {
               <mat-option [value]="risk">{{risk | risk}}</mat-option>
             }
-          </mat-select>
+            </mat-select>
+          }
         </mat-form-field>
       </div>
 
       <div class="aspect-group">
         <h3>Aspects</h3>
-        <app-aspect-indicator appInteractiveSelection [control]="tourForm.aspect"></app-aspect-indicator>
+        @if (tourForm.aspect) {
+          <app-aspect-indicator appInteractiveSelection [field]="tourForm.aspect"></app-aspect-indicator>
+        }
       </div>
     </div>
 

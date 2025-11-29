@@ -1,13 +1,13 @@
 import { Component, input } from '@angular/core';
-import { Control, Field } from '@angular/forms/signals';
+import { Field, FieldTree } from '@angular/forms/signals';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { GPSLocation } from '../../../lib/domain/tour-data/gps-location';
+import { IGPSLocationForForm } from '../../../lib/domain/tour-data/gps-location';
 
 @Component({
   selector: 'app-location-form',
   imports: [
-    Control,
+    Field,
     MatFormFieldModule,
     MatInputModule,
   ],
@@ -15,5 +15,5 @@ import { GPSLocation } from '../../../lib/domain/tour-data/gps-location';
   styleUrl: './location-form.scss'
 })
 export class LocationFormComponent {
-  location = input.required<Field<GPSLocation>>();
+  location = input.required<FieldTree<IGPSLocationForForm>>();
 }
