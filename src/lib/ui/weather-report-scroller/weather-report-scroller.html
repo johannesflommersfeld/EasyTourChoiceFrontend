@@ -1,0 +1,9 @@
+@let forecast = weatherForecast();
+<ul>
+  @for (timestep of forecast16h(); track timestep) {
+    <li>
+      <app-weather-report-tile [weatherInfo]="timestep" [meta]="forecast.meta"/>
+    </li>
+  }
+</ul>
+<div class="credit">Symbol source: <a href="https://nrkno.github.io/yr-weather-symbols/">YR</a></div>

@@ -1,0 +1,75 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+  align-content: center;
+  @media (min-width: 768px) {
+  padding: 0 3rem;
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 0;
+  gap: 1rem;
+  flex-shrink: 0;
+  height: 2rem;
+
+  mat-form-field {
+    align-self: center;
+    display: flex;
+    margin-bottom: -1.25em;
+  }
+
+  button {
+    height: 40px;
+    padding: 0 1rem;
+    font-size: 1rem;
+  }
+}
+
+.preview {
+  flex-grow: 1;
+  display: flex;
+  overflow: hidden;
+  height: calc(72vh);
+  gap: 2rem;
+
+  app-map {
+    flex: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .preview {
+    flex-direction: column;
+    
+    app-map {
+      display: none;
+    }
+    
+    app-tour-list {
+      flex: 1 1 100%;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 5rem;
+}
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: var(--mat-sys-on-surface);
+  font-size: 1.2rem;
+}

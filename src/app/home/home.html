@@ -1,0 +1,14 @@
+<div class="home-container">
+  <h1>Choose your next adventure</h1>
+  <app-activity-selector 
+    [activitiesOrdered]="activitiesOrdered"
+    [activityIconNames]="activityIconNames"
+    [value]="selectedActivitiesFlag()"
+    (valueChange)="onActivitiesChange($event)"
+  />
+  <app-filters [filterValues]="filters" (filtersChanged)="onFiltersChanged($event)"/>
+  <button mat-flat-button (click)="searchTours()">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
+</div>

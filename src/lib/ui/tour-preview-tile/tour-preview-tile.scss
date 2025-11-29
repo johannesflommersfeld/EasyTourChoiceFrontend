@@ -1,0 +1,42 @@
+.tour-index {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+  color: black;
+  background: var(--mat-sys-on-surface);
+}
+
+.subtitles {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.2rem;
+}
+
+.activity {
+  font-weight: lighter;
+}
+
+.tour-flag {
+  border-radius: 3rem;
+  padding: 0 1rem;
+}
+
+.preview-icon {
+  height: 18px;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin: 0.4rem 0;
+}
+
+.detail-group {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}

@@ -1,0 +1,115 @@
+<div class="tour-form">
+  <h1>New Tour </h1>
+  <div class="uploads">
+    <button mat-icon-button aria-label="take image">
+      <mat-icon>add_a_photo</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="upload file">
+      <mat-icon>upload</mat-icon>
+    </button>
+  </div>
+  <form novalidate>
+    <div>
+      <div class="form-section">
+        <div class="key-data">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput [field]="tourForm.name"/>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Duration (h)</mat-label>
+            <input matInput [field]="tourForm.duration" type="number"/>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Distance (km)</mat-label>
+            <input matInput [field]="tourForm.distance" type="number"/>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Elevation (m)</mat-label>
+            <input matInput [field]="tourForm.metersOfElevation" type="number"/>
+          </mat-form-field>
+        </div>
+
+      <mat-form-field>
+        <mat-label>Short Description</mat-label>
+        <textarea matInput [field]="tourForm.shortDescription"></textarea>
+      </mat-form-field>
+      </div>
+
+      <div class="form-section">
+        <mat-form-field>
+          <mat-label>Activity</mat-label>
+          <mat-select [field]="tourForm.activityType">
+            @for (activity of availableActivities; track activity) {
+              <mat-option [value]="activity">{{activity | activity}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Approach Duration (h)</mat-label>
+          @if (tourForm.approachDuration){
+            <input matInput [field]="tourForm.approachDuration" type="number"/>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="form-section">
+        <mat-form-field>
+          <mat-label>Difficulty</mat-label>
+          @if (tourForm.difficulty) {
+            <mat-select [field]="tourForm.difficulty">
+              @for (difficulty of difficultyValues; track difficulty) {
+                <mat-option [value]="difficulty">{{difficulty | difficulty}}</mat-option>
+              }
+            </mat-select>
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Rsik</mat-label>
+          @if (tourForm.risk) {
+            <mat-select [field]="tourForm.risk">
+            @for (risk of riskValues; track risk) {
+              <mat-option [value]="risk">{{risk | risk}}</mat-option>
+            }
+            </mat-select>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="aspect-group">
+        <h3>Aspects</h3>
+        @if (tourForm.aspect) {
+          <app-aspect-indicator appInteractiveSelection [field]="tourForm.aspect"></app-aspect-indicator>
+        }
+      </div>
+    </div>
+
+    <div>
+      <div class="map-container">
+        <app-map
+          [tours]="undefined" 
+          [location]="undefined"
+          appInteractiveMarkers
+          [primaryLocation]="tour().startingLocation"
+          [secondaryLocation]="tour().activityLocation"
+          (primaryLocationChanged)="updateStartingLocation($event)"
+          (secondaryLocationChanged)="updateActivityLocation($event)"
+        />
+      </div>
+      <h3>Starting Location</h3>
+      <app-location-form [location]="tourForm.startingLocation"/>
+      <h3>Activity Location</h3>
+      <app-location-form [location]="tourForm.activityLocation"/>
+
+      <div class="buttons">
+        <button mat-flat-button type="button" (click)="save()">Save</button>
+        <button mat-button type="button" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

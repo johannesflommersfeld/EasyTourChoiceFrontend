@@ -1,0 +1,9 @@
+export enum SortingCriterium {
+  DISTANCE,
+  DURATION,
+  METER_OF_ELEVATION,
+  DIFFICULTY,
+  RISK,
+  TRAVEL_DISTANCE,
+  TRAVEL_DURATION,
+}

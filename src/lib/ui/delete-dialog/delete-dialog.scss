@@ -1,0 +1,11 @@
+@use '@angular/material' as mat;
+
+.dialog {
+  padding: 1rem;
+}
+
+.warn {
+  @include mat.button-overrides((
+    filled-container-color: orange,
+  ));
+}

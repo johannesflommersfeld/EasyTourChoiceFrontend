@@ -1,0 +1,22 @@
+$slider-width: 200px;
+
+mat-slider {
+  width: $slider-width;
+}
+
+@media (min-width: 440px) {
+  .control-pair {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.aspects-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.slider-label{
+  font-weight: lighter;
+}

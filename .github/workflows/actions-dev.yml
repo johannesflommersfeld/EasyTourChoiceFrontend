@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [24.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
 
     - name: Install dependencies and build
       run: |
-        npm ci
+        npm ci --force
         npm run build:ci
 
     # - name: Test
@@ -47,6 +47,6 @@ jobs:
       run: |
         docker run --rm --privileged tonistiigi/binfmt --install all
         docker buildx create --name frontendbuild --driver docker-container --use
-        docker buildx build --platform linux/arm64,linux/amd64 --load \
+        docker buildx build --load \
           -f ./easy-tour-choice-frontend.dockerfile \
           -t ${{ secrets.DOCKER_USERNAME }}/easy-tour-choice-frontend:${{ env.VERSION }} .

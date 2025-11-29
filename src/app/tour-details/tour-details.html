@@ -1,0 +1,93 @@
+<div class="tour">
+  <!-- Loading screen that shows while data is loading -->
+  @if (tour.isLoading()) {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <div class="loading-text">Loading tour details...</div>
+    </div>
+  }
+  @else if (tour.hasValue()) {
+    <div class="header">
+      <div class="title">
+        <h1>{{ tour.value().name }}</h1>
+        <h3>{{ tour.value().activityType | activity }}</h3>
+      </div>
+      <button mat-icon-button (click)="onEditTour()">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDeleteTour()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div class="tour-info">
+      <div class="body">
+        @if (tour.value().shortDescription) {
+          <h2>Description</h2>
+          <div> {{ tour.value().shortDescription }}</div>
+        }
+        <div class="pair">
+          <div>
+            <h2>Tour Details</h2>
+              @if (tour.value().distance) {
+                <div> <b>Distance:</b> {{ tour.value().distance | kilometers}}</div>
+              }
+              @if (tour.value().duration) { 
+                <div> <b>Duration:</b> {{ tour.value().duration | duration}}</div>
+              }
+              @if (tour.value().metersOfElevation) {
+                <div>
+                  <b>Elevation gain:</b> {{ tour.value().metersOfElevation | meters }}
+                </div>
+              }
+              @if (tour.value().difficulty) {
+                <div> <b>Difficulty:</b> {{ tour.value().difficulty | difficulty }}</div>
+              }
+            @if (tour.value().risk) {
+              <div> <b>Risk level:</b> {{ tour.value().risk | risk }}</div>
+            }
+            <div class="aspect">
+              <div><b>Aspect:</b></div>
+              <app-aspect-indicator class="aspect-indicator-small" [value]="getAspects()"></app-aspect-indicator>
+            </div>
+            
+            @if (tour.value().approachDuration) {
+              <div>
+                <b>Approach:</b> {{ tour.value().approachDuration | duration }}
+              </div>
+            }
+          </div>
+          
+          <div>
+            @if (travelInfo.hasValue()) {
+              <h2>Travel Details</h2>
+              <div><b>Distance:</b> {{ travelInfo.value().travelDistance | kilometers }}</div>
+              <div><b>Duration:</b> {{ travelInfo.value().travelTime | duration }}</div>
+            }
+          </div>
+        </div>
+
+      </div>
+      @if (travelInfo.hasValue() && tour.value()) {
+        <div class="map-container">
+          <app-map
+            [tours]="undefined" 
+            [location]="location()"
+            appRouteIndication
+            [route]="travelInfo.value().route"
+            [parkingLocation]="getLocation(tour.value().startingLocation, tour.value().startingLocation)"
+          />
+        </div>
+      }
+    </div>
+  }
+
+  @if (weatherForecast.hasValue()) {
+    <h2>Weather Forecast</h2>
+    <app-weather-report-scroller [weatherForecast]="weatherForecast.value()"/>
+  }
+
+  @if (avalancheReport.hasValue()) {
+    <h2>Avalanche Report - {{ avalancheReport.value().publicationTime | time }}</h2>
+    <app-avalanche-report-scroller [bulletin]="avalancheReport.value()"/>
+  }
+</div>

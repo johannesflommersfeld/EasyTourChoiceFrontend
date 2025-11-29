@@ -1,0 +1,11 @@
+<ul class="tours">
+  @for (tour of tours(); track tour.id; let idx = $index) {
+    <li class="tour-item" #tourItem>
+      <app-tour-preview-tile
+        [tour]="tour"
+        [index]="idx"
+        (tourSelected)="onTourClick(tour)">
+      </app-tour-preview-tile>
+    </li>
+  }
+</ul>

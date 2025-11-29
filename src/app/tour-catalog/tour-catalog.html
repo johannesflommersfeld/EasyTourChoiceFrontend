@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="controls">
+    <mat-form-field>
+      <mat-label>Sort by</mat-label>
+      <mat-select [value]="selectedSortOption()" (selectionChange)="onSortOptionChange($event.value)">
+        @for (option of sortOptionNames; track option) {
+          <mat-option [value]="option">{{option}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Activity</mat-label>
+      <mat-select [value]="selectedActivities()" (selectionChange)="onActivityChange($event.value)" multiple>
+        @for (activity of availableActivities; track activity) {
+          <mat-option [value]="activity">{{activityNames[activity].ActivityName}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-flat-button (click)="openFiltersDialog()">
+      Filters
+      <mat-icon>filter_list</mat-icon>
+    </button>
+  </div>
+
+  @if (tours() !== undefined) {
+    <div class="preview">
+      <app-map 
+        [tours]="tours()" 
+        [location]="location()"
+        (tourSelected)="onTourSelectedFromMap($event)">
+      </app-map>
+      @if (tours()?.length) {
+        <app-tour-list 
+            [tours]="tours()" 
+            (tourSelected)="onTourSelected($event)"
+            #tourList>
+        </app-tour-list>
+      }
+      @else {
+        <div class="no-results">
+          <p>No tours found that match your filter criteria.</p>
+        </div>
+      }
+    </div>
+  }
+  @else {
+    <div class="loading-container">
+      <mat-spinner></mat-spinner>
+      <div class="loading-text">Loading tours...</div>
+    </div>
+  }
+</div>

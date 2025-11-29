@@ -1,24 +1,108 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
-/* You can add global styles to this file, and also import other style files */
-@use "styles/utils" as ds;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      accent: mat.$azure-palette,
+      warn: mat.$red-palette,   
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+
+  @include mat.slider-overrides((
+    inactive-track-color: var(--mat-sys-on-surface-variant),
+  ));
+
+  @include mat.select-overrides((
+    panel-background-color: var(--mat-sys-surface-variant),
+    enabled-trigger-text-color: var(--mat-sys-surface-variant),
+    enabled-arrow-color: var(--mat-sys-surface-variant),
+  ));
+
+  @include mat.form-field-overrides((
+    filled-container-color: var(--mat-sys-on-surface),
+    filled-label-text-color: var(--mat-sys-surface-variant),
+    filled-hover-label-text-color:  var(--mat-sys-surface-variant),
+    filled-focus-label-text-color: var(--mat-sys-surface-variant),
+    filled-input-text-color: var(--mat-sys-surface-variant),
+    filled-error-label-text-color: rgb(152, 31, 31),
+    filled-error-active-indicator-color: rgb(152, 31, 31),
+    filled-error-focus-active-indicator-color: rgb(152, 31, 31),
+    filled-error-focus-label-text-color: rgb(152, 31, 31),
+    filled-error-hover-label-text-color: rgb(152, 31, 31),
+    filled-error-caret-color: rgb(152, 31, 31),
+  ));
+
+  @include mat.card-overrides((
+    outlined-outline-color: var(--mat-sys-on-surface-variant),
+    outlined-container-color: var(--mat-sys-surface-variant),
+  ));
+
+  .mat-mdc-dialog-surface {
+    background-color: var(--mat-sys-surface-variant) !important;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  // leaflet styles
+  .leaflet-popup-content-wrapper {
+    background: var(--mat-sys-surface-variant);
+    color: var(--mat-sys-on-surface-variant);
+    padding: 1rem;
+  }
+
+  .leaflet-popup-content {
+    margin: 0;
+    border-radius: 2rem;
+  }
+
+  .leaflet-popup-tip {
+    background: var(--mat-sys-surface-variant);
+  }
+}
 
 body {
-  background-color: ds.$background-color-dark-theme;
-  font-size: 16px;
-  color: ds.$primary-color-dark-theme;
+  color-scheme: dark;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface-variant);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-li {
-  list-style: none;
-}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Open Sans", sans-serif; }
 
+
+/* Custom marker styles */
 .custom-marker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  background: transparent !important;
+  border: none !important;
+  width: 30px !important;
+  height: 30px !important;
+  display: block !important;
 }
 
 .marker-circle {
@@ -26,83 +110,27 @@ li {
   height: 30px;
   border-radius: 50%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   border: 2px solid white;
-  box-shadow: 0px 0px 5px #00000080;
+  box-sizing: border-box; /* Include border in dimensions */
 }
 
 .marker-text {
-  line-height: 1;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  user-select: none;
+  line-height: 1; /* Prevent extra height from line-height */
 }
 
-button {
-  display: inline-block;
-  padding: ds.$space-md ds.$space-xl;
-  border-radius: ds.$border-radius;
-  font-size: medium;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.1s ease;
-  color: ds.$background-color-dark-theme;
-  border: transparent;
+.leaflet-marker-pane {
+  z-index: 600;
 }
 
-.primary {
-  background-color: ds.$primary-color-dark-theme;
-}
-
-.primary:hover,
-.primary:active {
-  background-color: ds.$primar-color-contrast-dark-theme;
-}
-
-.secondary {
-  background-color: ds.$lines-color-dark-theme;
-}
-
-.secondary:hover,
-.secondary:active {
-  background-color: ds.$lines-color-contrast-dark-theme;
-}
-
-.warn {
-  background-color: ds.$error-color;
-}
-
-.warn:hover,
-.warn:active {
-  background-color: ds.$error-color-contrast;
-}
-
-:root {
-  @include mat.dialog-overrides((container-color: ds.$background-color-dark-theme,
-    ));
-}
-
-.mat-dialog-container {
-  padding-left: 24px;
-}
-
-mat-dialog-title {
-  margin-bottom: 16px;
-  color: #FFFFFF;
-}
-
-mat-dialog-content p {
-  color: ds.$lines-color-dark-theme;
-}
-
-.buttons {
-  display: flex;
-  gap: ds.$space-md;
-}
-
-.mat-dialog-title {
-  padding-left: 20px;
-  margin-bottom: 0;
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
 }
