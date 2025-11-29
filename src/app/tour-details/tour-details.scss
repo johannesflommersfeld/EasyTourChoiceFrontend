@@ -1,10 +1,55 @@
 h2 {
   font-weight: lighter;
-  margin: 3rem 0 2rem;
+  margin: 2rem 0 1rem;
+}
+
+h3 {
+  font-weight: lighter;
 }
 
 .tour {
   margin: 0 4rem;
+}
+
+.tour-info {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.title {
+  margin-right: 1rem;
+}
+
+.body {
+  width: 20rem;
+  margin-top: -1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pair {
+  display: flex;
+  gap: 3rem;
+}
+
+.aspect {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30px;
+}
+
+.aspect-indicator-small {
+  transform: scale(0.5);
+  margin-left: -20px;
 }
 
 .loading-container {
@@ -13,4 +58,8 @@ h2 {
   align-items: center;
   gap: 1rem;
   margin-top: 5rem;
+}
+
+.map-container {
+  width: 30rem;
 }

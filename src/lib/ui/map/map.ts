@@ -1,6 +1,6 @@
 import { Component, effect, input, output } from '@angular/core';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
-import L, { divIcon, Icon, icon, latLng, Map as LeafletMap, marker } from 'leaflet';
+import L, { divIcon, Icon, icon, LatLng, latLng, Map as LeafletMap, marker, polyline } from 'leaflet';
 import { GPSLocation } from '../../domain/tour-data/gps-location';
 import { ITour } from '../../../lib/domain/tour-data/tour';
 import { TourPreviewTileComponent } from '../tour-preview-tile/tour-preview-tile';
@@ -72,6 +72,13 @@ export class MapComponent {
     }
   }
 
+  addTourToMap(route: GPSLocation[]): void {
+    this.renderTrackPolyline(route);
+    this.map?.on('zoomend', () => {
+      console.log(`Zoom level: ${this.map!.getZoom()}`);
+    });
+  }
+
   clear() {
     this.map?.eachLayer(layer => {
       if (layer instanceof L.Marker) {
@@ -80,7 +87,7 @@ export class MapComponent {
     });
   }
 
-  private addLocation(location: GPSLocation) {
+  addLocation(location: GPSLocation) {
     if (location.latitude && location.longitude) {
       const iconSettings = icon({
           ...Icon.Default.prototype.options,
@@ -123,5 +130,19 @@ export class MapComponent {
 
   private markerOnClick(index: number): void {
     this.tourSelected.emit(index);
+  }
+
+  private renderTrackPolyline(route: GPSLocation[]) {
+    if (this.map && route) {
+      const trackCoordinates: LatLng[] = route.map(loc => latLng(loc.latitude!, loc.longitude!));
+      const trackPolyline = polyline(trackCoordinates, {
+        color: 'blue',
+        weight: 4,
+        opacity: 0.7,
+        lineJoin: 'round',
+      });
+      trackPolyline.addTo(this.map);
+      this.map.fitBounds(trackPolyline.getBounds(), { padding: [10, 10] });
+    }
   }
 }

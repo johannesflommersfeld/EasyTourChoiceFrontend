@@ -3,7 +3,7 @@ FROM node:24-alpine AS builder
 RUN apk add --no-cache git
 WORKDIR /app
 COPY . .
-RUN npm ci
+RUN npm ci --force
 RUN npm run build --configuration=production -y
 
 # Production stage

@@ -16,10 +16,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialog } from '../../lib/ui/delete-dialog/delete-dialog';
 import { lastValueFrom } from 'rxjs';
 import { WeatherReportScroller } from '../../lib/ui/weather-report-scroller/weather-report-scroller';
-import { TimePipe } from '../../lib/utils/pipes';
+import { ActivityPipe, DifficultyPipe, DurationPipe, KilometersPipe, MetersPipe, RiskPipe, TimePipe } from '../../lib/utils/pipes';
 import { AvalancheReportScroller } from '../../lib/ui/avalanche-report-scroller/avalanche-report-scroller';
 import { AspectIndicatorComponent } from '../../lib/ui/aspect-indicator/aspect-indicator';
 import { Aspect } from '../../lib/domain/tour-data/aspect';
+import { MapComponent } from '../../lib/ui/map/map';
+import { RouteIndicationDirective } from '../../lib/ui/map/route-indication';
 
 @Component({
   selector: 'app-tour-details',
@@ -30,7 +32,15 @@ import { Aspect } from '../../lib/domain/tour-data/aspect';
     WeatherReportScroller,
     AvalancheReportScroller,
     TimePipe,
+    ActivityPipe,
+    KilometersPipe,
+    DurationPipe,
+    MetersPipe,
+    RiskPipe,
+    DifficultyPipe,
     AspectIndicatorComponent,
+    MapComponent,
+    RouteIndicationDirective,
   ],
   templateUrl: './tour-details.html',
   styleUrl: './tour-details.scss'
@@ -49,7 +59,7 @@ export class TourDetailsComponent implements OnInit{
   protected avalancheReport: HttpResourceRef<AvalancheBulletin | undefined>;
   protected travelInfo: HttpResourceRef<TravelDetails | undefined>;
 
-  private location = signal<GPSLocation | undefined>(undefined);
+  protected location = signal<GPSLocation | undefined>(undefined);
 
   constructor() {
     this.tour = this.tourService.createSingleTourResource(this.tourId);
@@ -82,6 +92,17 @@ export class TourDetailsComponent implements OnInit{
     const tour = this.tour.value()
     if (tour) {
       return tour.aspect ?? Aspect.UNKNOWN;
+    }
+    return undefined;
+  }
+
+  protected getLocation(startingLocation: GPSLocation | undefined | null, activityLocation: GPSLocation | undefined | null): GPSLocation | undefined
+  {
+    if (startingLocation){
+      return startingLocation;
+    }
+    if (activityLocation) {
+      return activityLocation;
     }
     return undefined;
   }

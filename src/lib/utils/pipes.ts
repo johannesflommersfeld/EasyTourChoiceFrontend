@@ -50,7 +50,7 @@ export class ActivityPipe implements PipeTransform {
   name: 'risk',
 })
 export class RiskPipe implements PipeTransform {
-  transform(value: RiskLevel | null): string {
+  transform(value: RiskLevel | null | undefined): string {
     if (value == RiskLevel.VERY_SAFE) {
       return 'very safe'
     }
@@ -131,7 +131,7 @@ export class DurationPipe implements PipeTransform {
     }
     const hours: number = Math.floor(value);
     const minutes: string = `${Math.round((value - hours) * 60)}`.padStart(2, '0');
-    return `${hours}h ${minutes}min`;
+    return `${hours}h${minutes}`;
   }
 }
 
