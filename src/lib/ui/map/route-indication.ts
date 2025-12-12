@@ -1,6 +1,6 @@
-import { Directive, effect, inject, input, OnInit } from "@angular/core";
+import { Directive, inject, input, OnInit } from "@angular/core";
 import { MapComponent } from "./map";
-import L, { Icon, icon } from "leaflet";
+import { Icon, icon } from "leaflet";
 import { GPSLocation } from "../../domain/tour-data/gps-location";
 
 @Directive({
@@ -20,7 +20,7 @@ export class RouteIndicationDirective implements OnInit {
   });
 
   ngOnInit() {
-    this.mapComponent.mapReady.subscribe(_ => {
+    this.mapComponent.mapReady.subscribe(() => {
       const location = this.mapComponent.location();
       if (location) {
         this.mapComponent.addLocation(location);

@@ -13,7 +13,7 @@ import {
   submit,
   Field,
 } from '@angular/forms/signals';
-import { ITour, ITourWithLocations } from '../../lib/domain/tour-data/tour';
+import { ITour, ITourForm } from '../../lib/domain/tour-data/tour';
 import { ToursService } from '../services/tours';
 import { Activity } from '../../lib/domain/tour-data/activity';
 import { GeneralDifficulty } from '../../lib/domain/tour-data/general-difficulty';
@@ -74,55 +74,47 @@ export class TourFormComponent {
       return undefined;
     }
     const tour: ITour = this.tourResource.value();
-    const tourWithLocations: ITourWithLocations = {
+    return {
         ...tour,
-        // signal forms cannot properly handle null yet, requiring this workaround
         shortDescription: tour.shortDescription ?? "",
-        duration: tour.duration ?? 0,
-        distance: tour.distance ?? 0,
+        duration: tour.duration ?? "",
+        distance: tour.distance ?? "",
         difficulty: tour.difficulty ?? GeneralDifficulty.UNKNOWN,
         risk: tour.risk ?? RiskLevel.UNKNOWN,
         metersOfElevation: tour.metersOfElevation ?? 0,
-        approachDuration: tour.approachDuration ?? undefined,
+        approachDuration: tour.approachDuration ?? "",
         startingLocation: {
-          ...tour.startingLocation,
-          latitude: tour.startingLocation?.latitude ?? undefined,
-          longitude: tour.startingLocation?.longitude ?? undefined,
-          locationId: tour.startingLocation?.locationId ?? null,
-          altitude: tour.startingLocation?.altitude ?? null
+          latitude: tour.startingLocation?.latitude ?? "",
+          longitude: tour.startingLocation?.longitude ?? "",
         },
         activityLocation: {
-          ...tour.activityLocation,
-          latitude: tour.activityLocation?.latitude ?? undefined,
-          longitude: tour.activityLocation?.longitude ?? undefined,
-          locationId: tour.activityLocation?.locationId ?? null,
-          altitude: tour.activityLocation?.altitude ?? null
+          latitude: tour.activityLocation?.latitude ?? "",
+          longitude: tour.activityLocation?.longitude ?? "",
         },
         aspect: tour.aspect ?? Aspect.UNKNOWN
-    };
-    return tourWithLocations;
+    } as ITour;
   });
 
-  protected readonly tour: WritableSignal<ITourWithLocations> = signal({
+  protected readonly tour: WritableSignal<ITourForm> = signal({
     name: "",
     shortDescription: "",
     activityType: Activity.UNDEFINED,
-    duration: 0,
-    distance: 0,
-    metersOfElevation: 0,
-    approachDuration: 0,
+    duration: "",
+    distance: "",
+    metersOfElevation: "",
+    approachDuration: "",
     difficulty: GeneralDifficulty.UNKNOWN,
     risk: RiskLevel.UNKNOWN,
     aspect: Aspect.UNKNOWN,
-    startingLocation: new GPSLocation(0, 0) as IGPSLocationForForm,
-    activityLocation: new GPSLocation(0, 0) as IGPSLocationForForm,
+    startingLocation: {latitude: "", longitude: ""} as IGPSLocationForForm,
+    activityLocation: {latitude: "", longitude: ""} as IGPSLocationForForm,
     // TODO: create TourCreate class to not have to initialize those fields
     id: 0,
     travelDetails: null,
     bulletin: null,
     weatherForecast: null,
-    startingLocationId: 0,
-    activityLocationId: 0,
+    startingLocationId: "",
+    activityLocationId: "",
     areaId: null,
     avalancheRegionID: null,
   });
@@ -140,6 +132,7 @@ export class TourFormComponent {
     effect(() => {
       const tour = this.receivedTour();
       if (!tour) return;
+      // TODO: convert to ITourForm -> can we use extension methods or something like that?
       this.tour.set(tour)}
     );
   }
@@ -147,6 +140,7 @@ export class TourFormComponent {
   async save() {
     console.log('Form valid:', this.tourForm().valid());
     const result = await submit(this.tourForm, async (form) => {
+      // TODO: convert back to ITour -> can we use extension methods or something like that?
       const tourToSave: ITour = form().value();
 
       // set invalid locations to null to create valid tour
@@ -184,8 +178,8 @@ export class TourFormComponent {
       ...currentTour,
       startingLocation: {
         ...location,
-        latitude: location.latitude ?? undefined,
-        longitude: location.longitude ?? undefined,
+        latitude: location.latitude ?? "",
+        longitude: location.longitude ?? "",
       }
     }));
   }
@@ -195,8 +189,8 @@ export class TourFormComponent {
       ...currentTour,
       activityLocation: {
         ...location,
-        latitude: location.latitude ?? undefined,
-        longitude: location.longitude ?? undefined,
+        latitude: location.latitude ?? "",
+        longitude: location.longitude ?? "",
       }
     }));
   }

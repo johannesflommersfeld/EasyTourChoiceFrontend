@@ -31,16 +31,18 @@ export interface ITour {
   activityLocation: GPSLocation | null | undefined;
 }
 
-export interface ITourWithLocations extends ITour {
-  //TODO: add documentation
-  duration: number;
-  approachDuration: number | undefined;
-  metersOfElevation: number;
-  distance: number;
+export interface ITourForm {
+  id: number;
+  name: string;
+  activityType: Activity;
+  duration: number | string;
+  approachDuration: number | string;
+  metersOfElevation: number | string;
+  distance: number | string;
   shortDescription: string;
-  difficulty: GeneralDifficulty | undefined;
-  risk: RiskLevel | undefined;
-  aspect: Aspect | undefined;
+  difficulty: GeneralDifficulty;
+  risk: RiskLevel;
+  aspect: Aspect;
   startingLocation: IGPSLocationForForm;
   activityLocation: IGPSLocationForForm;
 }

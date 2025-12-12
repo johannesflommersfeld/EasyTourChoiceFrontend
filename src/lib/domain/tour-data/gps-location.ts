@@ -10,7 +10,7 @@ export class GPSLocation {
   }
 }
 
-export interface IGPSLocationForForm extends GPSLocation {
-  latitude: number | undefined; // latitude with decimal minutes
-  longitude: number | undefined; // longitude with decimal minutes
+export interface IGPSLocationForForm {
+  latitude: number | string; // latitude with decimal minutes
+  longitude: number | string; // longitude with decimal minutes
 }
