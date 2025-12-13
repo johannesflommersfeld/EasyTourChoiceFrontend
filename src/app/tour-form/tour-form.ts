@@ -13,7 +13,7 @@ import {
   submit,
   Field,
 } from '@angular/forms/signals';
-import { ITour, ITourForm } from '../../lib/domain/tour-data/tour';
+import { ITour, ITourForm, toTour, toTourForm} from '../../lib/domain/tour-data/tour';
 import { ToursService } from '../services/tours';
 import { Activity } from '../../lib/domain/tour-data/activity';
 import { GeneralDifficulty } from '../../lib/domain/tour-data/general-difficulty';
@@ -29,7 +29,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivitiesOrdered } from '../utils/activites';
 import { RiskPipe, DifficultyPipe, ActivityPipe } from '../../lib/utils/pipes';
-import { GPSLocation, IGPSLocationForForm } from '../../lib/domain/tour-data/gps-location';
+import { GPSLocation, IGPSLocationForForm, toLocation } from '../../lib/domain/tour-data/gps-location';
 import { LocationFormComponent } from './location-form/location-form';
 import { AspectIndicatorComponent } from '../../lib/ui/aspect-indicator/aspect-indicator';
 import { MapComponent } from '../../lib/ui/map/map';
@@ -73,26 +73,7 @@ export class TourFormComponent {
     if (!this.tourResource?.hasValue()) {
       return undefined;
     }
-    const tour: ITour = this.tourResource.value();
-    return {
-        ...tour,
-        shortDescription: tour.shortDescription ?? "",
-        duration: tour.duration ?? "",
-        distance: tour.distance ?? "",
-        difficulty: tour.difficulty ?? GeneralDifficulty.UNKNOWN,
-        risk: tour.risk ?? RiskLevel.UNKNOWN,
-        metersOfElevation: tour.metersOfElevation ?? 0,
-        approachDuration: tour.approachDuration ?? "",
-        startingLocation: {
-          latitude: tour.startingLocation?.latitude ?? "",
-          longitude: tour.startingLocation?.longitude ?? "",
-        },
-        activityLocation: {
-          latitude: tour.activityLocation?.latitude ?? "",
-          longitude: tour.activityLocation?.longitude ?? "",
-        },
-        aspect: tour.aspect ?? Aspect.UNKNOWN
-    } as ITour;
+    return this.tourResource.value();
   });
 
   protected readonly tour: WritableSignal<ITourForm> = signal({
@@ -106,17 +87,14 @@ export class TourFormComponent {
     difficulty: GeneralDifficulty.UNKNOWN,
     risk: RiskLevel.UNKNOWN,
     aspect: Aspect.UNKNOWN,
-    startingLocation: {latitude: "", longitude: ""} as IGPSLocationForForm,
-    activityLocation: {latitude: "", longitude: ""} as IGPSLocationForForm,
-    // TODO: create TourCreate class to not have to initialize those fields
-    id: 0,
-    travelDetails: null,
-    bulletin: null,
-    weatherForecast: null,
-    startingLocationId: "",
-    activityLocationId: "",
+    startingLocation: {latitude: "", longitude: "", altitude: null, locationId: null, toLocation: toLocation} as IGPSLocationForForm,
+    activityLocation: {latitude: "", longitude: "", altitude: null, locationId: null, toLocation: toLocation} as IGPSLocationForForm,
+    id: null,
     areaId: null,
     avalancheRegionID: null,
+    startingLocationId: null,
+    activityLocationId: null,
+    toTour: toTour,
   });
 
   tourForm = form(this.tour, (tour) => {
@@ -132,16 +110,16 @@ export class TourFormComponent {
     effect(() => {
       const tour = this.receivedTour();
       if (!tour) return;
-      // TODO: convert to ITourForm -> can we use extension methods or something like that?
-      this.tour.set(tour)}
+      tour.toTourForm = toTourForm;
+      this.tour.set(tour.toTourForm())}
     );
   }
 
   async save() {
     console.log('Form valid:', this.tourForm().valid());
+    let id = undefined;
     const result = await submit(this.tourForm, async (form) => {
-      // TODO: convert back to ITour -> can we use extension methods or something like that?
-      const tourToSave: ITour = form().value();
+      const tourToSave: ITour = form().value().toTour();
 
       // set invalid locations to null to create valid tour
       if (!tourToSave.startingLocation?.latitude || !tourToSave.startingLocation?.longitude) { 
@@ -152,14 +130,15 @@ export class TourFormComponent {
       }
 
       const receivedTour = this.receivedTour();
-      const response = receivedTour 
-        ? this.tourService.patchTour(this.tour().id, tourToSave, receivedTour)
+      const response = receivedTour && receivedTour.id
+        ? this.tourService.patchTour(receivedTour.id, tourToSave, receivedTour)
         : this.tourService.putTour(tourToSave);
-      await lastValueFrom(response);
+      const tour = await lastValueFrom(response);
+      id = tour.id;
     });
 
     if (result === undefined && this.tourForm().valid()) {
-      this.router.navigate(['/tour-details', this.tour().id]);
+      this.router.navigate(['/tour-details', id]);
     } else {
       console.log('Invalid tour.');
     }
@@ -180,6 +159,7 @@ export class TourFormComponent {
         ...location,
         latitude: location.latitude ?? "",
         longitude: location.longitude ?? "",
+        toLocation: toLocation
       }
     }));
   }
@@ -191,6 +171,7 @@ export class TourFormComponent {
         ...location,
         latitude: location.latitude ?? "",
         longitude: location.longitude ?? "",
+        toLocation: toLocation
       }
     }));
   }
