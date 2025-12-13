@@ -11,8 +11,8 @@ export class InteractiveMarkersDirective implements OnInit {
   private mapComponent = inject(MapComponent);
   private vcr = inject(ViewContainerRef);
 
-  secondaryLocation = input<GPSLocation | undefined>(undefined);
-  primaryLocation = input<GPSLocation | undefined>(undefined);
+  secondaryLocation = input<GPSLocation | null | undefined>(undefined);
+  primaryLocation = input<GPSLocation | null | undefined>(undefined);
 
   protected primaryLocationChanged = output<GPSLocation>();
   protected secondaryLocationChanged = output<GPSLocation>();

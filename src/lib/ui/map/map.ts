@@ -14,7 +14,7 @@ import { TourPreviewTileComponent } from '../tour-preview-tile/tour-preview-tile
 })
 export class MapComponent {
   tours = input.required<ITour[] | undefined>();
-  location = input<GPSLocation | undefined>();
+  location = input<GPSLocation | null | undefined>();
 
   protected tourSelected = output<number>();
   mapReady = output<LeafletMap>();

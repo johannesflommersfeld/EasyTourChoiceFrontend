@@ -2,16 +2,12 @@
   @let locationForm = location();
   <mat-form-field>
     <mat-label>Latitude</mat-label>
-    @if (locationForm.latitude) { 
-      <input matInput [field]="locationForm.latitude" type="number"/>
-    }
+    <input matInput [field]="locationForm.latitude" type="number"/>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Longitude</mat-label>
-    @if (locationForm.longitude) {
-      <input matInput [field]="locationForm.longitude" type="number"/>
-    }
+    <input matInput [field]="locationForm.longitude" type="number"/>
   </mat-form-field>
 </div>
 

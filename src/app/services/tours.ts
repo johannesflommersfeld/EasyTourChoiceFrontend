@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, Signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
-import { ITour } from '../../lib/domain/tour-data/tour';
+import { ITour, toTourForm } from '../../lib/domain/tour-data/tour';
 import { FilterValues } from '../../lib/domain/tour-data/filter-values';
 import { Aspect } from '../../lib/domain/tour-data/aspect';
 import { RiskLevel } from '../../lib/domain/tour-data/risk-level';
@@ -33,6 +33,7 @@ export class ToursService {
       }
 
       let tours = toursResource.value();
+      tours.forEach(tour => tour.toTourForm = toTourForm)
       const filterValues = filter();
       const sortOptionValue = sortOption() ? sortOption() : "Distance";
       const activityValues = activities() ? activities() : [Activity.UNDEFINED];

@@ -1,13 +1,18 @@
 <div class="tour-form">
-  <h1>New Tour </h1>
-  <div class="uploads">
-    <button mat-icon-button aria-label="take image">
-      <mat-icon>add_a_photo</mat-icon>
-    </button>
-    <button mat-icon-button aria-label="upload file">
-      <mat-icon>upload</mat-icon>
-    </button>
-  </div>
+  @if (newTour) {
+    <h1>New Tour</h1>
+    <div class="uploads">
+      <button mat-icon-button aria-label="take image">
+        <mat-icon>add_a_photo</mat-icon>
+      </button>
+      <button mat-icon-button aria-label="upload file" click="">
+        <mat-icon>upload</mat-icon>
+      </button>
+    </div>
+  }
+  @else {
+    <h1>Edit Tour</h1>
+  }
   <form novalidate>
     <div>
       <div class="form-section">
@@ -51,41 +56,33 @@
 
         <mat-form-field>
           <mat-label>Approach Duration (h)</mat-label>
-          @if (tourForm.approachDuration){
             <input matInput [field]="tourForm.approachDuration" type="number"/>
-          }
         </mat-form-field>
       </div>
 
       <div class="form-section">
         <mat-form-field>
           <mat-label>Difficulty</mat-label>
-          @if (tourForm.difficulty) {
             <mat-select [field]="tourForm.difficulty">
               @for (difficulty of difficultyValues; track difficulty) {
                 <mat-option [value]="difficulty">{{difficulty | difficulty}}</mat-option>
               }
             </mat-select>
-          }
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Rsik</mat-label>
-          @if (tourForm.risk) {
             <mat-select [field]="tourForm.risk">
             @for (risk of riskValues; track risk) {
               <mat-option [value]="risk">{{risk | risk}}</mat-option>
             }
             </mat-select>
-          }
         </mat-form-field>
       </div>
 
       <div class="aspect-group">
         <h3>Aspects</h3>
-        @if (tourForm.aspect) {
-          <app-aspect-indicator appInteractiveSelection [field]="tourForm.aspect"></app-aspect-indicator>
-        }
+        <app-aspect-indicator appInteractiveSelection [field]="tourForm.aspect"></app-aspect-indicator>
       </div>
     </div>
 
@@ -95,8 +92,8 @@
           [tours]="undefined" 
           [location]="undefined"
           appInteractiveMarkers
-          [primaryLocation]="tour().startingLocation"
-          [secondaryLocation]="tour().activityLocation"
+          [primaryLocation]="tour().startingLocation.toLocation()"
+          [secondaryLocation]="tour().activityLocation.toLocation()"
           (primaryLocationChanged)="updateStartingLocation($event)"
           (secondaryLocationChanged)="updateActivityLocation($event)"
         />
