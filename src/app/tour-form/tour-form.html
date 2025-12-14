@@ -5,7 +5,8 @@
       <button mat-icon-button aria-label="take image">
         <mat-icon>add_a_photo</mat-icon>
       </button>
-      <button mat-icon-button aria-label="upload file" click="">
+      <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileUpload/>
+      <button mat-icon-button aria-label="upload file" (click)="fileUpload.click()">
         <mat-icon>upload</mat-icon>
       </button>
     </div>

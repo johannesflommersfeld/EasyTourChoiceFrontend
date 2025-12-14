@@ -177,4 +177,20 @@ export class TourFormComponent {
       }
     }));
   }
+
+  protected onFileSelected(event: Event) {
+    console.log("upload")
+    const target = event.target as HTMLInputElement
+    const files = target.files;
+    if (!files || files.length < 1) {
+      return;
+    }
+    const file: File = files[0]
+    const formData = new FormData();
+    formData.append("tourFile", file);
+    // TODO: add loading indication
+    // TODO: add service that connects to magellang backend
+    const analysis = this.imageService.analyseImage(formData);
+    analysis.subscribe();
+  }
 }
